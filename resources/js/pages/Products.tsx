@@ -355,19 +355,19 @@ export default function Products() {
       </div>
 
       {/* Products Table Card */}
-      <div style={{ borderRadius: '16px', backgroundColor: CARD, border: `1px solid ${BORDER}`, overflow: 'hidden' }}>
+      <div style={{ borderRadius: '20px', backgroundColor: CARD, border: `1px solid ${BORDER}`, overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.15)' }}>
         <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', minWidth: '680px', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
+          <table style={{ width: '100%', minWidth: '880px', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
             <thead>
-              <tr style={{ borderBottom: `1px solid ${BORDER}`, backgroundColor: 'rgba(255,255,255,0.02)', color: 'var(--ph-text-muted)', fontWeight: 600, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                <th style={{ padding: '16px' }}>Beverage</th>
-                <th style={{ padding: '16px' }}>Code</th>
-                <th style={{ padding: '16px' }}>Category</th>
-                <th style={{ padding: '16px' }}>Selling Price</th>
-                <th style={{ padding: '16px' }}>Cost Price (COGS)</th>
-                <th style={{ padding: '16px' }}>Stock</th>
-                <th style={{ padding: '16px' }}>Status</th>
-                <th style={{ padding: '16px', textAlign: 'right' }}>Actions</th>
+              <tr style={{ borderBottom: `1px solid ${BORDER}`, backgroundColor: 'rgba(255,255,255,0.03)', color: 'var(--ph-text-muted)', fontWeight: 700, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                <th style={{ padding: '16px 20px' }}>Beverage</th>
+                <th style={{ padding: '16px 20px', whiteSpace: 'nowrap' }}>Code</th>
+                <th style={{ padding: '16px 20px', whiteSpace: 'nowrap' }}>Category</th>
+                <th style={{ padding: '16px 20px', whiteSpace: 'nowrap' }}>Selling Price</th>
+                <th style={{ padding: '16px 20px', whiteSpace: 'nowrap' }}>Cost Price (COGS)</th>
+                <th style={{ padding: '16px 20px', whiteSpace: 'nowrap' }}>Stock</th>
+                <th style={{ padding: '16px 20px', whiteSpace: 'nowrap' }}>Status</th>
+                <th style={{ padding: '16px 20px', textAlign: 'right', whiteSpace: 'nowrap' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -384,64 +384,65 @@ export default function Products() {
               ) : (
                 paginatedProducts.map(p => (
                   <tr key={p.id} style={{ borderBottom: `1px solid ${BORDER}`, transition: 'background 0.15s' }}>
-                    <td style={{ padding: '14px 16px' }}>
+                    <td style={{ padding: '16px 20px', verticalAlign: 'middle' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <div style={{ width: '38px', height: '38px', borderRadius: '10px', background: 'rgba(16,185,129,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px' }}>
+                        <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(16,185,129,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', flexShrink: 0 }}>
                           {p.emoji}
                         </div>
                         <div>
                           <div style={{ fontWeight: 700, color: 'var(--ph-text)', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                            {p.name}
+                            <span>{p.name}</span>
                             {p.badge && (
-                              <span style={{ fontSize: '10px', fontWeight: 700, padding: '2px 6px', borderRadius: '6px', background: 'rgba(16,185,129,0.2)', color: '#34d399' }}>
+                              <span style={{ fontSize: '10px', fontWeight: 700, padding: '2px 6px', borderRadius: '6px', background: 'rgba(16,185,129,0.2)', color: '#34d399', whiteSpace: 'nowrap' }}>
                                 {p.badge}
                               </span>
                             )}
                           </div>
-                          <div style={{ fontSize: '11px', color: 'var(--ph-text-muted)', maxWidth: '280px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          <div style={{ fontSize: '11.5px', color: 'var(--ph-text-muted)', maxWidth: '280px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: '2px' }}>
                             {p.description}
                           </div>
                         </div>
                       </div>
                     </td>
-                    <td style={{ padding: '14px 16px', fontFamily: 'monospace', fontWeight: 600, color: '#38bdf8' }}>
+                    <td style={{ padding: '16px 20px', verticalAlign: 'middle', fontFamily: 'monospace', fontWeight: 700, color: '#38bdf8', whiteSpace: 'nowrap' }}>
                       {p.code}
                     </td>
-                    <td style={{ padding: '14px 16px' }}>
-                      <span style={{ padding: '4px 10px', borderRadius: '8px', backgroundColor: 'rgba(255,255,255,0.06)', color: 'var(--ph-text-secondary)', fontSize: '12px', fontWeight: 500 }}>
+                    <td style={{ padding: '16px 20px', verticalAlign: 'middle', whiteSpace: 'nowrap' }}>
+                      <span style={{ padding: '4px 10px', borderRadius: '8px', backgroundColor: 'rgba(255,255,255,0.06)', color: 'var(--ph-text-secondary)', fontSize: '11.5px', fontWeight: 600 }}>
                         {p.category}
                       </span>
                     </td>
-                    <td style={{ padding: '14px 16px', fontWeight: 700, color: '#10b981' }}>
+                    <td style={{ padding: '16px 20px', verticalAlign: 'middle', fontWeight: 800, color: '#10b981', whiteSpace: 'nowrap' }}>
                       {fmt(p.price)}
                     </td>
-                    <td style={{ padding: '14px 16px', color: 'var(--ph-text-muted)' }}>
+                    <td style={{ padding: '16px 20px', verticalAlign: 'middle', color: 'var(--ph-text-muted)', whiteSpace: 'nowrap' }}>
                       {fmt(p.costPrice)}
                     </td>
-                    <td style={{ padding: '14px 16px' }}>
-                      <span style={{ fontWeight: 600, color: p.stock < 70 ? '#f87171' : '#34d399' }}>
+                    <td style={{ padding: '16px 20px', verticalAlign: 'middle', whiteSpace: 'nowrap' }}>
+                      <span style={{ fontWeight: 700, color: p.stock < 70 ? '#f87171' : '#34d399' }}>
                         {p.stock} cups
                       </span>
                     </td>
-                    <td style={{ padding: '14px 16px' }}>
+                    <td style={{ padding: '16px 20px', verticalAlign: 'middle', whiteSpace: 'nowrap' }}>
                       <button
                         onClick={() => toggleAvailability(p.id)}
                         style={{
                           display: 'inline-flex', alignItems: 'center', gap: '6px',
-                          padding: '4px 10px', borderRadius: '100px', border: 'none',
+                          padding: '5px 12px', borderRadius: '100px', border: 'none',
                           background: p.isAvailable ? 'rgba(16,185,129,0.15)' : 'rgba(239,68,68,0.15)',
                           color: p.isAvailable ? '#34d399' : '#f87171',
-                          fontSize: '11px', fontWeight: 700, cursor: 'pointer'
+                          fontSize: '11.5px', fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap'
                         }}
                       >
-                        {p.isAvailable ? <CheckCircle size={12} /> : <XCircle size={12} />}
+                        {p.isAvailable ? <CheckCircle size={13} /> : <XCircle size={13} />}
                         {p.isAvailable ? 'Available' : 'Out of Stock'}
                       </button>
                     </td>
-                    <td style={{ padding: '14px 16px', textAlign: 'right' }}>
+                    <td style={{ padding: '16px 20px', verticalAlign: 'middle', textAlign: 'right', whiteSpace: 'nowrap' }}>
                       <div style={{ display: 'inline-flex', gap: '6px' }}>
                         <button
                           onClick={() => handleOpenEdit(p)}
+                          title="Edit Product"
                           style={{
                             width: '32px', height: '32px', borderRadius: '8px', border: `1px solid ${BORDER}`,
                             background: 'transparent', color: 'var(--ph-text-muted)', cursor: 'pointer',

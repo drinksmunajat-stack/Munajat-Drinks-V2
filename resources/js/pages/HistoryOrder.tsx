@@ -193,17 +193,17 @@ export default function HistoryOrder() {
       </div>
 
       {/* Table */}
-      <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: "16px", overflow: "hidden" }}>
+      <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: "20px", overflow: "hidden", boxShadow: "0 10px 30px rgba(0,0,0,0.15)" }}>
         <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", minWidth: "640px", borderCollapse: "collapse", textAlign: "left", fontSize: "13.5px" }}>
+          <table style={{ width: "100%", minWidth: "860px", borderCollapse: "collapse", textAlign: "left", fontSize: "13px" }}>
             <thead>
-              <tr style={{ borderBottom: `1px solid ${BORDER}`, color: "var(--ph-text-muted)", fontSize: "12px", textTransform: "uppercase" }}>
-                <th style={{ padding: "14px 20px" }}>Order ID</th>
-                <th style={{ padding: "14px 20px" }}>Customer</th>
-                <th style={{ padding: "14px 20px" }}>Menu Items</th>
-                <th style={{ padding: "14px 20px" }}>Total</th>
-                <th style={{ padding: "14px 20px" }}>Status</th>
-                <th style={{ padding: "14px 20px" }}>Time</th>
+              <tr style={{ borderBottom: `1px solid ${BORDER}`, backgroundColor: "rgba(255,255,255,0.03)", color: "var(--ph-text-muted)", fontWeight: 700, fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                <th style={{ padding: "16px 20px", whiteSpace: "nowrap" }}>Order ID</th>
+                <th style={{ padding: "16px 20px", whiteSpace: "nowrap" }}>Customer</th>
+                <th style={{ padding: "16px 20px" }}>Menu Items</th>
+                <th style={{ padding: "16px 20px", whiteSpace: "nowrap" }}>Total</th>
+                <th style={{ padding: "16px 20px", whiteSpace: "nowrap" }}>Status</th>
+                <th style={{ padding: "16px 20px", whiteSpace: "nowrap" }}>Time</th>
               </tr>
             </thead>
             <tbody>
@@ -220,11 +220,11 @@ export default function HistoryOrder() {
                   const s = statusStyle(o.status);
                   const Icon = s.icon;
                   return (
-                    <tr key={o.id} style={{ borderBottom: `1px solid ${BORDER}` }}>
-                      <td style={{ padding: "14px 20px", fontFamily: "monospace", color: "#38bdf8", fontWeight: 700 }}>
+                    <tr key={o.id} style={{ borderBottom: `1px solid ${BORDER}`, transition: "background 0.15s" }}>
+                      <td style={{ padding: "16px 20px", verticalAlign: "middle", fontFamily: "monospace", color: "#38bdf8", fontWeight: 800, whiteSpace: "nowrap" }}>
                         {o.id}
                       </td>
-                      <td style={{ padding: "14px 20px" }}>
+                      <td style={{ padding: "16px 20px", verticalAlign: "middle", whiteSpace: "nowrap" }}>
                         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                           <div
                             style={{
@@ -245,32 +245,33 @@ export default function HistoryOrder() {
                           <span style={{ fontWeight: 600, color: "var(--ph-text)" }}>{o.customer}</span>
                         </div>
                       </td>
-                      <td style={{ padding: "14px 20px", color: "var(--ph-text-muted)" }}>
+                      <td style={{ padding: "16px 20px", verticalAlign: "middle", color: "var(--ph-text-secondary)", minWidth: "180px" }}>
                         {o.items.join(", ")}
                       </td>
-                      <td style={{ padding: "14px 20px", fontWeight: 700, color: "#4ade80" }}>
+                      <td style={{ padding: "16px 20px", verticalAlign: "middle", fontWeight: 800, color: "#10b981", whiteSpace: "nowrap" }}>
                         {o.total}
                       </td>
-                      <td style={{ padding: "14px 20px" }}>
+                      <td style={{ padding: "16px 20px", verticalAlign: "middle", whiteSpace: "nowrap" }}>
                         <span
                           style={{
                             display: "inline-flex",
                             alignItems: "center",
                             gap: "5px",
-                            padding: "3px 9px",
+                            padding: "4px 10px",
                             borderRadius: "100px",
                             background: s.bg,
                             color: s.color,
                             border: `1px solid ${s.border}`,
-                            fontSize: "12px",
-                            fontWeight: 600,
+                            fontSize: "11.5px",
+                            fontWeight: 700,
+                            whiteSpace: "nowrap"
                           }}
                         >
                           <Icon size={12} />
                           {o.status}
                         </span>
                       </td>
-                      <td style={{ padding: "14px 20px", color: "var(--ph-text-dim)", fontSize: "12px" }}>
+                      <td style={{ padding: "16px 20px", verticalAlign: "middle", color: "var(--ph-text-muted)", fontSize: "11.5px", whiteSpace: "nowrap" }}>
                         {o.time} · {o.date}
                       </td>
                     </tr>

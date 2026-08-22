@@ -387,18 +387,18 @@ export default function DatabaseOrderCodes() {
       </div>
 
       {/* Orders Table */}
-      <div style={{ borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}`, overflow: 'hidden' }}>
+      <div style={{ borderRadius: '20px', backgroundColor: CARD, border: `1px solid ${BORDER}`, overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.15)' }}>
         <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', minWidth: '760px', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
+          <table style={{ width: '100%', minWidth: '980px', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
             <thead>
-              <tr style={{ borderBottom: `1px solid ${BORDER}`, backgroundColor: 'rgba(255,255,255,0.02)', color: 'var(--ph-text-muted)', fontWeight: 600, fontSize: '11px', textTransform: 'uppercase' }}>
-                <th style={{ padding: '16px' }}>Order Code</th>
-                <th style={{ padding: '16px' }}>Customer & Branch</th>
-                <th style={{ padding: '16px' }}>Drink Details</th>
-                <th style={{ padding: '16px' }}>Total & Payment</th>
-                <th style={{ padding: '16px' }}>Brewing Status</th>
-                <th style={{ padding: '16px' }}>Quick Advance</th>
-                <th style={{ padding: '16px', textAlign: 'right' }}>Actions</th>
+              <tr style={{ borderBottom: `1px solid ${BORDER}`, backgroundColor: 'rgba(255,255,255,0.03)', color: 'var(--ph-text-muted)', fontWeight: 700, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                <th style={{ padding: '16px 20px', whiteSpace: 'nowrap' }}>Order Code</th>
+                <th style={{ padding: '16px 20px', whiteSpace: 'nowrap' }}>Customer & Branch</th>
+                <th style={{ padding: '16px 20px' }}>Drink Details</th>
+                <th style={{ padding: '16px 20px', whiteSpace: 'nowrap' }}>Total & Payment</th>
+                <th style={{ padding: '16px 20px', whiteSpace: 'nowrap' }}>Brewing Status</th>
+                <th style={{ padding: '16px 20px', whiteSpace: 'nowrap' }}>Quick Advance</th>
+                <th style={{ padding: '16px 20px', textAlign: 'right', whiteSpace: 'nowrap' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -416,53 +416,78 @@ export default function DatabaseOrderCodes() {
                 paginatedOrders.map(o => {
                 const badge = getStatusBadge(o.orderStatus);
                 const BadgeIcon = badge.icon;
+                const isWaTransfer = (o.paymentMethod || '').toLowerCase().includes('whatsapp');
                 return (
-                  <tr key={o.id} style={{ borderBottom: `1px solid ${BORDER}` }}>
-                    <td style={{ padding: '14px 16px' }}>
+                  <tr key={o.id} style={{ borderBottom: `1px solid ${BORDER}`, transition: 'background 0.15s' }}>
+                    <td style={{ padding: '16px 20px', verticalAlign: 'middle', whiteSpace: 'nowrap' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <QrCode size={16} color="#38bdf8" />
-                        <span style={{ fontFamily: 'monospace', fontWeight: 800, color: 'var(--ph-text)', fontSize: '13px' }}>
+                        <div style={{ width: '28px', height: '28px', borderRadius: '8px', background: 'rgba(56,189,248,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <QrCode size={15} color="#38bdf8" />
+                        </div>
+                        <span style={{ fontFamily: 'monospace', fontWeight: 800, color: 'var(--ph-text)', fontSize: '13.5px', letterSpacing: '0.5px' }}>
                           {o.orderCode}
                         </span>
                       </div>
-                      <span style={{ fontSize: '11px', color: 'var(--ph-text-muted)' }}>{o.createdAt}</span>
+                      <div style={{ fontSize: '11px', color: 'var(--ph-text-muted)', marginTop: '3px' }}>{o.createdAt}</div>
                     </td>
-                    <td style={{ padding: '14px 16px' }}>
-                      <div style={{ fontWeight: 700, color: 'var(--ph-text)' }}>{o.customerName}</div>
-                      <div style={{ fontSize: '11.5px', color: 'var(--ph-text-muted)' }}>{o.cabangName}</div>
+                    <td style={{ padding: '16px 20px', verticalAlign: 'middle' }}>
+                      <div style={{ fontWeight: 700, color: 'var(--ph-text)', fontSize: '13.5px', whiteSpace: 'nowrap' }}>{o.customerName}</div>
+                      <div style={{ fontSize: '11.5px', color: 'var(--ph-text-muted)', display: 'flex', alignItems: 'center', gap: '5px', marginTop: '2px', whiteSpace: 'nowrap' }}>
+                        <Store size={12} color="#06b6d4" />
+                        <span>{o.cabangName}</span>
+                      </div>
                     </td>
-                    <td style={{ padding: '14px 16px' }}>
-                      {o.items.map((it, idx) => (
-                        <div key={idx} style={{ fontSize: '12px' }}>
-                          <strong>{it.qty}x {it.name}</strong>
-                          <div style={{ fontSize: '10.5px', color: 'var(--ph-text-dim)' }}>
-                            {it.ice} {it.topping && `· ${it.topping}`}
+                    <td style={{ padding: '16px 20px', verticalAlign: 'middle', minWidth: '220px' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                        {o.items.map((it, idx) => (
+                          <div key={idx} style={{ fontSize: '12.5px' }}>
+                            <span style={{ fontWeight: 700, color: 'var(--ph-text)' }}>{it.qty}x {it.name}</span>
+                            <div style={{ fontSize: '11px', color: 'var(--ph-text-muted)', marginTop: '1px' }}>
+                              <span>🧊 {it.ice}</span>
+                              {it.topping && <span style={{ color: '#38bdf8', marginLeft: '4px' }}>· 🧀 {it.topping}</span>}
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </td>
-                    <td style={{ padding: '14px 16px' }}>
-                      <div style={{ fontWeight: 800, color: '#10b981' }}>{fmt(o.totalAmount)}</div>
-                      <span style={{ padding: '2px 6px', borderRadius: '4px', background: 'rgba(255,255,255,0.06)', fontSize: '10.5px', fontWeight: 600 }}>
-                        {o.paymentMethod}
-                      </span>
+                    <td style={{ padding: '16px 20px', verticalAlign: 'middle', whiteSpace: 'nowrap' }}>
+                      <div style={{ fontWeight: 800, color: '#10b981', fontSize: '14px' }}>{fmt(o.totalAmount)}</div>
+                      <div style={{ marginTop: '4px' }}>
+                        <span style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '4px',
+                          padding: '3px 8px',
+                          borderRadius: '6px',
+                          background: isWaTransfer ? 'rgba(18,140,126,0.15)' : 'rgba(255,255,255,0.06)',
+                          color: isWaTransfer ? '#25D366' : 'var(--ph-text-secondary)',
+                          border: isWaTransfer ? '1px solid rgba(37,211,102,0.25)' : `1px solid ${BORDER}`,
+                          fontSize: '11px',
+                          fontWeight: 700,
+                          whiteSpace: 'nowrap'
+                        }}>
+                          {o.paymentMethod}
+                        </span>
+                      </div>
                     </td>
-                    <td style={{ padding: '14px 16px' }}>
+                    <td style={{ padding: '16px 20px', verticalAlign: 'middle', whiteSpace: 'nowrap' }}>
                       <span style={{
-                        display: 'inline-flex', alignItems: 'center', gap: '5px',
-                        padding: '4px 10px', borderRadius: '100px',
-                        background: badge.bg, color: badge.color, fontSize: '11px', fontWeight: 700
+                        display: 'inline-flex', alignItems: 'center', gap: '6px',
+                        padding: '5px 12px', borderRadius: '100px',
+                        background: badge.bg, color: badge.color, fontSize: '11.5px', fontWeight: 700,
+                        border: `1px solid ${badge.border || 'transparent'}`,
+                        whiteSpace: 'nowrap'
                       }}>
-                        <BadgeIcon size={12} />
+                        <BadgeIcon size={13} />
                         {badge.label}
                       </span>
                     </td>
-                    <td style={{ padding: '14px 16px' }}>
-                      <div style={{ display: 'flex', gap: '4px' }}>
+                    <td style={{ padding: '16px 20px', verticalAlign: 'middle', whiteSpace: 'nowrap' }}>
+                      <div style={{ display: 'flex', gap: '6px' }}>
                         {o.orderStatus === 'in_queue' && (
                           <button
                             onClick={() => handleUpdateStatus(o.id, 'preparing')}
-                            style={{ padding: '4px 8px', borderRadius: '6px', border: 'none', background: 'rgba(249,115,22,0.15)', color: '#f97316', fontSize: '11px', fontWeight: 700, cursor: 'pointer' }}
+                            style={{ padding: '5px 10px', borderRadius: '8px', border: '1px solid rgba(249,115,22,0.3)', background: 'rgba(249,115,22,0.12)', color: '#f97316', fontSize: '11px', fontWeight: 700, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
                           >
                             Brew Now →
                           </button>
@@ -470,7 +495,7 @@ export default function DatabaseOrderCodes() {
                         {o.orderStatus === 'preparing' && (
                           <button
                             onClick={() => handleUpdateStatus(o.id, 'ready')}
-                            style={{ padding: '4px 8px', borderRadius: '6px', border: 'none', background: 'rgba(6,182,212,0.15)', color: '#38bdf8', fontSize: '11px', fontWeight: 700, cursor: 'pointer' }}
+                            style={{ padding: '5px 10px', borderRadius: '8px', border: '1px solid rgba(6,182,212,0.3)', background: 'rgba(6,182,212,0.12)', color: '#38bdf8', fontSize: '11px', fontWeight: 700, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
                           >
                             Mark Ready →
                           </button>
@@ -478,17 +503,19 @@ export default function DatabaseOrderCodes() {
                         {o.orderStatus === 'ready' && (
                           <button
                             onClick={() => handleUpdateStatus(o.id, 'completed')}
-                            style={{ padding: '4px 8px', borderRadius: '6px', border: 'none', background: 'rgba(16,185,129,0.15)', color: '#34d399', fontSize: '11px', fontWeight: 700, cursor: 'pointer' }}
+                            style={{ padding: '5px 10px', borderRadius: '8px', border: '1px solid rgba(16,185,129,0.3)', background: 'rgba(16,185,129,0.12)', color: '#34d399', fontSize: '11px', fontWeight: 700, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
                           >
                             Complete ✓
                           </button>
                         )}
                         {o.orderStatus === 'completed' && (
-                          <span style={{ fontSize: '11px', color: '#10b981', fontWeight: 700 }}>Settled</span>
+                          <span style={{ fontSize: '11.5px', color: '#10b981', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                            <CheckCircle size={13} /> Settled
+                          </span>
                         )}
                       </div>
                     </td>
-                    <td style={{ padding: '14px 16px', textAlign: 'right' }}>
+                    <td style={{ padding: '16px 20px', verticalAlign: 'middle', textAlign: 'right', whiteSpace: 'nowrap' }}>
                       <div style={{ display: 'inline-flex', gap: '6px' }}>
                         <button
                           onClick={() => handleOpenReceipt(o)}

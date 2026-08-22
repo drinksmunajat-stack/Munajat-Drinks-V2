@@ -396,17 +396,17 @@ export default function UsersPage() {
       </div>
 
       {/* Users Data Table */}
-      <div style={{ borderRadius: "18px", backgroundColor: CARD, border: `1px solid ${BORDER}`, overflow: "hidden" }}>
+      <div style={{ borderRadius: "20px", backgroundColor: CARD, border: `1px solid ${BORDER}`, overflow: "hidden", boxShadow: "0 10px 30px rgba(0,0,0,0.15)" }}>
         <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", minWidth: "680px", borderCollapse: "collapse", textAlign: "left", fontSize: "13px" }}>
+          <table style={{ width: "100%", minWidth: "860px", borderCollapse: "collapse", textAlign: "left", fontSize: "13px" }}>
             <thead>
-              <tr style={{ borderBottom: `1px solid ${BORDER}`, backgroundColor: "rgba(255,255,255,0.02)", color: "var(--ph-text-muted)", fontWeight: 600, fontSize: "11px", textTransform: "uppercase" }}>
-                <th style={{ padding: "16px" }}>User Profile</th>
-                <th style={{ padding: "16px" }}>Role Access</th>
-                <th style={{ padding: "16px" }}>Assigned Branch</th>
-                <th style={{ padding: "16px" }}>Account Status</th>
-                <th style={{ padding: "16px" }}>Joined Date</th>
-                <th style={{ padding: "16px", textAlign: "right" }}>Actions</th>
+              <tr style={{ borderBottom: `1px solid ${BORDER}`, backgroundColor: "rgba(255,255,255,0.03)", color: "var(--ph-text-muted)", fontWeight: 700, fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                <th style={{ padding: "16px 20px" }}>User Profile</th>
+                <th style={{ padding: "16px 20px", whiteSpace: "nowrap" }}>Role Access</th>
+                <th style={{ padding: "16px 20px", whiteSpace: "nowrap" }}>Assigned Branch</th>
+                <th style={{ padding: "16px 20px", whiteSpace: "nowrap" }}>Account Status</th>
+                <th style={{ padding: "16px 20px", whiteSpace: "nowrap" }}>Joined Date</th>
+                <th style={{ padding: "16px 20px", textAlign: "right", whiteSpace: "nowrap" }}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -426,10 +426,10 @@ export default function UsersPage() {
                   const initials = u.name.split(" ").map((w) => w[0]).slice(0, 2).join("");
                   return (
                     <tr key={u.id} style={{ borderBottom: `1px solid ${BORDER}`, transition: "background 0.15s" }}>
-                      <td style={{ padding: "14px 16px" }}>
+                      <td style={{ padding: "16px 20px", verticalAlign: "middle" }}>
                         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                           <div style={{
-                            width: "38px", height: "38px", borderRadius: "12px",
+                            width: "40px", height: "40px", borderRadius: "12px",
                             background: u.avatarColor, display: "flex",
                             alignItems: "center", justifyContent: "center",
                             fontWeight: 800, fontSize: "13px", color: "#fff", flexShrink: 0,
@@ -439,44 +439,59 @@ export default function UsersPage() {
                           </div>
                           <div>
                             <div style={{ fontWeight: 700, color: "var(--ph-text)", fontSize: "13.5px" }}>{u.name}</div>
-                            <div style={{ fontSize: "11.5px", color: "var(--ph-text-muted)" }}>{u.email} · {u.phone}</div>
+                            <div style={{ fontSize: "11.5px", color: "var(--ph-text-muted)", marginTop: "2px" }}>{u.email} · {u.phone}</div>
                           </div>
                         </div>
                       </td>
-                      <td style={{ padding: "14px 16px" }}>
-                        <span style={{ padding: "4px 10px", borderRadius: "100px", background: badge.bg, color: badge.color, border: `1px solid ${badge.border}`, fontSize: "11.5px", fontWeight: 700 }}>
+                      <td style={{ padding: "16px 20px", verticalAlign: "middle", whiteSpace: "nowrap" }}>
+                        <span style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          padding: "5px 12px",
+                          borderRadius: "100px",
+                          background: badge.bg,
+                          color: badge.color,
+                          border: `1px solid ${badge.border}`,
+                          fontSize: "11.5px",
+                          fontWeight: 700,
+                          whiteSpace: "nowrap",
+                          lineHeight: 1.2
+                        }}>
                           {u.role}
                         </span>
                       </td>
-                      <td style={{ padding: "14px 16px", color: "var(--ph-text-secondary)" }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                          <Store size={14} color="#06b6d4" />
-                          <span>{u.branch}</span>
+                      <td style={{ padding: "16px 20px", verticalAlign: "middle", color: "var(--ph-text-secondary)", whiteSpace: "nowrap" }}>
+                        <div style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}>
+                          <div style={{ width: "26px", height: "26px", borderRadius: "8px", background: "rgba(6,182,212,0.12)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <Store size={14} color="#06b6d4" />
+                          </div>
+                          <span style={{ fontWeight: 500 }}>{u.branch}</span>
                         </div>
                       </td>
-                      <td style={{ padding: "14px 16px" }}>
+                      <td style={{ padding: "16px 20px", verticalAlign: "middle", whiteSpace: "nowrap" }}>
                         <button
                           onClick={() => handleToggleStatus(u.id)}
                           title="Click to toggle status (Active / On Leave / Inactive)"
                           style={{
-                            display: "inline-flex", alignItems: "center", gap: "4px",
-                            padding: "4px 10px", borderRadius: "100px", border: "none",
+                            display: "inline-flex", alignItems: "center", gap: "6px",
+                            padding: "5px 12px", borderRadius: "100px", border: "none",
                             background: u.status === "Active" ? "rgba(16,185,129,0.15)" : u.status === "On Leave" ? "rgba(245,158,11,0.15)" : "rgba(239,68,68,0.15)",
                             color: u.status === "Active" ? "#34d399" : u.status === "On Leave" ? "#f59e0b" : "#f87171",
-                            fontSize: "11px", fontWeight: 700, cursor: "pointer"
+                            fontSize: "11.5px", fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap"
                           }}
                         >
-                          <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "currentColor" }} />
+                          <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "currentColor", boxShadow: "0 0 6px currentColor" }} />
                           {u.status}
                         </button>
                       </td>
-                      <td style={{ padding: "14px 16px", color: "var(--ph-text-muted)", fontSize: "12px" }}>
+                      <td style={{ padding: "16px 20px", verticalAlign: "middle", color: "var(--ph-text-muted)", fontSize: "12px", whiteSpace: "nowrap" }}>
                         {u.joinedDate}
                       </td>
-                      <td style={{ padding: "14px 16px", textAlign: "right" }}>
+                      <td style={{ padding: "16px 20px", verticalAlign: "middle", textAlign: "right", whiteSpace: "nowrap" }}>
                         <div style={{ display: "inline-flex", gap: "6px" }}>
                           <button
                             onClick={() => handleOpenDetail(u)}
+                            title="View Profile"
                             style={{
                               width: "32px", height: "32px", borderRadius: "8px", border: `1px solid ${BORDER}`,
                               background: "transparent", color: "#38bdf8", cursor: "pointer",
@@ -487,6 +502,7 @@ export default function UsersPage() {
                           </button>
                           <button
                             onClick={() => handleOpenEdit(u)}
+                            title="Edit User"
                             style={{
                               width: "32px", height: "32px", borderRadius: "8px", border: `1px solid ${BORDER}`,
                               background: "transparent", color: "var(--ph-text-muted)", cursor: "pointer",
@@ -497,6 +513,7 @@ export default function UsersPage() {
                           </button>
                           <button
                             onClick={() => handleOpenDelete(u)}
+                            title="Delete User"
                             style={{
                               width: "32px", height: "32px", borderRadius: "8px", border: `1px solid ${BORDER}`,
                               background: "transparent", color: "#f87171", cursor: "pointer",

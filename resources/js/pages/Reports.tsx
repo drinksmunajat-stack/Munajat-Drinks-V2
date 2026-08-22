@@ -374,18 +374,18 @@ export default function Reports() {
           </button>
         </div>
 
-        <div style={{ overflowX: "auto", maxHeight: "380px" }}>
-          <table style={{ width: "100%", minWidth: "760px", borderCollapse: "collapse", fontSize: "13px" }}>
+        <div style={{ overflowX: "auto", maxHeight: "420px" }}>
+          <table style={{ width: "100%", minWidth: "920px", borderCollapse: "collapse", fontSize: "13px" }}>
             <thead>
-              <tr style={{ borderBottom: `1px solid ${BORDER}`, textAlign: "left", color: "var(--ph-text-muted)" }}>
-                <th style={{ padding: "12px 10px" }}>Order Code</th>
-                <th style={{ padding: "12px 10px" }}>Customer</th>
-                <th style={{ padding: "12px 10px" }}>Branch</th>
-                <th style={{ padding: "12px 10px" }}>Items Ordered</th>
-                <th style={{ padding: "12px 10px" }}>Revenue (Rp)</th>
-                <th style={{ padding: "12px 10px" }}>Est COGS (Rp)</th>
-                <th style={{ padding: "12px 10px" }}>Gross Profit (Rp)</th>
-                <th style={{ padding: "12px 10px" }}>Payment</th>
+              <tr style={{ borderBottom: `1px solid ${BORDER}`, backgroundColor: "rgba(255,255,255,0.03)", textAlign: "left", color: "var(--ph-text-muted)", fontWeight: 700, fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Order Code</th>
+                <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Customer</th>
+                <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Branch</th>
+                <th style={{ padding: "14px 18px" }}>Items Ordered</th>
+                <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Revenue</th>
+                <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Est COGS</th>
+                <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Gross Profit</th>
+                <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Payment</th>
               </tr>
             </thead>
             <tbody>
@@ -407,16 +407,16 @@ export default function Reports() {
                     : "1x Beverage";
 
                   return (
-                    <tr key={o.id} style={{ borderBottom: `1px solid ${BORDER}` }}>
-                      <td style={{ padding: "12px 10px", fontWeight: 700, color: "#10b981" }}>{o.order_code || `#ORD-${o.id}`}</td>
-                      <td style={{ padding: "12px 10px", fontWeight: 700, color: "var(--ph-text)" }}>{o.customer_name || 'Customer'}</td>
-                      <td style={{ padding: "12px 10px", color: "var(--ph-text-muted)" }}>{o.cabang?.name || 'Main Branch'}</td>
-                      <td style={{ padding: "12px 10px", color: "var(--ph-text-dim)" }}>{itemSummary}</td>
-                      <td style={{ padding: "12px 10px", fontWeight: 800, color: "#10b981" }}>{fmt(omset)}</td>
-                      <td style={{ padding: "12px 10px", color: "#ef4444" }}>{fmt(hpp)}</td>
-                      <td style={{ padding: "12px 10px", fontWeight: 800, color: "#06b6d4" }}>{fmt(profit)}</td>
-                      <td style={{ padding: "12px 10px" }}>
-                        <span style={{ fontSize: "11px", fontWeight: 700, padding: "2px 8px", borderRadius: "6px", backgroundColor: "rgba(16,185,129,0.1)", color: "#10b981" }}>
+                    <tr key={o.id} style={{ borderBottom: `1px solid ${BORDER}`, transition: "background 0.15s" }}>
+                      <td style={{ padding: "14px 18px", verticalAlign: "middle", fontWeight: 700, color: "#10b981", fontFamily: "monospace", whiteSpace: "nowrap" }}>{o.order_code || `#ORD-${o.id}`}</td>
+                      <td style={{ padding: "14px 18px", verticalAlign: "middle", fontWeight: 700, color: "var(--ph-text)", whiteSpace: "nowrap" }}>{o.customer_name || 'Customer'}</td>
+                      <td style={{ padding: "14px 18px", verticalAlign: "middle", color: "var(--ph-text-muted)", whiteSpace: "nowrap" }}>{o.cabang?.name || 'Main Branch'}</td>
+                      <td style={{ padding: "14px 18px", verticalAlign: "middle", color: "var(--ph-text-secondary)", minWidth: "180px" }}>{itemSummary}</td>
+                      <td style={{ padding: "14px 18px", verticalAlign: "middle", fontWeight: 800, color: "#10b981", whiteSpace: "nowrap" }}>{fmt(omset)}</td>
+                      <td style={{ padding: "14px 18px", verticalAlign: "middle", color: "#f87171", fontWeight: 600, whiteSpace: "nowrap" }}>{fmt(hpp)}</td>
+                      <td style={{ padding: "14px 18px", verticalAlign: "middle", fontWeight: 800, color: "#06b6d4", whiteSpace: "nowrap" }}>{fmt(profit)}</td>
+                      <td style={{ padding: "14px 18px", verticalAlign: "middle", whiteSpace: "nowrap" }}>
+                        <span style={{ fontSize: "11px", fontWeight: 700, padding: "4px 10px", borderRadius: "6px", backgroundColor: "rgba(16,185,129,0.12)", color: "#34d399", border: "1px solid rgba(16,185,129,0.2)" }}>
                           {o.payment_method || 'QRIS'}
                         </span>
                       </td>
@@ -449,15 +449,15 @@ export default function Reports() {
           </div>
         </div>
         <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", minWidth: "640px", borderCollapse: "collapse", fontSize: "13px" }}>
+          <table style={{ width: "100%", minWidth: "800px", borderCollapse: "collapse", fontSize: "13px" }}>
             <thead>
-              <tr style={{ borderBottom: `1px solid ${BORDER}`, textAlign: "left", color: "var(--ph-text-muted)" }}>
-                <th style={{ padding: "12px 10px" }}>Beverage Product Name</th>
-                <th style={{ padding: "12px 10px" }}>Category</th>
-                <th style={{ padding: "12px 10px" }}>Total Sold</th>
-                <th style={{ padding: "12px 10px" }}>Remaining Stock</th>
-                <th style={{ padding: "12px 10px" }}>Total Sales Value</th>
-                <th style={{ padding: "12px 10px" }}>Status</th>
+              <tr style={{ borderBottom: `1px solid ${BORDER}`, backgroundColor: "rgba(255,255,255,0.03)", textAlign: "left", color: "var(--ph-text-muted)", fontWeight: 700, fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                <th style={{ padding: "14px 18px" }}>Beverage Product Name</th>
+                <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Category</th>
+                <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Total Sold</th>
+                <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Remaining Stock</th>
+                <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Total Sales Value</th>
+                <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Status</th>
               </tr>
             </thead>
             <tbody>
@@ -471,14 +471,14 @@ export default function Reports() {
                 />
               ) : (
                 dynamicStockUsage.map((row, idx) => (
-                  <tr key={idx} style={{ borderBottom: `1px solid ${BORDER}` }}>
-                    <td style={{ padding: "12px 10px", fontWeight: 700, color: "var(--ph-text)" }}>{row.item}</td>
-                    <td style={{ padding: "12px 10px", color: "var(--ph-text-muted)" }}>{row.category}</td>
-                    <td style={{ padding: "12px 10px", color: "#10b981", fontWeight: 700 }}>{row.used}</td>
-                    <td style={{ padding: "12px 10px", color: "var(--ph-text)" }}>{row.remaining}</td>
-                    <td style={{ padding: "12px 10px", fontWeight: 800, color: "var(--ph-text)" }}>{row.cost}</td>
-                    <td style={{ padding: "12px 10px" }}>
-                      <span style={{ fontSize: "11px", fontWeight: 700, padding: "2px 8px", borderRadius: "6px", backgroundColor: `${row.statusColor}18`, color: row.statusColor }}>
+                  <tr key={idx} style={{ borderBottom: `1px solid ${BORDER}`, transition: "background 0.15s" }}>
+                    <td style={{ padding: "14px 18px", verticalAlign: "middle", fontWeight: 700, color: "var(--ph-text)" }}>{row.item}</td>
+                    <td style={{ padding: "14px 18px", verticalAlign: "middle", color: "var(--ph-text-muted)", whiteSpace: "nowrap" }}>{row.category}</td>
+                    <td style={{ padding: "14px 18px", verticalAlign: "middle", color: "#10b981", fontWeight: 700, whiteSpace: "nowrap" }}>{row.used}</td>
+                    <td style={{ padding: "14px 18px", verticalAlign: "middle", color: "var(--ph-text)", fontWeight: 600, whiteSpace: "nowrap" }}>{row.remaining}</td>
+                    <td style={{ padding: "14px 18px", verticalAlign: "middle", fontWeight: 800, color: "var(--ph-text)", whiteSpace: "nowrap" }}>{row.cost}</td>
+                    <td style={{ padding: "14px 18px", verticalAlign: "middle", whiteSpace: "nowrap" }}>
+                      <span style={{ fontSize: "11.5px", fontWeight: 700, padding: "4px 10px", borderRadius: "100px", backgroundColor: `${row.statusColor}18`, color: row.statusColor, border: `1px solid ${row.statusColor}30`, display: "inline-block" }}>
                         {row.status}
                       </span>
                     </td>
