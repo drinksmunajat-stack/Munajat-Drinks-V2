@@ -613,7 +613,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               top: 0,
               left: 0,
               height: "100vh",
-              width: "260px",
+              width: "280px",
               backgroundColor: SIDEBAR_BG,
               borderRight: `1px solid ${BORDER}`,
               display: "flex",
@@ -621,22 +621,29 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               zIndex: 50,
               transform: sidebarOpen ? "translateX(0)" : "translateX(-100%)",
               transition: "transform 0.3s cubic-bezier(0.4,0,0.2,1)",
+              boxShadow: sidebarOpen ? "0 20px 50px rgba(0,0,0,0.5)" : "none",
             }}
           >
             <button
               onClick={() => setSidebarOpen(false)}
+              aria-label="Close Sidebar"
               style={{
                 position: "absolute",
                 top: "16px",
                 right: "16px",
-                background: "transparent",
-                border: "none",
+                background: "rgba(255,255,255,0.06)",
+                border: `1px solid ${BORDER}`,
+                borderRadius: "8px",
                 color: "var(--ph-text-muted)",
                 cursor: "pointer",
-                padding: "4px",
+                padding: "6px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                zIndex: 10,
               }}
             >
-              <X size={20} />
+              <X size={18} />
             </button>
             <SidebarContent />
           </div>
@@ -657,46 +664,51 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         )}
 
         {/* Main Header & Page Content */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden", minWidth: 0 }}>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden", minWidth: 0, width: "100%" }}>
           {/* Header */}
           <div
             className={glassClass}
             style={{
-              height: "68px",
+              height: "64px",
               borderBottom: `1px solid ${BORDER}`,
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              padding: "0 24px",
+              padding: isMobile ? "0 12px" : "0 24px",
               backgroundColor: BG,
-              gap: "12px",
+              gap: isMobile ? "8px" : "12px",
               flexShrink: 0,
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: isMobile ? "8px" : "14px", minWidth: 0 }}>
               {isMobile && (
                 <button
                   onClick={() => setSidebarOpen(true)}
+                  aria-label="Open Sidebar Menu"
                   style={{
-                    background: "transparent",
-                    border: "none",
-                    color: "var(--ph-text-muted)",
+                    background: CARD,
+                    border: `1px solid ${BORDER}`,
+                    borderRadius: "10px",
+                    color: "var(--ph-text)",
                     cursor: "pointer",
-                    padding: "4px",
+                    padding: "8px",
                     display: "flex",
                     alignItems: "center",
+                    justifyContent: "center",
+                    flexShrink: 0,
                   }}
                 >
-                  <Menu size={22} />
+                  <Menu size={20} />
                 </button>
               )}
               <button
                 onClick={() => setSearchOpen(true)}
+                aria-label="Search"
                 style={{
                   display: "flex",
                   alignItems: "center",
                   gap: isMobile ? "0" : "10px",
-                  padding: isMobile ? "10px" : "8px 16px",
+                  padding: isMobile ? "8px" : "8px 16px",
                   borderRadius: "100px",
                   backgroundColor: CARD,
                   border: `1px solid ${BORDER}`,
@@ -704,7 +716,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   cursor: "pointer",
                   fontSize: "13px",
                   transition: "all 0.2s ease",
-                  width: isMobile ? "40px" : isTablet ? "220px" : "300px",
+                  width: isMobile ? "38px" : isTablet ? "200px" : "300px",
+                  height: isMobile ? "38px" : "auto",
                   maxWidth: "100%",
                   justifyContent: isMobile ? "center" : "flex-start",
                   flexShrink: 0,
@@ -758,7 +771,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               )}
             </div>
 
-            <div style={{ display: "flex", alignItems: "center", gap: isMobile ? "10px" : "16px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: isMobile ? "8px" : "16px", flexShrink: 0 }}>
               {/* Dark / Light switch */}
               <button
                 onClick={() => setColorMode(dark ? "light" : "dark")}
@@ -780,13 +793,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </button>
 
               {/* Notification */}
-              <div style={{ position: "relative", cursor: "pointer" }}>
-                <Bell size={20} color="var(--ph-text-muted)" />
+              <div style={{ position: "relative", cursor: "pointer", padding: "4px" }}>
+                <Bell size={19} color="var(--ph-text-muted)" />
                 <div
                   style={{
                     position: "absolute",
-                    top: "-2px",
-                    right: "-2px",
+                    top: "2px",
+                    right: "2px",
                     width: "8px",
                     height: "8px",
                     backgroundColor: "#10b981",
@@ -799,7 +812,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               {/* Top Right User Profile pill */}
               <div
                 onClick={() => setProfileOpen((v) => !v)}
-                style={{ display: "flex", alignItems: "center", gap: "10px", cursor: "pointer" }}
+                style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer" }}
               >
                 {!isMobile && (
                   <div style={{ textAlign: "right" }}>
@@ -809,14 +822,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 )}
                 <div
                   style={{
-                    width: "38px",
-                    height: "38px",
-                    borderRadius: "12px",
+                    width: isMobile ? "34px" : "38px",
+                    height: isMobile ? "34px" : "38px",
+                    borderRadius: "10px",
                     background: activeUser?.avatar_color ? `linear-gradient(135deg, ${activeUser.avatar_color} 0%, #06b6d4 100%)` : "linear-gradient(135deg, #10b981 0%, #06b6d4 100%)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    fontSize: "14px",
+                    fontSize: isMobile ? "12.5px" : "14px",
                     fontWeight: 800,
                     color: "white",
                     flexShrink: 0,
@@ -830,7 +843,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
 
           {/* Page Content */}
-          <div style={{ flex: 1, overflowY: "auto", padding: isMobile ? "16px" : "28px 32px 32px 32px", position: "relative" }}>
+          <div style={{ flex: 1, overflowY: "auto", overflowX: "hidden", padding: isMobile ? "14px 12px 24px 12px" : "28px 32px 32px 32px", position: "relative", width: "100%", boxSizing: "border-box" }}>
             <PageTransition locationKey={location}>{children}</PageTransition>
           </div>
         </div>
@@ -856,15 +869,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          padding: "20px"
+          padding: "16px"
         }}>
           <div style={{
             width: "100%",
-            maxWidth: "400px",
+            maxWidth: "380px",
             borderRadius: "24px",
             backgroundColor: "var(--ph-card)",
             border: `1.5px solid ${BORDER}`,
-            padding: "28px 24px",
+            padding: isMobile ? "22px 18px" : "28px 24px",
             boxShadow: "0 25px 60px rgba(0, 0, 0, 0.4)",
             display: "flex",
             flexDirection: "column",

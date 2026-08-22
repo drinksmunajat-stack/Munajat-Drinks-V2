@@ -255,16 +255,16 @@ export default function DatabaseCabang() {
       )}
 
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: isMobile ? 'flex-start' : 'center', flexWrap: 'wrap', gap: '14px' }}>
         <div>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: 700, color: '#8b5cf6', background: 'rgba(139,92,246,0.12)', padding: '3px 10px', borderRadius: '100px', marginBottom: '8px' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '11.5px', fontWeight: 700, color: '#8b5cf6', background: 'rgba(139,92,246,0.12)', padding: '3px 10px', borderRadius: '100px', marginBottom: '6px' }}>
             <Store size={13} />
             DATABASE / OUTLETS & STORES
           </div>
-          <h1 style={{ fontSize: '26px', fontWeight: 800, margin: '0 0 6px 0', letterSpacing: '-0.5px', color: 'var(--ph-text)', fontFamily: "'Outfit', sans-serif" }}>
+          <h1 style={{ fontSize: isMobile ? '20px' : '26px', fontWeight: 800, margin: '0 0 4px 0', letterSpacing: '-0.5px', color: 'var(--ph-text)', fontFamily: "'Outfit', sans-serif" }}>
             Branch Outlets & Store Managers
           </h1>
-          <p style={{ fontSize: '13.5px', color: 'var(--ph-text-muted)', margin: 0 }}>
+          <p style={{ fontSize: isMobile ? '12px' : '13.5px', color: 'var(--ph-text-muted)', margin: 0 }}>
             Manage store operational details, daily sales targets, POS connection status, and branch supervisors.
           </p>
         </div>
@@ -272,11 +272,12 @@ export default function DatabaseCabang() {
         <button
           onClick={handleOpenCreate}
           style={{
-            display: 'flex', alignItems: 'center', gap: '8px',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
             padding: '10px 18px', borderRadius: '12px',
             background: 'linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%)',
             color: '#fff', border: 'none', fontWeight: 700, fontSize: '13px',
-            cursor: 'pointer', boxShadow: '0 6px 18px rgba(139, 92, 246, 0.35)'
+            cursor: 'pointer', boxShadow: '0 6px 18px rgba(139, 92, 246, 0.35)',
+            width: isMobile ? '100%' : 'auto'
           }}
         >
           <Plus size={16} />
@@ -285,31 +286,31 @@ export default function DatabaseCabang() {
       </div>
 
       {/* Stats Overview */}
-      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(4, 1fr)', gap: '16px' }}>
-        <div style={{ padding: '18px', borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}` }}>
-          <div style={{ fontSize: '11.5px', color: 'var(--ph-text-muted)', fontWeight: 600 }}>Total Store Outlets</div>
-          <div style={{ fontSize: '24px', fontWeight: 800, color: 'var(--ph-text)', fontFamily: "'Outfit', sans-serif", margin: '4px 0' }}>{cabangs.length} Branches</div>
-          <div style={{ fontSize: '11px', color: '#10b981', fontWeight: 600 }}>{cabangs.filter(c => c.isActive).length} active open stores</div>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)', gap: isMobile ? '10px' : '16px' }}>
+        <div style={{ padding: isMobile ? '14px 12px' : '18px', borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}` }}>
+          <div style={{ fontSize: '10.5px', color: 'var(--ph-text-muted)', fontWeight: 600 }}>Total Outlets</div>
+          <div style={{ fontSize: isMobile ? '18px' : '24px', fontWeight: 800, color: 'var(--ph-text)', fontFamily: "'Outfit', sans-serif", margin: '4px 0' }}>{cabangs.length} Branches</div>
+          <div style={{ fontSize: '10.5px', color: '#10b981', fontWeight: 600 }}>{cabangs.filter(c => c.isActive).length} active open</div>
         </div>
-        <div style={{ padding: '18px', borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}` }}>
-          <div style={{ fontSize: '11.5px', color: 'var(--ph-text-muted)', fontWeight: 600 }}>Total Network Revenue</div>
-          <div style={{ fontSize: '24px', fontWeight: 800, color: '#10b981', fontFamily: "'Outfit', sans-serif", margin: '4px 0' }}>{fmt(cabangs.reduce((acc, c) => acc + c.dailyRevenue, 0))}</div>
-          <div style={{ fontSize: '11px', color: '#34d399', fontWeight: 600 }}>Target: {fmt(cabangs.reduce((acc, c) => acc + c.dailyTarget, 0))}</div>
+        <div style={{ padding: isMobile ? '14px 12px' : '18px', borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}` }}>
+          <div style={{ fontSize: '10.5px', color: 'var(--ph-text-muted)', fontWeight: 600 }}>Total Revenue</div>
+          <div style={{ fontSize: isMobile ? '16px' : '24px', fontWeight: 800, color: '#10b981', fontFamily: "'Outfit', sans-serif", margin: '4px 0', wordBreak: 'break-word' }}>{fmt(cabangs.reduce((acc, c) => acc + c.dailyRevenue, 0))}</div>
+          <div style={{ fontSize: '10.5px', color: '#34d399', fontWeight: 600 }}>Daily target: {fmt(cabangs.reduce((acc, c) => acc + c.dailyTarget, 0))}</div>
         </div>
-        <div style={{ padding: '18px', borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}` }}>
-          <div style={{ fontSize: '11.5px', color: 'var(--ph-text-muted)', fontWeight: 600 }}>Active On-Duty Staff</div>
-          <div style={{ fontSize: '24px', fontWeight: 800, color: '#06b6d4', fontFamily: "'Outfit', sans-serif", margin: '4px 0' }}>{cabangs.reduce((acc, c) => acc + c.activeStaff, 0)} Baristas & Cashiers</div>
-          <div style={{ fontSize: '11px', color: 'var(--ph-text-dim)' }}>Active shifts</div>
+        <div style={{ padding: isMobile ? '14px 12px' : '18px', borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}` }}>
+          <div style={{ fontSize: '10.5px', color: 'var(--ph-text-muted)', fontWeight: 600 }}>Active On-Duty</div>
+          <div style={{ fontSize: isMobile ? '18px' : '24px', fontWeight: 800, color: '#06b6d4', fontFamily: "'Outfit', sans-serif", margin: '4px 0' }}>{cabangs.reduce((acc, c) => acc + c.activeStaff, 0)} Staff</div>
+          <div style={{ fontSize: '10.5px', color: 'var(--ph-text-dim)' }}>Active shifts</div>
         </div>
-        <div style={{ padding: '18px', borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}` }}>
-          <div style={{ fontSize: '11.5px', color: 'var(--ph-text-muted)', fontWeight: 600 }}>City Coverage</div>
-          <div style={{ fontSize: '24px', fontWeight: 800, color: '#8b5cf6', fontFamily: "'Outfit', sans-serif", margin: '4px 0' }}>Jakarta & Bandung</div>
-          <div style={{ fontSize: '11px', color: '#a78bfa', fontWeight: 600 }}>Expansion Q4 2026</div>
+        <div style={{ padding: isMobile ? '14px 12px' : '18px', borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}` }}>
+          <div style={{ fontSize: '10.5px', color: 'var(--ph-text-muted)', fontWeight: 600 }}>City Coverage</div>
+          <div style={{ fontSize: isMobile ? '16px' : '24px', fontWeight: 800, color: '#8b5cf6', fontFamily: "'Outfit', sans-serif", margin: '4px 0' }}>Jakarta & Bandung</div>
+          <div style={{ fontSize: '10.5px', color: '#a78bfa', fontWeight: 600 }}>Expansion 2026</div>
         </div>
       </div>
 
       {/* Filter Bar */}
-      <div style={{ padding: '16px', borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px' }}>
+      <div style={{ padding: '14px 16px', borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
         <div style={{ position: 'relative', width: isMobile ? '100%' : '360px', display: 'flex', alignItems: 'center' }}>
           <Search size={16} style={{ position: 'absolute', left: '14px', color: 'var(--ph-text-muted)' }} />
           <input
@@ -321,7 +322,7 @@ export default function DatabaseCabang() {
           />
         </div>
 
-        <div style={{ display: 'flex', gap: '6px' }}>
+        <div style={{ display: 'flex', gap: '6px', overflowX: 'auto', maxWidth: '100%', paddingBottom: '2px' }}>
           {['All', 'Central Jakarta', 'South Jakarta', 'Bandung'].map(city => (
             <button
               key={city}
@@ -329,7 +330,7 @@ export default function DatabaseCabang() {
               style={{
                 padding: '6px 12px', borderRadius: '100px', border: 'none',
                 fontSize: '12px', fontWeight: cityFilter === city || (city === 'All' && cityFilter === 'All') ? 700 : 500,
-                cursor: 'pointer',
+                cursor: 'pointer', whiteSpace: 'nowrap',
                 background: cityFilter === city || (city === 'All' && cityFilter === 'All') ? 'linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%)' : 'rgba(255,255,255,0.05)',
                 color: cityFilter === city || (city === 'All' && cityFilter === 'All') ? '#fff' : 'var(--ph-text-muted)',
               }}

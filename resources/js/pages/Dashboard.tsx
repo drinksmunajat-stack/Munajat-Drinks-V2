@@ -287,21 +287,21 @@ export default function Dashboard() {
     <div style={{ maxWidth: "1440px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "24px" }}>
 
       {/* Header Bar */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: isMobile ? "flex-start" : "center", flexDirection: isMobile ? "column" : "row", gap: "16px" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: isMobile ? "flex-start" : "center", flexDirection: isMobile ? "column" : "row", gap: "14px" }}>
         <div>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "12px", fontWeight: 700, color: "#10b981", background: "rgba(16,185,129,0.12)", padding: "3px 10px", borderRadius: "100px", marginBottom: "8px" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "11.5px", fontWeight: 700, color: "#10b981", background: "rgba(16,185,129,0.12)", padding: "3px 10px", borderRadius: "100px", marginBottom: "6px" }}>
             <Zap size={13} />
             LIVE POS & AI CASHIER DASHBOARD
           </div>
-          <h1 style={{ margin: "0 0 6px 0", fontSize: isMobile ? "22px" : "28px", fontWeight: 800, letterSpacing: "-0.5px", color: "var(--ph-text)", fontFamily: "'Outfit', sans-serif" }}>
+          <h1 style={{ margin: "0 0 4px 0", fontSize: isMobile ? "20px" : "28px", fontWeight: 800, letterSpacing: "-0.5px", color: "var(--ph-text)", fontFamily: "'Outfit', sans-serif" }}>
             Munajat Drinks Business Overview
           </h1>
-          <p style={{ margin: 0, color: "var(--ph-text-muted)", fontSize: "13.5px" }}>
+          <p style={{ margin: 0, color: "var(--ph-text-muted)", fontSize: isMobile ? "12.5px" : "13.5px" }}>
             Monitor real-time cashier transactions, branch outlet performance, Voice AI orders, and inventory movement.
           </p>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap", flexShrink: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap", width: isMobile ? "100%" : "auto" }}>
           <div style={{
             display: "inline-flex",
             alignItems: "center",
@@ -309,8 +309,11 @@ export default function Dashboard() {
             padding: "3px",
             borderRadius: "12px",
             border: `1px solid ${BORDER}`,
-            height: "42px",
-            boxSizing: "border-box"
+            height: "40px",
+            boxSizing: "border-box",
+            overflowX: "auto",
+            maxWidth: "100%",
+            flexShrink: 0
           }}>
             {["All Time", "Today", "7 Days", "This Month"].map((f) => (
               <button
@@ -320,10 +323,10 @@ export default function Dashboard() {
                   background: timeFilter === f ? "linear-gradient(135deg, #10b981 0%, #06b6d4 100%)" : "transparent",
                   border: "none",
                   color: timeFilter === f ? "#ffffff" : "var(--ph-text-muted)",
-                  padding: "0 14px",
-                  height: "34px",
+                  padding: "0 12px",
+                  height: "32px",
                   borderRadius: "9px",
-                  fontSize: "12.5px",
+                  fontSize: "12px",
                   fontWeight: timeFilter === f ? 700 : 600,
                   whiteSpace: "nowrap",
                   cursor: "pointer",
@@ -338,20 +341,22 @@ export default function Dashboard() {
             ))}
           </div>
 
-          <Link href="/kasir-voice" style={{ textDecoration: "none", flexShrink: 0 }}>
+          <Link href="/kasir-voice" style={{ textDecoration: "none", width: isMobile ? "100%" : "auto" }}>
             <button
               style={{
                 display: "inline-flex",
                 alignItems: "center",
+                justifyContent: "center",
                 gap: "8px",
-                padding: "0 18px",
-                height: "42px",
+                padding: "0 16px",
+                height: "40px",
+                width: isMobile ? "100%" : "auto",
                 borderRadius: "12px",
                 background: "linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%)",
                 color: "#ffffff",
                 border: "none",
                 fontWeight: 700,
-                fontSize: "13px",
+                fontSize: "12.5px",
                 whiteSpace: "nowrap",
                 cursor: "pointer",
                 boxShadow: "0 6px 18px rgba(139,92,246,0.35)",
@@ -366,7 +371,7 @@ export default function Dashboard() {
       </div>
 
       {/* 4 Stat Cards */}
-      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr 1fr" : isTablet ? "repeat(2, 1fr)" : "repeat(4, 1fr)", gap: "16px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : isTablet ? "repeat(2, 1fr)" : "repeat(4, 1fr)", gap: isMobile ? "10px" : "16px" }}>
         {STATS.map((stat, i) => {
           const Icon = stat.icon;
           return (
@@ -374,50 +379,53 @@ export default function Dashboard() {
               key={i}
               style={{
                 backgroundColor: CARD,
-                borderRadius: "20px",
-                padding: isMobile ? "16px" : "20px",
+                borderRadius: isMobile ? "16px" : "20px",
+                padding: isMobile ? "14px 12px" : "20px",
                 border: `1px solid ${BORDER}`,
                 position: "relative",
                 overflow: "hidden",
                 display: "flex",
                 flexDirection: "column",
-                gap: "12px",
+                gap: isMobile ? "8px" : "12px",
               }}
             >
               <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "4px", background: stat.bg, boxShadow: stat.glow }} />
 
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                <div style={{ width: "38px", height: "38px", borderRadius: "10px", background: `${stat.color}18`, display: "flex", alignItems: "center", justifyContent: "center", color: stat.color }}>
-                  <Icon size={19} />
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "6px" }}>
+                <div style={{ width: isMobile ? "32px" : "38px", height: isMobile ? "32px" : "38px", borderRadius: "10px", background: `${stat.color}18`, display: "flex", alignItems: "center", justifyContent: "center", color: stat.color, flexShrink: 0 }}>
+                  <Icon size={isMobile ? 16 : 19} />
                 </div>
                 <div
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    gap: "4px",
+                    gap: "2px",
                     color: stat.up ? "#34d399" : "#f87171",
-                    fontSize: "12px",
+                    fontSize: isMobile ? "10.5px" : "12px",
                     fontWeight: 700,
                     background: stat.up ? "rgba(16,185,129,0.15)" : "rgba(239,68,68,0.15)",
-                    padding: "3px 8px",
+                    padding: isMobile ? "2px 6px" : "3px 8px",
                     borderRadius: "100px",
+                    whiteSpace: "nowrap"
                   }}
                 >
-                  {stat.up ? <ArrowUpRight size={13} /> : <ArrowDownRight size={13} />}
+                  {stat.up ? <ArrowUpRight size={11} /> : <ArrowDownRight size={11} />}
                   {stat.change}
                 </div>
               </div>
 
               <div>
-                <div style={{ fontSize: isMobile ? "20px" : "24px", fontWeight: 800, letterSpacing: "-0.5px", color: "var(--ph-text)", fontFamily: "'Outfit', sans-serif" }}>
+                <div style={{ fontSize: isMobile ? "16px" : "24px", fontWeight: 800, letterSpacing: "-0.5px", color: "var(--ph-text)", fontFamily: "'Outfit', sans-serif", wordBreak: "break-word" }}>
                   {stat.value}
                 </div>
-                <div style={{ color: "var(--ph-text-muted)", fontSize: "12px", fontWeight: 600, marginTop: "2px" }}>
+                <div style={{ color: "var(--ph-text-muted)", fontSize: isMobile ? "11px" : "12px", fontWeight: 600, marginTop: "2px" }}>
                   {stat.title}
                 </div>
-                <div style={{ color: "var(--ph-text-dim)", fontSize: "11px", marginTop: "4px" }}>
-                  {stat.subtext}
-                </div>
+                {!isMobile && (
+                  <div style={{ color: "var(--ph-text-dim)", fontSize: "11px", marginTop: "4px" }}>
+                    {stat.subtext}
+                  </div>
+                )}
               </div>
             </div>
           );

@@ -194,29 +194,30 @@ export default function Analytics() {
       )}
 
       {/* Header Bar */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: isMobile ? "flex-start" : "center", flexDirection: isMobile ? "column" : "row", gap: "16px" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: isMobile ? "flex-start" : "center", flexDirection: isMobile ? "column" : "row", gap: "14px" }}>
         <div>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "12px", fontWeight: 700, color: "#10b981", background: "rgba(16,185,129,0.12)", padding: "3px 10px", borderRadius: "100px", marginBottom: "8px" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "11.5px", fontWeight: 700, color: "#10b981", background: "rgba(16,185,129,0.12)", padding: "3px 10px", borderRadius: "100px", marginBottom: "6px" }}>
             <BarChart3 size={13} />
             BUSINESS INTELLIGENCE & ANALYTICS
           </div>
-          <h1 style={{ margin: "0 0 6px 0", fontSize: isMobile ? "22px" : "28px", fontWeight: 800, letterSpacing: "-0.5px", color: "var(--ph-text)", fontFamily: "'Outfit', sans-serif" }}>
+          <h1 style={{ margin: "0 0 4px 0", fontSize: isMobile ? "20px" : "28px", fontWeight: 800, letterSpacing: "-0.5px", color: "var(--ph-text)", fontFamily: "'Outfit', sans-serif" }}>
             Sales Analytics & Intelligence
           </h1>
-          <p style={{ margin: 0, color: "var(--ph-text-muted)", fontSize: "13.5px" }}>
+          <p style={{ margin: 0, color: "var(--ph-text-muted)", fontSize: isMobile ? "12.5px" : "13.5px" }}>
             Computed directly from all {orders.length} transaction records in MySQL database.
           </p>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", width: isMobile ? "100%" : "auto" }}>
           <button
             onClick={handleExport}
             style={{
-              display: "flex", alignItems: "center", gap: "8px",
+              display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
               padding: "10px 18px", borderRadius: "12px",
               background: "linear-gradient(135deg, #10b981 0%, #06b6d4 100%)",
               color: "#fff", border: "none", fontWeight: 700, fontSize: "13px",
               cursor: "pointer", boxShadow: "0 6px 18px rgba(16, 185, 129, 0.35)",
+              width: isMobile ? "100%" : "auto"
             }}
           >
             <Download size={15} />
@@ -226,29 +227,29 @@ export default function Analytics() {
       </div>
 
       {/* Top 3 Summary Cards */}
-      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)", gap: "16px" }}>
-        <div style={{ backgroundColor: CARD, borderRadius: "20px", padding: "20px", border: `1px solid ${BORDER}` }}>
-          <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--ph-text-muted)" }}>TOTAL DATABASE REVENUE</div>
-          <div style={{ fontSize: "24px", fontWeight: 900, color: "#10b981", margin: "6px 0", fontFamily: "'Outfit', sans-serif" }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)", gap: isMobile ? "12px" : "16px" }}>
+        <div style={{ backgroundColor: CARD, borderRadius: isMobile ? "16px" : "20px", padding: isMobile ? "16px" : "20px", border: `1px solid ${BORDER}` }}>
+          <div style={{ fontSize: "11px", fontWeight: 700, color: "var(--ph-text-muted)", textTransform: "uppercase" }}>Total Database Revenue</div>
+          <div style={{ fontSize: isMobile ? "20px" : "24px", fontWeight: 900, color: "#10b981", margin: "4px 0", fontFamily: "'Outfit', sans-serif" }}>
             {fmt(orders.reduce((s, o) => s + Number(o.total_amount || 0), 0))}
           </div>
           <div style={{ fontSize: "11.5px", color: "#64748b" }}>From {orders.length} orders recorded</div>
         </div>
 
-        <div style={{ backgroundColor: CARD, borderRadius: "20px", padding: "20px", border: `1px solid ${BORDER}` }}>
-          <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--ph-text-muted)" }}>TOTAL DRINK CUPS SOLD</div>
-          <div style={{ fontSize: "24px", fontWeight: 900, color: "#06b6d4", margin: "6px 0", fontFamily: "'Outfit', sans-serif" }}>
+        <div style={{ backgroundColor: CARD, borderRadius: isMobile ? "16px" : "20px", padding: isMobile ? "16px" : "20px", border: `1px solid ${BORDER}` }}>
+          <div style={{ fontSize: "11px", fontWeight: 700, color: "var(--ph-text-muted)", textTransform: "uppercase" }}>Total Drink Cups Sold</div>
+          <div style={{ fontSize: isMobile ? "20px" : "24px", fontWeight: 900, color: "#06b6d4", margin: "4px 0", fontFamily: "'Outfit', sans-serif" }}>
             {orders.reduce((s, o) => s + (Array.isArray(o.items_data) ? o.items_data.reduce((c: number, it: any) => c + (Number(it.qty) || 1), 0) : 1), 0)} Cups
           </div>
           <div style={{ fontSize: "11.5px", color: "#64748b" }}>Across {cabangs.length} active branches</div>
         </div>
 
-        <div style={{ backgroundColor: CARD, borderRadius: "20px", padding: "20px", border: `1px solid ${BORDER}` }}>
-          <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--ph-text-muted)" }}>AVERAGE BASKET SIZE</div>
-          <div style={{ fontSize: "24px", fontWeight: 900, color: "#8b5cf6", margin: "6px 0", fontFamily: "'Outfit', sans-serif" }}>
+        <div style={{ backgroundColor: CARD, borderRadius: isMobile ? "16px" : "20px", padding: isMobile ? "16px" : "20px", border: `1px solid ${BORDER}` }}>
+          <div style={{ fontSize: "11px", fontWeight: 700, color: "var(--ph-text-muted)", textTransform: "uppercase" }}>Average Basket Size</div>
+          <div style={{ fontSize: isMobile ? "20px" : "24px", fontWeight: 900, color: "#8b5cf6", margin: "4px 0", fontFamily: "'Outfit', sans-serif" }}>
             {fmt(orders.length > 0 ? Math.round(orders.reduce((s, o) => s + Number(o.total_amount || 0), 0) / orders.length) : 0)}
           </div>
-          <div style={{ fontSize: "11.5px", color: "#64748b" }}>Average revenue per customer order</div>
+          <div style={{ fontSize: "11.5px", color: "#64748b" }}>Average revenue per order</div>
         </div>
       </div>
 
@@ -353,7 +354,7 @@ export default function Analytics() {
           🏪 Branch Outlet Performance Matrix
         </h2>
         <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
+          <table style={{ width: "100%", minWidth: "560px", borderCollapse: "collapse", fontSize: "13px" }}>
             <thead>
               <tr style={{ borderBottom: `1px solid ${BORDER}`, textAlign: "left", color: "var(--ph-text-muted)" }}>
                 <th style={{ padding: "10px" }}>Branch Name</th>

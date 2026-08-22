@@ -214,22 +214,22 @@ export default function Reports() {
       )}
 
       {/* Header Bar */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: isMobile ? "flex-start" : "center", flexDirection: isMobile ? "column" : "row", gap: "16px" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: isMobile ? "flex-start" : "center", flexDirection: isMobile ? "column" : "row", gap: "14px" }}>
         <div>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "12px", fontWeight: 700, color: "#10b981", background: "rgba(16,185,129,0.12)", padding: "3px 10px", borderRadius: "100px", marginBottom: "8px" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "11.5px", fontWeight: 700, color: "#10b981", background: "rgba(16,185,129,0.12)", padding: "3px 10px", borderRadius: "100px", marginBottom: "6px" }}>
             <FileText size={13} />
             FINANCIAL & INVENTORY REPORTS
           </div>
-          <h1 style={{ margin: "0 0 6px 0", fontSize: isMobile ? "22px" : "28px", fontWeight: 800, letterSpacing: "-0.5px", color: "var(--ph-text)", fontFamily: "'Outfit', sans-serif" }}>
+          <h1 style={{ margin: "0 0 4px 0", fontSize: isMobile ? "20px" : "28px", fontWeight: 800, letterSpacing: "-0.5px", color: "var(--ph-text)", fontFamily: "'Outfit', sans-serif" }}>
             Financial & Operations Reports
           </h1>
-          <p style={{ margin: 0, color: "var(--ph-text-muted)", fontSize: "13.5px" }}>
+          <p style={{ margin: 0, color: "var(--ph-text-muted)", fontSize: isMobile ? "12px" : "13.5px" }}>
             Calculated authentic financial indicators directly from all transactions in MySQL database.
           </p>
         </div>
 
         {/* Global Filter Toolbar */}
-        <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap", width: isMobile ? "100%" : "auto" }}>
           
           {/* Cabang Filter Dropdown */}
           <select
@@ -244,7 +244,8 @@ export default function Reports() {
               fontSize: "13px",
               fontWeight: 700,
               outline: "none",
-              cursor: "pointer"
+              cursor: "pointer",
+              flex: isMobile ? 1 : "initial"
             }}
           >
             <option value="All Branches">All Outlet Branches ({cabangs.length})</option>
@@ -266,7 +267,8 @@ export default function Reports() {
               fontSize: "13px",
               fontWeight: 700,
               outline: "none",
-              cursor: "pointer"
+              cursor: "pointer",
+              flex: isMobile ? 1 : "initial"
             }}
           >
             <option value="All Periods">All Periods</option>
@@ -278,11 +280,12 @@ export default function Reports() {
           <button
             onClick={() => setModalOpen(true)}
             style={{
-              display: "flex", alignItems: "center", gap: "8px",
+              display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
               padding: "10px 18px", borderRadius: "12px",
               background: "linear-gradient(135deg, #10b981 0%, #06b6d4 100%)",
               color: "#fff", border: "none", fontWeight: 700, fontSize: "13px",
               cursor: "pointer", boxShadow: "0 6px 18px rgba(16, 185, 129, 0.35)",
+              width: isMobile ? "100%" : "auto"
             }}
           >
             <Plus size={15} />
@@ -292,49 +295,49 @@ export default function Reports() {
       </div>
 
       {/* 4 Financial Summary Cards (100% Original from Database) */}
-      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr 1fr" : "repeat(4, 1fr)", gap: "16px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)", gap: isMobile ? "10px" : "16px" }}>
         
         {/* 1. TOTAL OMSET PENJUALAN */}
-        <div style={{ backgroundColor: CARD, borderRadius: "20px", padding: "22px", border: `1px solid ${BORDER}`, display: "flex", flexDirection: "column", gap: "6px" }}>
-          <div style={{ fontSize: "12px", fontWeight: 800, color: "#10b981", letterSpacing: "0.5px" }}>TOTAL SALES REVENUE</div>
-          <div style={{ fontSize: "24px", fontWeight: 900, color: "var(--ph-text)", fontFamily: "'Outfit', sans-serif" }}>
+        <div style={{ backgroundColor: CARD, borderRadius: isMobile ? "16px" : "20px", padding: isMobile ? "14px 12px" : "22px", border: `1px solid ${BORDER}`, display: "flex", flexDirection: "column", gap: "4px" }}>
+          <div style={{ fontSize: "10.5px", fontWeight: 800, color: "#10b981", letterSpacing: "0.5px" }}>TOTAL REVENUE</div>
+          <div style={{ fontSize: isMobile ? "16px" : "24px", fontWeight: 900, color: "var(--ph-text)", fontFamily: "'Outfit', sans-serif", wordBreak: "break-word" }}>
             {fmt(totalOmset)}
           </div>
-          <div style={{ fontSize: "11.5px", color: "var(--ph-text-muted)" }}>
-            From {filteredOrders.length} orders in {selectedBranch}
+          <div style={{ fontSize: "10.5px", color: "var(--ph-text-muted)" }}>
+            {filteredOrders.length} orders
           </div>
         </div>
 
         {/* 2. ESTIMASI HPP BAHAN */}
-        <div style={{ backgroundColor: CARD, borderRadius: "20px", padding: "22px", border: `1px solid ${BORDER}`, display: "flex", flexDirection: "column", gap: "6px" }}>
-          <div style={{ fontSize: "12px", fontWeight: 800, color: "#ef4444", letterSpacing: "0.5px" }}>ESTIMATED COGS (38%)</div>
-          <div style={{ fontSize: "24px", fontWeight: 900, color: "#ef4444", fontFamily: "'Outfit', sans-serif" }}>
+        <div style={{ backgroundColor: CARD, borderRadius: isMobile ? "16px" : "20px", padding: isMobile ? "14px 12px" : "22px", border: `1px solid ${BORDER}`, display: "flex", flexDirection: "column", gap: "4px" }}>
+          <div style={{ fontSize: "10.5px", fontWeight: 800, color: "#ef4444", letterSpacing: "0.5px" }}>EST. COGS (38%)</div>
+          <div style={{ fontSize: isMobile ? "16px" : "24px", fontWeight: 900, color: "#ef4444", fontFamily: "'Outfit', sans-serif", wordBreak: "break-word" }}>
             {fmt(totalHPP)}
           </div>
-          <div style={{ fontSize: "11.5px", color: "var(--ph-text-muted)" }}>
-            Cost of beverage goods sold
+          <div style={{ fontSize: "10.5px", color: "var(--ph-text-muted)" }}>
+            Cost of goods sold
           </div>
         </div>
 
         {/* 3. LABA KOTOR (GROSS PROFIT) */}
-        <div style={{ backgroundColor: CARD, borderRadius: "20px", padding: "22px", border: `1px solid ${BORDER}`, display: "flex", flexDirection: "column", gap: "6px" }}>
-          <div style={{ fontSize: "12px", fontWeight: 800, color: "#06b6d4", letterSpacing: "0.5px" }}>GROSS PROFIT (62%)</div>
-          <div style={{ fontSize: "24px", fontWeight: 900, color: "#06b6d4", fontFamily: "'Outfit', sans-serif" }}>
+        <div style={{ backgroundColor: CARD, borderRadius: isMobile ? "16px" : "20px", padding: isMobile ? "14px 12px" : "22px", border: `1px solid ${BORDER}`, display: "flex", flexDirection: "column", gap: "4px" }}>
+          <div style={{ fontSize: "10.5px", fontWeight: 800, color: "#06b6d4", letterSpacing: "0.5px" }}>GROSS PROFIT</div>
+          <div style={{ fontSize: isMobile ? "16px" : "24px", fontWeight: 900, color: "#06b6d4", fontFamily: "'Outfit', sans-serif", wordBreak: "break-word" }}>
             {fmt(grossProfit)}
           </div>
-          <div style={{ fontSize: "11.5px", color: "var(--ph-text-muted)" }}>
-            Gross profit margin 62%
+          <div style={{ fontSize: "10.5px", color: "var(--ph-text-muted)" }}>
+            Margin 62%
           </div>
         </div>
 
         {/* 4. TOTAL CUP MINUMAN */}
-        <div style={{ backgroundColor: CARD, borderRadius: "20px", padding: "22px", border: `1px solid ${BORDER}`, display: "flex", flexDirection: "column", gap: "6px" }}>
-          <div style={{ fontSize: "12px", fontWeight: 800, color: "#8b5cf6", letterSpacing: "0.5px" }}>TOTAL DRINK CUPS</div>
-          <div style={{ fontSize: "24px", fontWeight: 900, color: "#8b5cf6", fontFamily: "'Outfit', sans-serif" }}>
+        <div style={{ backgroundColor: CARD, borderRadius: isMobile ? "16px" : "20px", padding: isMobile ? "14px 12px" : "22px", border: `1px solid ${BORDER}`, display: "flex", flexDirection: "column", gap: "4px" }}>
+          <div style={{ fontSize: "10.5px", fontWeight: 800, color: "#8b5cf6", letterSpacing: "0.5px" }}>DRINK CUPS</div>
+          <div style={{ fontSize: isMobile ? "18px" : "24px", fontWeight: 900, color: "#8b5cf6", fontFamily: "'Outfit', sans-serif" }}>
             {totalCups} Cups
           </div>
-          <div style={{ fontSize: "11.5px", color: "var(--ph-text-muted)" }}>
-            From {products.length} active menu items
+          <div style={{ fontSize: "10.5px", color: "var(--ph-text-muted)" }}>
+            {products.length} menu items
           </div>
         </div>
 
@@ -372,7 +375,7 @@ export default function Reports() {
         </div>
 
         <div style={{ overflowX: "auto", maxHeight: "380px" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
+          <table style={{ width: "100%", minWidth: "760px", borderCollapse: "collapse", fontSize: "13px" }}>
             <thead>
               <tr style={{ borderBottom: `1px solid ${BORDER}`, textAlign: "left", color: "var(--ph-text-muted)" }}>
                 <th style={{ padding: "12px 10px" }}>Order Code</th>
@@ -445,9 +448,8 @@ export default function Reports() {
             <span style={{ fontSize: "12px", color: "var(--ph-text-muted)" }}>Live synced from MySQL product stock and sales records</span>
           </div>
         </div>
-
         <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
+          <table style={{ width: "100%", minWidth: "640px", borderCollapse: "collapse", fontSize: "13px" }}>
             <thead>
               <tr style={{ borderBottom: `1px solid ${BORDER}`, textAlign: "left", color: "var(--ph-text-muted)" }}>
                 <th style={{ padding: "12px 10px" }}>Beverage Product Name</th>
@@ -455,7 +457,7 @@ export default function Reports() {
                 <th style={{ padding: "12px 10px" }}>Total Sold</th>
                 <th style={{ padding: "12px 10px" }}>Remaining Stock</th>
                 <th style={{ padding: "12px 10px" }}>Total Sales Value</th>
-                <th style={{ padding: "12px 10px" }}>Stock Status</th>
+                <th style={{ padding: "12px 10px" }}>Status</th>
               </tr>
             </thead>
             <tbody>
@@ -464,20 +466,20 @@ export default function Reports() {
                   variant="table-row"
                   colSpan={6}
                   icon={Package}
-                  title="No inventory records found"
-                  description="No product stock monitoring data recorded yet."
+                  title="No inventory records"
+                  description="No inventory items found."
                 />
               ) : (
-                dynamicStockUsage.map((inv, idx) => (
+                dynamicStockUsage.map((row, idx) => (
                   <tr key={idx} style={{ borderBottom: `1px solid ${BORDER}` }}>
-                    <td style={{ padding: "12px 10px", fontWeight: 800, color: "var(--ph-text)" }}>{inv.item}</td>
-                    <td style={{ padding: "12px 10px", color: "var(--ph-text-muted)" }}>{inv.category}</td>
-                    <td style={{ padding: "12px 10px", color: "#10b981", fontWeight: 700 }}>{inv.used}</td>
-                    <td style={{ padding: "12px 10px", color: "var(--ph-text)" }}>{inv.remaining}</td>
-                    <td style={{ padding: "12px 10px", fontWeight: 800, color: "#38bdf8" }}>{inv.cost}</td>
+                    <td style={{ padding: "12px 10px", fontWeight: 700, color: "var(--ph-text)" }}>{row.item}</td>
+                    <td style={{ padding: "12px 10px", color: "var(--ph-text-muted)" }}>{row.category}</td>
+                    <td style={{ padding: "12px 10px", color: "#10b981", fontWeight: 700 }}>{row.used}</td>
+                    <td style={{ padding: "12px 10px", color: "var(--ph-text)" }}>{row.remaining}</td>
+                    <td style={{ padding: "12px 10px", fontWeight: 800, color: "var(--ph-text)" }}>{row.cost}</td>
                     <td style={{ padding: "12px 10px" }}>
-                      <span style={{ padding: "3px 10px", borderRadius: "100px", background: `${inv.statusColor}18`, color: inv.statusColor, fontSize: "11px", fontWeight: 700 }}>
-                        {inv.status}
+                      <span style={{ fontSize: "11px", fontWeight: 700, padding: "2px 8px", borderRadius: "6px", backgroundColor: `${row.statusColor}18`, color: row.statusColor }}>
+                        {row.status}
                       </span>
                     </td>
                   </tr>
@@ -488,17 +490,17 @@ export default function Reports() {
         </div>
       </div>
 
-      {/* Reports Archive */}
+      {/* Available Downloadable Reports List */}
       <div style={{ backgroundColor: CARD, borderRadius: "24px", padding: "24px", border: `1px solid ${BORDER}`, display: "flex", flexDirection: "column", gap: "16px" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "10px" }}>
           <div>
             <h2 style={{ margin: 0, fontSize: "17px", fontWeight: 800, color: "var(--ph-text)", fontFamily: "'Outfit', sans-serif" }}>
-              📁 Downloadable Report Archives
+              📁 Generated Analytics Documents ({filteredReports.length})
             </h2>
-            <span style={{ fontSize: "12px", color: "var(--ph-text-muted)" }}>Export MySQL summaries to CSV</span>
+            <span style={{ fontSize: "12px", color: "var(--ph-text-muted)" }}>Exportable CSVs for accounting, inventory, and branch audit</span>
           </div>
 
-          <div style={{ display: "flex", gap: "6px" }}>
+          <div style={{ display: "flex", gap: "6px", overflowX: "auto", maxWidth: "100%", paddingBottom: "2px" }}>
             {["All", "Financial", "Inventory", "Settlement", "Outlet"].map((cat) => (
               <button
                 key={cat}
@@ -506,12 +508,12 @@ export default function Reports() {
                 style={{
                   padding: "6px 12px", borderRadius: "100px", border: "none",
                   fontSize: "12px", fontWeight: categoryFilter === cat ? 700 : 500,
-                  cursor: "pointer",
+                  cursor: "pointer", whiteSpace: "nowrap",
                   background: categoryFilter === cat ? "linear-gradient(135deg, #10b981 0%, #06b6d4 100%)" : "rgba(255,255,255,0.05)",
                   color: categoryFilter === cat ? "#fff" : "var(--ph-text-muted)",
                 }}
               >
-                {cat === "All" ? "All Categories" : cat}
+                {cat}
               </button>
             ))}
           </div>
@@ -522,33 +524,32 @@ export default function Reports() {
             <EmptyState
               variant="compact"
               icon={FileText}
-              title="No report archives found"
-              description="No downloadable report archives in this category."
+              title="No reports in this category"
+              description="Click 'Generate New Report' above to create one."
             />
           ) : (
             filteredReports.map((r) => (
               <div
                 key={r.id}
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  padding: "14px 18px",
-                  borderRadius: "16px",
-                  background: "rgba(255,255,255,0.02)",
-                  border: `1px solid ${BORDER}`,
-                  flexWrap: "wrap",
-                  gap: "12px",
+                  display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "12px",
+                  padding: "14px 18px", borderRadius: "16px",
+                  backgroundColor: "rgba(255,255,255,0.03)", border: `1px solid ${BORDER}`,
+                  transition: "all 0.2s ease"
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-                  <div style={{ width: "42px", height: "42px", borderRadius: "12px", background: "rgba(16,185,129,0.15)", display: "flex", alignItems: "center", justifyContent: "center", color: "#34d399", fontWeight: 800, fontSize: "12px" }}>
-                    {r.format}
+                  <div style={{ width: "42px", height: "42px", borderRadius: "12px", background: "rgba(16,185,129,0.15)", display: "flex", alignItems: "center", justifyContent: "center", color: "#10b981", flexShrink: 0 }}>
+                    <FileSpreadsheet size={20} />
                   </div>
                   <div>
-                    <div style={{ fontWeight: 700, fontSize: "13.5px", color: "var(--ph-text)" }}>{r.title}</div>
-                    <div style={{ fontSize: "11.5px", color: "var(--ph-text-muted)", display: "flex", alignItems: "center", gap: "8px", marginTop: "2px" }}>
-                      <span>Period: {r.dateRange}</span>
+                    <div style={{ fontWeight: 800, fontSize: "13.5px", color: "var(--ph-text)" }}>{r.title}</div>
+                    <div style={{ fontSize: "11.5px", color: "var(--ph-text-muted)", display: "flex", gap: "8px", marginTop: "2px" }}>
+                      <span>Category: {r.category}</span>
+                      <span>•</span>
+                      <span>Format: {r.format}</span>
+                      <span>•</span>
+                      <span>Size: {r.size}</span>
                       <span>•</span>
                       <span>Created: {r.createdAt}</span>
                     </div>
@@ -582,9 +583,9 @@ export default function Reports() {
 
       {/* Modal Generate Report */}
       {modalOpen && (
-        <div style={{ position: "fixed", inset: 0, zIndex: 100, background: "rgba(0,0,0,0.65)", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }}>
-          <div style={{ width: "100%", maxWidth: "480px", borderRadius: "20px", backgroundColor: CARD, border: `1px solid ${BORDER}`, padding: "28px", color: "var(--ph-text)" }}>
-            <h2 style={{ fontSize: "18px", fontWeight: 800, margin: "0 0 16px 0" }}>
+        <div style={{ position: "fixed", inset: 0, zIndex: 100, background: "rgba(0,0,0,0.65)", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", justifyContent: "center", padding: isMobile ? "12px" : "20px" }}>
+          <div style={{ width: "100%", maxWidth: "480px", borderRadius: "20px", backgroundColor: CARD, border: `1px solid ${BORDER}`, padding: isMobile ? "20px 16px" : "28px", color: "var(--ph-text)", maxHeight: "90vh", overflowY: "auto" }}>
+            <h2 style={{ fontSize: "18px", fontWeight: 800, margin: "0 0 16px 0", fontFamily: "'Outfit', sans-serif" }}>
               Generate New Database Report
             </h2>
             <form onSubmit={handleGenerateReport} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
@@ -594,7 +595,7 @@ export default function Reports() {
                   type="text" required value={form.title}
                   onChange={(e) => setForm({ ...form, title: e.target.value })}
                   placeholder="e.g. Monthly Branch Sales Report August 2026"
-                  style={{ width: "100%", padding: "10px", borderRadius: "8px", background: "rgba(255,255,255,0.04)", border: `1px solid ${BORDER}`, color: "var(--ph-text)", outline: "none", boxSizing: "border-box" }}
+                  style={{ width: "100%", padding: "10px", borderRadius: "8px", background: "rgba(255,255,255,0.04)", border: `1px solid ${BORDER}`, color: "var(--ph-text)", outline: "none", boxSizing: "border-box", fontSize: "14px" }}
                 />
               </div>
 
@@ -603,7 +604,7 @@ export default function Reports() {
                 <select
                   value={form.category}
                   onChange={(e) => setForm({ ...form, category: e.target.value as any })}
-                  style={{ width: "100%", padding: "10px", borderRadius: "8px", backgroundColor: "var(--ph-bg)", border: `1px solid ${BORDER}`, color: "var(--ph-text)", outline: "none", boxSizing: "border-box" }}
+                  style={{ width: "100%", padding: "10px", borderRadius: "8px", backgroundColor: "var(--ph-bg)", border: `1px solid ${BORDER}`, color: "var(--ph-text)", outline: "none", boxSizing: "border-box", fontSize: "14px" }}
                 >
                   <option value="Financial">Financial (Revenue & Gross Profit)</option>
                   <option value="Inventory">Inventory (Stock & Ingredients)</option>

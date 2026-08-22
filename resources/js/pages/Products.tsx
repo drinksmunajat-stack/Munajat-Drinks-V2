@@ -241,12 +241,12 @@ export default function Products() {
       )}
 
       {/* Header Bar */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: isMobile ? 'flex-start' : 'center', flexWrap: 'wrap', gap: '14px' }}>
         <div>
-          <h1 style={{ fontSize: '26px', fontWeight: 800, margin: '0 0 6px 0', letterSpacing: '-0.5px', color: 'var(--ph-text)', fontFamily: "'Outfit', sans-serif" }}>
+          <h1 style={{ fontSize: isMobile ? '20px' : '26px', fontWeight: 800, margin: '0 0 4px 0', letterSpacing: '-0.5px', color: 'var(--ph-text)', fontFamily: "'Outfit', sans-serif" }}>
             Beverage Catalog & Products
           </h1>
-          <p style={{ fontSize: '13px', color: 'var(--ph-text-muted)', margin: 0 }}>
+          <p style={{ fontSize: isMobile ? '12px' : '13px', color: 'var(--ph-text-muted)', margin: 0 }}>
             Manage drink menus, retail pricing, stock levels, and availability status across all branches.
           </p>
         </div>
@@ -254,12 +254,13 @@ export default function Products() {
         <button
           onClick={handleOpenAdd}
           style={{
-            display: 'flex', alignItems: 'center', gap: '8px',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
             padding: '10px 18px', borderRadius: '12px',
             background: 'linear-gradient(135deg, #10b981 0%, #06b6d4 100%)',
             color: '#fff', border: 'none', fontWeight: 700, fontSize: '13px',
             cursor: 'pointer', boxShadow: '0 6px 18px rgba(16, 185, 129, 0.35)',
-            transition: 'transform 0.2s'
+            transition: 'transform 0.2s',
+            width: isMobile ? '100%' : 'auto'
           }}
         >
           <Plus size={16} />
@@ -268,52 +269,52 @@ export default function Products() {
       </div>
 
       {/* Stats Quick Overview */}
-      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(4, 1fr)', gap: '16px' }}>
-        <div style={{ padding: '18px', borderRadius: '16px', backgroundColor: CARD, border: `1px solid ${BORDER}`, display: 'flex', alignItems: 'center', gap: '14px' }}>
-          <div style={{ width: '42px', height: '42px', borderRadius: '12px', background: 'rgba(16,185,129,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#10b981' }}>
-            <Coffee size={22} />
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)', gap: isMobile ? '10px' : '16px' }}>
+        <div style={{ padding: isMobile ? '14px 12px' : '18px', borderRadius: '16px', backgroundColor: CARD, border: `1px solid ${BORDER}`, display: 'flex', alignItems: 'center', gap: isMobile ? '10px' : '14px' }}>
+          <div style={{ width: isMobile ? '34px' : '42px', height: isMobile ? '34px' : '42px', borderRadius: '12px', background: 'rgba(16,185,129,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#10b981', flexShrink: 0 }}>
+            <Coffee size={isMobile ? 18 : 22} />
           </div>
           <div>
-            <div style={{ fontSize: '11px', color: 'var(--ph-text-muted)', fontWeight: 600, textTransform: 'uppercase' }}>Total Products</div>
-            <div style={{ fontSize: '20px', fontWeight: 800, color: 'var(--ph-text)' }}>{products.length} Drinks</div>
+            <div style={{ fontSize: '10.5px', color: 'var(--ph-text-muted)', fontWeight: 600, textTransform: 'uppercase' }}>Total Products</div>
+            <div style={{ fontSize: isMobile ? '16px' : '20px', fontWeight: 800, color: 'var(--ph-text)' }}>{products.length} Drinks</div>
           </div>
         </div>
 
-        <div style={{ padding: '18px', borderRadius: '16px', backgroundColor: CARD, border: `1px solid ${BORDER}`, display: 'flex', alignItems: 'center', gap: '14px' }}>
-          <div style={{ width: '42px', height: '42px', borderRadius: '12px', background: 'rgba(6,182,212,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#06b6d4' }}>
-            <CheckCircle size={22} />
+        <div style={{ padding: isMobile ? '14px 12px' : '18px', borderRadius: '16px', backgroundColor: CARD, border: `1px solid ${BORDER}`, display: 'flex', alignItems: 'center', gap: isMobile ? '10px' : '14px' }}>
+          <div style={{ width: isMobile ? '34px' : '42px', height: isMobile ? '34px' : '42px', borderRadius: '12px', background: 'rgba(6,182,212,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#06b6d4', flexShrink: 0 }}>
+            <CheckCircle size={isMobile ? 18 : 22} />
           </div>
           <div>
-            <div style={{ fontSize: '11px', color: 'var(--ph-text-muted)', fontWeight: 600, textTransform: 'uppercase' }}>Active in POS & AI</div>
-            <div style={{ fontSize: '20px', fontWeight: 800, color: 'var(--ph-text)' }}>{products.filter(p => p.isAvailable).length} Drinks</div>
+            <div style={{ fontSize: '10.5px', color: 'var(--ph-text-muted)', fontWeight: 600, textTransform: 'uppercase' }}>Active in POS & AI</div>
+            <div style={{ fontSize: isMobile ? '16px' : '20px', fontWeight: 800, color: 'var(--ph-text)' }}>{products.filter(p => p.isAvailable).length} Drinks</div>
           </div>
         </div>
 
-        <div style={{ padding: '18px', borderRadius: '16px', backgroundColor: CARD, border: `1px solid ${BORDER}`, display: 'flex', alignItems: 'center', gap: '14px' }}>
-          <div style={{ width: '42px', height: '42px', borderRadius: '12px', background: 'rgba(249,115,22,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#f97316' }}>
-            <Package size={22} />
+        <div style={{ padding: isMobile ? '14px 12px' : '18px', borderRadius: '16px', backgroundColor: CARD, border: `1px solid ${BORDER}`, display: 'flex', alignItems: 'center', gap: isMobile ? '10px' : '14px' }}>
+          <div style={{ width: isMobile ? '34px' : '42px', height: isMobile ? '34px' : '42px', borderRadius: '12px', background: 'rgba(249,115,22,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#f97316', flexShrink: 0 }}>
+            <Package size={isMobile ? 18 : 22} />
           </div>
           <div>
-            <div style={{ fontSize: '11px', color: 'var(--ph-text-muted)', fontWeight: 600, textTransform: 'uppercase' }}>Total Stock Cups</div>
-            <div style={{ fontSize: '20px', fontWeight: 800, color: 'var(--ph-text)' }}>{products.reduce((acc, p) => acc + p.stock, 0)}</div>
+            <div style={{ fontSize: '10.5px', color: 'var(--ph-text-muted)', fontWeight: 600, textTransform: 'uppercase' }}>Total Stock</div>
+            <div style={{ fontSize: isMobile ? '16px' : '20px', fontWeight: 800, color: 'var(--ph-text)' }}>{products.reduce((acc, p) => acc + p.stock, 0)}</div>
           </div>
         </div>
 
-        <div style={{ padding: '18px', borderRadius: '16px', backgroundColor: CARD, border: `1px solid ${BORDER}`, display: 'flex', alignItems: 'center', gap: '14px' }}>
-          <div style={{ width: '42px', height: '42px', borderRadius: '12px', background: 'rgba(139,92,246,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#8b5cf6' }}>
-            <DollarSign size={22} />
+        <div style={{ padding: isMobile ? '14px 12px' : '18px', borderRadius: '16px', backgroundColor: CARD, border: `1px solid ${BORDER}`, display: 'flex', alignItems: 'center', gap: isMobile ? '10px' : '14px' }}>
+          <div style={{ width: isMobile ? '34px' : '42px', height: isMobile ? '34px' : '42px', borderRadius: '12px', background: 'rgba(139,92,246,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#8b5cf6', flexShrink: 0 }}>
+            <DollarSign size={isMobile ? 18 : 22} />
           </div>
           <div>
-            <div style={{ fontSize: '11px', color: 'var(--ph-text-muted)', fontWeight: 600, textTransform: 'uppercase' }}>Average Price</div>
-            <div style={{ fontSize: '20px', fontWeight: 800, color: 'var(--ph-text)' }}>{fmt(products.length > 0 ? Math.round(products.reduce((acc, p) => acc + p.price, 0) / products.length) : 0)}</div>
+            <div style={{ fontSize: '10.5px', color: 'var(--ph-text-muted)', fontWeight: 600, textTransform: 'uppercase' }}>Avg. Price</div>
+            <div style={{ fontSize: isMobile ? '16px' : '20px', fontWeight: 800, color: 'var(--ph-text)' }}>{fmt(products.length > 0 ? Math.round(products.reduce((acc, p) => acc + p.price, 0) / products.length) : 0)}</div>
           </div>
         </div>
       </div>
 
       {/* Filter & Search Bar */}
       <div style={{
-        padding: '16px', borderRadius: '16px', backgroundColor: CARD, border: `1px solid ${BORDER}`,
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px'
+        padding: '14px 16px', borderRadius: '16px', backgroundColor: CARD, border: `1px solid ${BORDER}`,
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px'
       }}>
         {/* Search */}
         <div style={{ position: 'relative', width: isMobile ? '100%' : '320px', display: 'flex', alignItems: 'center' }}>
@@ -332,17 +333,18 @@ export default function Products() {
         </div>
 
         {/* Category Pills */}
-        <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '2px' }}>
+        <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '2px', maxWidth: '100%' }}>
           {['All', 'Coffee', 'Non-Coffee', 'Frappe', 'Tea'].map(cat => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
               style={{
-                padding: '8px 16px', borderRadius: '100px', border: 'none',
+                padding: '8px 14px', borderRadius: '100px', border: 'none',
                 background: selectedCategory === cat ? 'linear-gradient(135deg, #10b981 0%, #06b6d4 100%)' : 'rgba(255,255,255,0.05)',
                 color: selectedCategory === cat ? '#fff' : 'var(--ph-text-muted)',
                 fontWeight: selectedCategory === cat ? 700 : 500, fontSize: '12px',
                 cursor: 'pointer', transition: 'all 0.2s',
+                whiteSpace: 'nowrap',
                 outline: selectedCategory === cat ? 'none' : `1px solid ${BORDER}`
               }}
             >
@@ -355,7 +357,7 @@ export default function Products() {
       {/* Products Table Card */}
       <div style={{ borderRadius: '16px', backgroundColor: CARD, border: `1px solid ${BORDER}`, overflow: 'hidden' }}>
         <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
+          <table style={{ width: '100%', minWidth: '680px', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
             <thead>
               <tr style={{ borderBottom: `1px solid ${BORDER}`, backgroundColor: 'rgba(255,255,255,0.02)', color: 'var(--ph-text-muted)', fontWeight: 600, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                 <th style={{ padding: '16px' }}>Beverage</th>
@@ -485,26 +487,26 @@ export default function Products() {
         <div style={{
           position: 'fixed', inset: 0, zIndex: 100,
           background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(8px)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px'
+          display: 'flex', alignItems: 'center', justifyContent: 'center', padding: isMobile ? '12px' : '20px'
         }}>
           <div style={{
             width: '100%', maxWidth: '520px', borderRadius: '20px',
             backgroundColor: 'var(--ph-card)', border: `1px solid ${BORDER}`,
-            padding: '28px', boxShadow: '0 25px 60px rgba(0,0,0,0.4)',
-            color: 'var(--ph-text)'
+            padding: isMobile ? '20px 16px' : '28px', boxShadow: '0 25px 60px rgba(0,0,0,0.4)',
+            color: 'var(--ph-text)', maxHeight: '90vh', overflowY: 'auto'
           }}>
             <h2 style={{ fontSize: '18px', fontWeight: 800, margin: '0 0 16px 0', fontFamily: "'Outfit', sans-serif" }}>
               {editingProduct ? 'Edit Beverage Product' : 'Add New Beverage Product'}
             </h2>
 
             <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '12px' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, marginBottom: '6px' }}>Product Code</label>
                   <input
                     type="text" required value={formData.code}
                     onChange={e => setFormData({ ...formData, code: e.target.value })}
-                    style={{ width: '100%', padding: '10px', borderRadius: '8px', background: 'rgba(255,255,255,0.04)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none' }}
+                    style={{ width: '100%', padding: '10px', borderRadius: '8px', background: 'rgba(255,255,255,0.04)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none', fontSize: '14px' }}
                   />
                 </div>
                 <div>
@@ -512,7 +514,7 @@ export default function Products() {
                   <select
                     value={formData.category}
                     onChange={e => setFormData({ ...formData, category: e.target.value as any })}
-                    style={{ width: '100%', padding: '10px', borderRadius: '8px', backgroundColor: 'var(--ph-bg)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none' }}
+                    style={{ width: '100%', padding: '10px', borderRadius: '8px', backgroundColor: 'var(--ph-bg)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none', fontSize: '14px' }}
                   >
                     <option value="Coffee" style={{ backgroundColor: '#0f172a', color: '#ffffff' }}>Coffee</option>
                     <option value="Non-Coffee" style={{ backgroundColor: '#0f172a', color: '#ffffff' }}>Non-Coffee</option>
@@ -527,17 +529,17 @@ export default function Products() {
                 <input
                   type="text" required value={formData.name} placeholder="e.g. Matcha Latte Signature"
                   onChange={e => setFormData({ ...formData, name: e.target.value })}
-                  style={{ width: '100%', padding: '10px', borderRadius: '8px', background: 'rgba(255,255,255,0.04)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none' }}
+                  style={{ width: '100%', padding: '10px', borderRadius: '8px', background: 'rgba(255,255,255,0.04)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none', fontSize: '14px' }}
                 />
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '12px' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, marginBottom: '6px' }}>Selling Price (Rp)</label>
                   <input
                     type="number" required value={formData.price}
                     onChange={e => setFormData({ ...formData, price: Number(e.target.value) })}
-                    style={{ width: '100%', padding: '10px', borderRadius: '8px', background: 'rgba(255,255,255,0.04)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none' }}
+                    style={{ width: '100%', padding: '10px', borderRadius: '8px', background: 'rgba(255,255,255,0.04)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none', fontSize: '14px' }}
                   />
                 </div>
                 <div>
@@ -545,7 +547,7 @@ export default function Products() {
                   <input
                     type="number" required value={formData.stock}
                     onChange={e => setFormData({ ...formData, stock: Number(e.target.value) })}
-                    style={{ width: '100%', padding: '10px', borderRadius: '8px', background: 'rgba(255,255,255,0.04)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none' }}
+                    style={{ width: '100%', padding: '10px', borderRadius: '8px', background: 'rgba(255,255,255,0.04)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none', fontSize: '14px' }}
                   />
                 </div>
               </div>
@@ -555,7 +557,7 @@ export default function Products() {
                 <textarea
                   rows={2} value={formData.description} placeholder="Notes, ingredients, flavor characteristics..."
                   onChange={e => setFormData({ ...formData, description: e.target.value })}
-                  style={{ width: '100%', padding: '10px', borderRadius: '8px', background: 'rgba(255,255,255,0.04)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none', resize: 'none' }}
+                  style={{ width: '100%', padding: '10px', borderRadius: '8px', background: 'rgba(255,255,255,0.04)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none', resize: 'none', fontSize: '14px' }}
                 />
               </div>
 

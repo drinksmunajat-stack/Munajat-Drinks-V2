@@ -5,10 +5,12 @@ import {
   CheckCircle2, AlertCircle, User, Phone, ShieldCheck, Sparkles,
   ArrowLeft, Check, Store
 } from 'lucide-react';
+import { useBreakpoint } from '../hooks/use-breakpoint';
 import { usersApi } from '../services/api';
 
 export default function Register() {
   const [, setLocation] = useLocation();
+  const { isMobile } = useBreakpoint();
 
   useEffect(() => {
     document.title = "Create Account | Munajat Drinks";
@@ -91,10 +93,12 @@ export default function Register() {
   return (
     <div style={{
       minHeight: '100vh',
-      width: '100vw',
+      width: '100%',
+      boxSizing: 'border-box',
       position: 'relative',
-      overflow: 'hidden',
+      overflowX: 'hidden',
       display: 'flex',
+      flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
       backgroundColor: '#ffffff',
@@ -105,7 +109,7 @@ export default function Register() {
       `,
       color: '#0f172a',
       fontFamily: "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif",
-      padding: '24px'
+      padding: isMobile ? '20px 14px' : '32px 24px'
     }}>
 
       {/* Decorative Blobs */}
@@ -123,9 +127,11 @@ export default function Register() {
 
       {/* Top Floating Navigation Back to Voice Cashier */}
       <div style={{
-        position: 'absolute',
-        top: '24px',
-        left: '28px',
+        width: '100%',
+        maxWidth: '520px',
+        marginBottom: '16px',
+        display: 'flex',
+        justifyContent: 'flex-start',
         zIndex: 20,
       }}>
         <Link href="/" style={{ textDecoration: 'none' }}>
@@ -133,7 +139,7 @@ export default function Register() {
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
-            padding: '9px 16px',
+            padding: '8px 16px',
             borderRadius: '100px',
             backgroundColor: '#ffffff',
             border: '1px solid #e2e8f0',
@@ -159,8 +165,8 @@ export default function Register() {
         border: '1px solid #e2e8f0',
         borderRadius: '28px',
         boxShadow: '0 25px 60px -15px rgba(15, 23, 42, 0.08)',
-        padding: '36px 32px',
-        margin: '20px 0'
+        padding: isMobile ? '28px 20px' : '36px 32px',
+        boxSizing: 'border-box'
       }}>
 
         {/* Brand Icon & Heading */}
@@ -269,7 +275,7 @@ export default function Register() {
           </div>
 
           {/* Email & Phone Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '12px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.2fr 1fr', gap: '12px' }}>
             <div>
               <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#334155', marginBottom: '6px' }}>
                 Email
@@ -305,7 +311,7 @@ export default function Register() {
           </div>
 
           {/* Role & Branch Selection */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '12px' }}>
             <div>
               <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#334155', marginBottom: '6px' }}>
                 Role / Title

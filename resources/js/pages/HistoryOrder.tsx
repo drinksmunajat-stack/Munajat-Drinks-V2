@@ -195,7 +195,7 @@ export default function HistoryOrder() {
       {/* Table */}
       <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: "16px", overflow: "hidden" }}>
         <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "13.5px" }}>
+          <table style={{ width: "100%", minWidth: "640px", borderCollapse: "collapse", textAlign: "left", fontSize: "13.5px" }}>
             <thead>
               <tr style={{ borderBottom: `1px solid ${BORDER}`, color: "var(--ph-text-muted)", fontSize: "12px", textTransform: "uppercase" }}>
                 <th style={{ padding: "14px 20px" }}>Order ID</th>

@@ -1006,7 +1006,8 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
   return (
     <div style={{
       minHeight: "100vh",
-      width: "100vw",
+      width: "100%",
+      boxSizing: "border-box",
       display: "flex",
       flexDirection: "column",
       backgroundColor: "#ffffff",
@@ -1017,7 +1018,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
       `,
       color: "#0f172a",
       fontFamily: "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif",
-      padding: isMobile ? "14px" : "20px 28px",
+      padding: isMobile ? "12px 10px" : "20px 28px",
       gap: "16px",
       overflowX: "hidden"
     }}>
@@ -1028,20 +1029,22 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: isMobile ? "12px 16px" : "14px 24px",
+          flexWrap: "wrap",
+          padding: isMobile ? "12px 14px" : "14px 24px",
           borderRadius: "20px",
           backgroundColor: "#ffffff",
           border: "1.5px solid #e2e8f0",
           boxShadow: "0 4px 20px rgba(15, 23, 42, 0.04)",
+          gap: "10px"
         }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: isMobile ? "10px" : "14px", minWidth: 0 }}>
             <img
               src="/Logo Munajat Mocha.png"
               alt="Munajat Drinks Logo"
               style={{
-                width: "48px",
-                height: "48px",
-                borderRadius: "14px",
+                width: isMobile ? "40px" : "48px",
+                height: isMobile ? "40px" : "48px",
+                borderRadius: "12px",
                 objectFit: "contain",
                 background: "rgba(255, 255, 255, 0.9)",
                 padding: "2px",
@@ -1051,26 +1054,26 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
               }}
             />
             <div>
-              <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
-                <span style={{ fontSize: "20px", fontWeight: 800, letterSpacing: "-0.6px", color: "#0f172a", fontFamily: "'Outfit', sans-serif" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap" }}>
+                <span style={{ fontSize: isMobile ? "17px" : "20px", fontWeight: 800, letterSpacing: "-0.6px", color: "#0f172a", fontFamily: "'Outfit', sans-serif" }}>
                   Munajat Drinks
                 </span>
                 <span style={{
-                  fontSize: "11.5px",
+                  fontSize: isMobile ? "10.5px" : "11.5px",
                   fontWeight: 800,
-                  padding: "3px 10px",
+                  padding: "2px 8px",
                   borderRadius: "100px",
                   backgroundColor: "rgba(16, 185, 129, 0.1)",
                   color: "#059669",
                   border: "1px solid rgba(16, 185, 129, 0.25)"
                 }}>
-                  🎙️ AI Voice-First Cashier
+                  🎙️ AI Voice Cashier
                 </span>
                 {customerName && (
                   <span style={{
-                    fontSize: "11.5px",
+                    fontSize: isMobile ? "10.5px" : "11.5px",
                     fontWeight: 700,
-                    padding: "3px 10px",
+                    padding: "2px 8px",
                     borderRadius: "100px",
                     backgroundColor: "rgba(6, 182, 212, 0.1)",
                     color: "#0284c7",
@@ -1081,9 +1084,9 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
                 )}
                 {selectedCabangName && (
                   <span style={{
-                    fontSize: "11.5px",
+                    fontSize: isMobile ? "10.5px" : "11.5px",
                     fontWeight: 700,
-                    padding: "3px 10px",
+                    padding: "2px 8px",
                     borderRadius: "100px",
                     backgroundColor: "rgba(245, 158, 11, 0.1)",
                     color: "#b45309",
@@ -1093,29 +1096,29 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
                   </span>
                 )}
               </div>
-              <span style={{ fontSize: "12.5px", fontWeight: 500, color: "#64748b" }}>
-                Fast, smart beverage ordering via interactive two-way voice conversation
+              <span style={{ fontSize: isMobile ? "11.5px" : "12.5px", fontWeight: 500, color: "#64748b" }}>
+                Two-way interactive voice ordering system
               </span>
             </div>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
             <Link href="/login" style={{ textDecoration: "none" }}>
               <div style={{
                 display: "flex",
                 alignItems: "center",
-                gap: "8px",
-                padding: "9px 18px",
+                gap: "6px",
+                padding: isMobile ? "7px 12px" : "9px 18px",
                 borderRadius: "12px",
                 background: "linear-gradient(135deg, #10b981 0%, #06b6d4 100%)",
                 color: "#ffffff",
-                fontSize: "13.5px",
+                fontSize: isMobile ? "12px" : "13.5px",
                 fontWeight: 700,
                 cursor: "pointer",
                 boxShadow: "0 6px 18px rgba(16, 185, 129, 0.28)",
                 transition: "all 0.2s ease"
               }}>
-                <ShieldCheck size={16} />
+                <ShieldCheck size={15} />
                 <span>Admin Portal</span>
               </div>
             </Link>
@@ -1124,7 +1127,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
       )}
 
       {/* ── Main Workspace: Two-Way Conversation Talk Interface ── */}
-      <div style={{ flex: 1, display: "flex", gap: "18px", minHeight: 0, flexDirection: isMobile ? "column" : "row" }}>
+      <div style={{ flex: 1, display: "flex", gap: "16px", minHeight: 0, flexDirection: isMobile ? "column" : "row" }}>
 
         {/* ══════ LEFT: MASCOT VISUAL VOICE INTERACTION PANEL ══════ */}
         <div style={{
@@ -1133,15 +1136,15 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "24px 20px",
-          borderRadius: "28px",
+          padding: isMobile ? "18px 14px" : "24px 20px",
+          borderRadius: "24px",
           backgroundColor: "#ffffff",
           border: "1.5px solid #e2e8f0",
           boxShadow: callState === "ai-speaking" || callState === "active" || callState === "user-speaking"
             ? "0 20px 50px -10px rgba(16, 185, 129, 0.2), 0 0 0 1px rgba(16, 185, 129, 0.2)"
             : "0 16px 40px -10px rgba(15, 23, 42, 0.06)",
           position: "relative",
-          gap: "16px",
+          gap: "14px",
           transition: "all 0.3s ease",
           background: callState === "ai-speaking"
             ? "radial-gradient(circle at 50% 30%, rgba(6, 182, 212, 0.08) 0%, #ffffff 70%)"
@@ -1922,7 +1925,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          padding: "20px"
+          padding: isMobile ? "12px 8px" : "20px"
         }}>
           <div style={{
             width: "100%",
@@ -1930,7 +1933,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
             borderRadius: "24px",
             backgroundColor: "#ffffff",
             border: "1.5px solid #e2e8f0",
-            padding: "26px",
+            padding: isMobile ? "18px 14px" : "26px",
             textAlign: "center",
             boxShadow: "0 25px 60px rgba(0,0,0,0.3)",
             maxHeight: "92vh",

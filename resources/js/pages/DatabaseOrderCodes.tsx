@@ -291,16 +291,16 @@ export default function DatabaseOrderCodes() {
       )}
 
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: isMobile ? 'flex-start' : 'center', flexWrap: 'wrap', gap: '14px' }}>
         <div>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: 700, color: '#f59e0b', background: 'rgba(245,158,11,0.12)', padding: '3px 10px', borderRadius: '100px', marginBottom: '8px' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '11.5px', fontWeight: 700, color: '#f59e0b', background: 'rgba(245,158,11,0.12)', padding: '3px 10px', borderRadius: '100px', marginBottom: '6px' }}>
             <QrCode size={13} />
             DATABASE / ORDER CODE ENGINE
           </div>
-          <h1 style={{ fontSize: '26px', fontWeight: 800, margin: '0 0 6px 0', letterSpacing: '-0.5px', color: 'var(--ph-text)', fontFamily: "'Outfit', sans-serif" }}>
+          <h1 style={{ fontSize: isMobile ? '20px' : '26px', fontWeight: 800, margin: '0 0 4px 0', letterSpacing: '-0.5px', color: 'var(--ph-text)', fontFamily: "'Outfit', sans-serif" }}>
             Order Codes & Cashier Transactions
           </h1>
-          <p style={{ fontSize: '13.5px', color: 'var(--ph-text-muted)', margin: 0 }}>
+          <p style={{ fontSize: isMobile ? '12px' : '13.5px', color: 'var(--ph-text-muted)', margin: 0 }}>
             Automated Order ID tracking, barista brewing queues, QRIS settlement, and receipt generation.
           </p>
         </div>
@@ -308,11 +308,12 @@ export default function DatabaseOrderCodes() {
         <button
           onClick={handleOpenCreate}
           style={{
-            display: 'flex', alignItems: 'center', gap: '8px',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
             padding: '10px 18px', borderRadius: '12px',
             background: 'linear-gradient(135deg, #10b981 0%, #06b6d4 100%)',
             color: '#fff', border: 'none', fontWeight: 700, fontSize: '13px',
-            cursor: 'pointer', boxShadow: '0 6px 18px rgba(16, 185, 129, 0.35)'
+            cursor: 'pointer', boxShadow: '0 6px 18px rgba(16, 185, 129, 0.35)',
+            width: isMobile ? '100%' : 'auto'
           }}
         >
           <Plus size={16} />
@@ -321,33 +322,33 @@ export default function DatabaseOrderCodes() {
       </div>
 
       {/* Stats Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(4, 1fr)', gap: '16px' }}>
-        <div style={{ padding: '18px', borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}` }}>
-          <div style={{ fontSize: '11.5px', color: 'var(--ph-text-muted)', fontWeight: 600 }}>Total Order Codes</div>
-          <div style={{ fontSize: '24px', fontWeight: 800, color: 'var(--ph-text)', fontFamily: "'Outfit', sans-serif", margin: '4px 0' }}>{orders.length} Orders</div>
-          <div style={{ fontSize: '11px', color: '#10b981', fontWeight: 600 }}>100% saved in cloud DB</div>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)', gap: isMobile ? '10px' : '16px' }}>
+        <div style={{ padding: isMobile ? '14px 12px' : '18px', borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}` }}>
+          <div style={{ fontSize: '10.5px', color: 'var(--ph-text-muted)', fontWeight: 600 }}>Total Orders</div>
+          <div style={{ fontSize: isMobile ? '18px' : '24px', fontWeight: 800, color: 'var(--ph-text)', fontFamily: "'Outfit', sans-serif", margin: '4px 0' }}>{orders.length} Orders</div>
+          <div style={{ fontSize: '10.5px', color: '#10b981', fontWeight: 600 }}>Cloud database synced</div>
         </div>
-        <div style={{ padding: '18px', borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}` }}>
-          <div style={{ fontSize: '11.5px', color: 'var(--ph-text-muted)', fontWeight: 600 }}>Currently Brewing</div>
-          <div style={{ fontSize: '24px', fontWeight: 800, color: '#f97316', fontFamily: "'Outfit', sans-serif", margin: '4px 0' }}>{orders.filter(o => o.orderStatus === 'preparing').length} Orders</div>
-          <div style={{ fontSize: '11px', color: 'var(--ph-text-dim)' }}>Avg 3 mins per cup</div>
+        <div style={{ padding: isMobile ? '14px 12px' : '18px', borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}` }}>
+          <div style={{ fontSize: '10.5px', color: 'var(--ph-text-muted)', fontWeight: 600 }}>Brewing Now</div>
+          <div style={{ fontSize: isMobile ? '18px' : '24px', fontWeight: 800, color: '#f97316', fontFamily: "'Outfit', sans-serif", margin: '4px 0' }}>{orders.filter(o => o.orderStatus === 'preparing').length} Orders</div>
+          <div style={{ fontSize: '10.5px', color: 'var(--ph-text-dim)' }}>Avg 3 mins per cup</div>
         </div>
-        <div style={{ padding: '18px', borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}` }}>
-          <div style={{ fontSize: '11.5px', color: 'var(--ph-text-muted)', fontWeight: 600 }}>Ready for Pickup</div>
-          <div style={{ fontSize: '24px', fontWeight: 800, color: '#06b6d4', fontFamily: "'Outfit', sans-serif", margin: '4px 0' }}>{orders.filter(o => o.orderStatus === 'ready').length} Orders</div>
-          <div style={{ fontSize: '11px', color: 'var(--ph-text-dim)' }}>Awaiting customer</div>
+        <div style={{ padding: isMobile ? '14px 12px' : '18px', borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}` }}>
+          <div style={{ fontSize: '10.5px', color: 'var(--ph-text-muted)', fontWeight: 600 }}>Ready for Pickup</div>
+          <div style={{ fontSize: isMobile ? '18px' : '24px', fontWeight: 800, color: '#06b6d4', fontFamily: "'Outfit', sans-serif", margin: '4px 0' }}>{orders.filter(o => o.orderStatus === 'ready').length} Orders</div>
+          <div style={{ fontSize: '10.5px', color: 'var(--ph-text-dim)' }}>Awaiting pickup</div>
         </div>
-        <div style={{ padding: '18px', borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}` }}>
-          <div style={{ fontSize: '11.5px', color: 'var(--ph-text-muted)', fontWeight: 600 }}>Total Network Omset</div>
-          <div style={{ fontSize: '24px', fontWeight: 800, color: '#10b981', fontFamily: "'Outfit', sans-serif", margin: '4px 0' }}>{fmt(orders.reduce((acc, o) => acc + o.totalAmount, 0))}</div>
-          <div style={{ fontSize: '11px', color: '#34d399', fontWeight: 600 }}>QRIS & Cash Settled</div>
+        <div style={{ padding: isMobile ? '14px 12px' : '18px', borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}` }}>
+          <div style={{ fontSize: '10.5px', color: 'var(--ph-text-muted)', fontWeight: 600 }}>Network Omset</div>
+          <div style={{ fontSize: isMobile ? '16px' : '24px', fontWeight: 800, color: '#10b981', fontFamily: "'Outfit', sans-serif", margin: '4px 0', wordBreak: 'break-word' }}>{fmt(orders.reduce((acc, o) => acc + o.totalAmount, 0))}</div>
+          <div style={{ fontSize: '10.5px', color: '#34d399', fontWeight: 600 }}>Settled</div>
         </div>
       </div>
 
       {/* Filter & Search Bar */}
       <div style={{
-        padding: '16px', borderRadius: '16px', backgroundColor: CARD, border: `1px solid ${BORDER}`,
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px'
+        padding: '14px 16px', borderRadius: '16px', backgroundColor: CARD, border: `1px solid ${BORDER}`,
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px'
       }}>
         <div style={{ position: 'relative', width: isMobile ? '100%' : '340px', display: 'flex', alignItems: 'center' }}>
           <Search size={16} style={{ position: 'absolute', left: '14px', color: 'var(--ph-text-muted)' }} />
@@ -360,7 +361,7 @@ export default function DatabaseOrderCodes() {
           />
         </div>
 
-        <div style={{ display: 'flex', gap: '6px', overflowX: 'auto' }}>
+        <div style={{ display: 'flex', gap: '6px', overflowX: 'auto', maxWidth: '100%', paddingBottom: '2px' }}>
           {[
             { id: 'All', label: 'All Status' },
             { id: 'in_queue', label: 'In Queue' },
@@ -375,7 +376,8 @@ export default function DatabaseOrderCodes() {
                 padding: '6px 12px', borderRadius: '100px', border: 'none',
                 background: statusFilter === s.id ? 'linear-gradient(135deg, #10b981 0%, #06b6d4 100%)' : 'rgba(255,255,255,0.05)',
                 color: statusFilter === s.id ? '#fff' : 'var(--ph-text-muted)',
-                fontWeight: statusFilter === s.id ? 700 : 500, fontSize: '12px', cursor: 'pointer'
+                fontWeight: statusFilter === s.id ? 700 : 500, fontSize: '12px', cursor: 'pointer',
+                whiteSpace: 'nowrap'
               }}
             >
               {s.label}
@@ -387,7 +389,7 @@ export default function DatabaseOrderCodes() {
       {/* Orders Table */}
       <div style={{ borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}`, overflow: 'hidden' }}>
         <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
+          <table style={{ width: '100%', minWidth: '760px', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
             <thead>
               <tr style={{ borderBottom: `1px solid ${BORDER}`, backgroundColor: 'rgba(255,255,255,0.02)', color: 'var(--ph-text-muted)', fontWeight: 600, fontSize: '11px', textTransform: 'uppercase' }}>
                 <th style={{ padding: '16px' }}>Order Code</th>
@@ -530,8 +532,8 @@ export default function DatabaseOrderCodes() {
 
       {/* Form Modal */}
       {formModalOpen && (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 100, backgroundColor: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-          <div style={{ width: '100%', maxWidth: '500px', borderRadius: '24px', backgroundColor: CARD, border: `1px solid ${BORDER}`, padding: '28px', color: 'var(--ph-text)' }}>
+        <div style={{ position: 'fixed', inset: 0, zIndex: 100, backgroundColor: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: isMobile ? '12px' : '20px' }}>
+          <div style={{ width: '100%', maxWidth: '500px', borderRadius: '24px', backgroundColor: CARD, border: `1px solid ${BORDER}`, padding: isMobile ? '20px 16px' : '28px', color: 'var(--ph-text)', maxHeight: '90vh', overflowY: 'auto' }}>
             <h2 style={{ fontSize: '18px', fontWeight: 800, margin: '0 0 16px 0', fontFamily: "'Outfit', sans-serif" }}>
               {targetOrder ? 'Edit Order Data' : 'Generate New Order'}
             </h2>
@@ -541,7 +543,7 @@ export default function DatabaseOrderCodes() {
                 <input
                   type="text" required value={formData.customerName} placeholder="e.g. John Doe"
                   onChange={e => setFormData({ ...formData, customerName: e.target.value })}
-                  style={{ width: '100%', padding: '10px', borderRadius: '10px', backgroundColor: 'var(--ph-bg)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none' }}
+                  style={{ width: '100%', padding: '10px', borderRadius: '10px', backgroundColor: 'var(--ph-bg)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none', fontSize: '14px' }}
                 />
               </div>
 
@@ -550,7 +552,7 @@ export default function DatabaseOrderCodes() {
                 <select
                   value={formData.cabangId}
                   onChange={e => setFormData({ ...formData, cabangId: Number(e.target.value) })}
-                  style={{ width: '100%', padding: '10px', borderRadius: '10px', backgroundColor: 'var(--ph-bg)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none' }}
+                  style={{ width: '100%', padding: '10px', borderRadius: '10px', backgroundColor: 'var(--ph-bg)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none', fontSize: '14px' }}
                 >
                   {cabangsList.map(c => (
                     <option key={c.id} value={c.id}>{c.name}</option>
@@ -558,13 +560,13 @@ export default function DatabaseOrderCodes() {
                 </select>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '12px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '2fr 1fr', gap: '12px' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, marginBottom: '6px' }}>Beverage Name</label>
                   <input
                     type="text" required value={formData.drinkName}
                     onChange={e => setFormData({ ...formData, drinkName: e.target.value })}
-                    style={{ width: '100%', padding: '10px', borderRadius: '10px', backgroundColor: 'var(--ph-bg)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none' }}
+                    style={{ width: '100%', padding: '10px', borderRadius: '10px', backgroundColor: 'var(--ph-bg)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none', fontSize: '14px' }}
                   />
                 </div>
                 <div>
@@ -572,7 +574,7 @@ export default function DatabaseOrderCodes() {
                   <input
                     type="number" min={1} required value={formData.qty}
                     onChange={e => setFormData({ ...formData, qty: Number(e.target.value) })}
-                    style={{ width: '100%', padding: '10px', borderRadius: '10px', backgroundColor: 'var(--ph-bg)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none' }}
+                    style={{ width: '100%', padding: '10px', borderRadius: '10px', backgroundColor: 'var(--ph-bg)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none', fontSize: '14px' }}
                   />
                 </div>
               </div>
@@ -598,8 +600,8 @@ export default function DatabaseOrderCodes() {
 
       {/* Receipt Modal */}
       {receiptModalOpen && targetOrder && (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 110, backgroundColor: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-          <div style={{ width: '100%', maxWidth: '380px', borderRadius: '24px', backgroundColor: CARD, border: `1px solid ${BORDER}`, padding: '28px', color: 'var(--ph-text)', textAlign: 'center' }}>
+        <div style={{ position: 'fixed', inset: 0, zIndex: 110, backgroundColor: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: isMobile ? '12px' : '20px' }}>
+          <div style={{ width: '100%', maxWidth: '380px', borderRadius: '24px', backgroundColor: CARD, border: `1px solid ${BORDER}`, padding: isMobile ? '20px 16px' : '28px', color: 'var(--ph-text)', textAlign: 'center', maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ width: '56px', height: '56px', borderRadius: '50%', backgroundColor: 'rgba(16,185,129,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px auto', color: '#10b981' }}>
               <Printer size={28} />
             </div>

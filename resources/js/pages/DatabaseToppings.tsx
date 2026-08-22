@@ -255,16 +255,16 @@ export default function DatabaseToppings() {
       )}
 
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: isMobile ? 'flex-start' : 'center', flexWrap: 'wrap', gap: '14px' }}>
         <div>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: 700, color: '#10b981', background: 'rgba(16,185,129,0.12)', padding: '3px 10px', borderRadius: '100px', marginBottom: '8px' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '11.5px', fontWeight: 700, color: '#10b981', background: 'rgba(16,185,129,0.12)', padding: '3px 10px', borderRadius: '100px', marginBottom: '6px' }}>
             <Layers size={13} />
             DATABASE / TOPPINGS & ADD-ONS
           </div>
-          <h1 style={{ fontSize: '26px', fontWeight: 800, margin: '0 0 6px 0', letterSpacing: '-0.5px', color: 'var(--ph-text)', fontFamily: "'Outfit', sans-serif" }}>
+          <h1 style={{ fontSize: isMobile ? '20px' : '26px', fontWeight: 800, margin: '0 0 4px 0', letterSpacing: '-0.5px', color: 'var(--ph-text)', fontFamily: "'Outfit', sans-serif" }}>
             Toppings & Custom Add-ons Database
           </h1>
-          <p style={{ fontSize: '13.5px', color: 'var(--ph-text-muted)', margin: 0 }}>
+          <p style={{ fontSize: isMobile ? '12px' : '13.5px', color: 'var(--ph-text-muted)', margin: 0 }}>
             Manage add-on toppings, prices, estimated ingredient COGS, stock portion adjustments, and profit margins.
           </p>
         </div>
@@ -272,11 +272,12 @@ export default function DatabaseToppings() {
         <button
           onClick={handleOpenCreate}
           style={{
-            display: 'flex', alignItems: 'center', gap: '8px',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
             padding: '10px 18px', borderRadius: '12px',
             background: 'linear-gradient(135deg, #10b981 0%, #06b6d4 100%)',
             color: '#fff', border: 'none', fontWeight: 700, fontSize: '13px',
-            cursor: 'pointer', boxShadow: '0 6px 18px rgba(16, 185, 129, 0.35)'
+            cursor: 'pointer', boxShadow: '0 6px 18px rgba(16, 185, 129, 0.35)',
+            width: isMobile ? '100%' : 'auto'
           }}
         >
           <Plus size={16} />
@@ -285,31 +286,31 @@ export default function DatabaseToppings() {
       </div>
 
       {/* Stats Overview */}
-      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(4, 1fr)', gap: '16px' }}>
-        <div style={{ padding: '18px', borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}` }}>
-          <div style={{ fontSize: '11.5px', color: 'var(--ph-text-muted)', fontWeight: 600 }}>Total Topping Variants</div>
-          <div style={{ fontSize: '24px', fontWeight: 800, color: 'var(--ph-text)', fontFamily: "'Outfit', sans-serif", margin: '4px 0' }}>{toppings.length} Types</div>
-          <div style={{ fontSize: '11px', color: '#10b981', fontWeight: 600 }}>{toppings.filter(t => t.isAvailable).length} active in POS & AI</div>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)', gap: isMobile ? '10px' : '16px' }}>
+        <div style={{ padding: isMobile ? '14px 12px' : '18px', borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}` }}>
+          <div style={{ fontSize: '10.5px', color: 'var(--ph-text-muted)', fontWeight: 600 }}>Total Toppings</div>
+          <div style={{ fontSize: isMobile ? '18px' : '24px', fontWeight: 800, color: 'var(--ph-text)', fontFamily: "'Outfit', sans-serif", margin: '4px 0' }}>{toppings.length} Types</div>
+          <div style={{ fontSize: '10.5px', color: '#10b981', fontWeight: 600 }}>{toppings.filter(t => t.isAvailable).length} active</div>
         </div>
-        <div style={{ padding: '18px', borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}` }}>
-          <div style={{ fontSize: '11.5px', color: 'var(--ph-text-muted)', fontWeight: 600 }}>Total Portions in Stock</div>
-          <div style={{ fontSize: '24px', fontWeight: 800, color: '#06b6d4', fontFamily: "'Outfit', sans-serif", margin: '4px 0' }}>{toppings.reduce((acc, t) => acc + t.stock, 0)} Portions</div>
-          <div style={{ fontSize: '11px', color: 'var(--ph-text-dim)' }}>Across all outlets</div>
+        <div style={{ padding: isMobile ? '14px 12px' : '18px', borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}` }}>
+          <div style={{ fontSize: '10.5px', color: 'var(--ph-text-muted)', fontWeight: 600 }}>Total Portions</div>
+          <div style={{ fontSize: isMobile ? '18px' : '24px', fontWeight: 800, color: '#06b6d4', fontFamily: "'Outfit', sans-serif", margin: '4px 0' }}>{toppings.reduce((acc, t) => acc + t.stock, 0)}</div>
+          <div style={{ fontSize: '10.5px', color: 'var(--ph-text-dim)' }}>Across all outlets</div>
         </div>
-        <div style={{ padding: '18px', borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}` }}>
-          <div style={{ fontSize: '11.5px', color: 'var(--ph-text-muted)', fontWeight: 600 }}>Average Profit Margin</div>
-          <div style={{ fontSize: '24px', fontWeight: 800, color: '#10b981', fontFamily: "'Outfit', sans-serif", margin: '4px 0' }}>62.4%</div>
-          <div style={{ fontSize: '11px', color: '#34d399', fontWeight: 600 }}>High margin add-ons</div>
+        <div style={{ padding: isMobile ? '14px 12px' : '18px', borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}` }}>
+          <div style={{ fontSize: '10.5px', color: 'var(--ph-text-muted)', fontWeight: 600 }}>Avg Profit Margin</div>
+          <div style={{ fontSize: isMobile ? '18px' : '24px', fontWeight: 800, color: '#10b981', fontFamily: "'Outfit', sans-serif", margin: '4px 0' }}>62.4%</div>
+          <div style={{ fontSize: '10.5px', color: '#34d399', fontWeight: 600 }}>High margin</div>
         </div>
-        <div style={{ padding: '18px', borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}` }}>
-          <div style={{ fontSize: '11.5px', color: 'var(--ph-text-muted)', fontWeight: 600 }}>Low Stock Alerts</div>
-          <div style={{ fontSize: '24px', fontWeight: 800, color: '#f59e0b', fontFamily: "'Outfit', sans-serif", margin: '4px 0' }}>{toppings.filter(t => t.stock < 30).length} Items</div>
-          <div style={{ fontSize: '11px', color: '#f59e0b', fontWeight: 600 }}>Needs restock soon</div>
+        <div style={{ padding: isMobile ? '14px 12px' : '18px', borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}` }}>
+          <div style={{ fontSize: '10.5px', color: 'var(--ph-text-muted)', fontWeight: 600 }}>Low Stock Alerts</div>
+          <div style={{ fontSize: isMobile ? '18px' : '24px', fontWeight: 800, color: '#f59e0b', fontFamily: "'Outfit', sans-serif", margin: '4px 0' }}>{toppings.filter(t => t.stock < 30).length} Items</div>
+          <div style={{ fontSize: '10.5px', color: '#f59e0b', fontWeight: 600 }}>Needs restock</div>
         </div>
       </div>
 
       {/* Filter & Search Bar */}
-      <div style={{ padding: '16px', borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px' }}>
+      <div style={{ padding: '14px 16px', borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
         <div style={{ position: 'relative', width: isMobile ? '100%' : '340px', display: 'flex', alignItems: 'center' }}>
           <Search size={16} style={{ position: 'absolute', left: '14px', color: 'var(--ph-text-muted)' }} />
           <input
@@ -321,7 +322,7 @@ export default function DatabaseToppings() {
           />
         </div>
 
-        <div style={{ display: 'flex', gap: '6px', overflowX: 'auto' }}>
+        <div style={{ display: 'flex', gap: '6px', overflowX: 'auto', maxWidth: '100%', paddingBottom: '2px' }}>
           {['All', 'Boba', 'Foam', 'Pudding', 'Jelly', 'Crunch', 'Coffee'].map(cat => (
             <button
               key={cat}
@@ -329,7 +330,7 @@ export default function DatabaseToppings() {
               style={{
                 padding: '6px 12px', borderRadius: '100px', border: 'none',
                 fontSize: '12px', fontWeight: categoryFilter === cat ? 700 : 500,
-                cursor: 'pointer',
+                cursor: 'pointer', whiteSpace: 'nowrap',
                 background: categoryFilter === cat ? 'linear-gradient(135deg, #10b981 0%, #06b6d4 100%)' : 'rgba(255,255,255,0.05)',
                 color: categoryFilter === cat ? '#fff' : 'var(--ph-text-muted)',
               }}
@@ -343,7 +344,7 @@ export default function DatabaseToppings() {
       {/* Toppings Table */}
       <div style={{ borderRadius: '18px', backgroundColor: CARD, border: `1px solid ${BORDER}`, overflow: 'hidden' }}>
         <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
+          <table style={{ width: '100%', minWidth: '680px', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
             <thead>
               <tr style={{ borderBottom: `1px solid ${BORDER}`, backgroundColor: 'rgba(255,255,255,0.02)', color: 'var(--ph-text-muted)', fontWeight: 600, fontSize: '11px', textTransform: 'uppercase' }}>
                 <th style={{ padding: '16px' }}>Topping</th>
@@ -483,8 +484,8 @@ export default function DatabaseToppings() {
 
       {/* Form Modal */}
       {formModalOpen && (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 100, backgroundColor: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-          <div style={{ width: '100%', maxWidth: '480px', borderRadius: '24px', backgroundColor: CARD, border: `1px solid ${BORDER}`, padding: '28px', color: 'var(--ph-text)' }}>
+        <div style={{ position: 'fixed', inset: 0, zIndex: 100, backgroundColor: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: isMobile ? '12px' : '20px' }}>
+          <div style={{ width: '100%', maxWidth: '480px', borderRadius: '24px', backgroundColor: CARD, border: `1px solid ${BORDER}`, padding: isMobile ? '20px 16px' : '28px', color: 'var(--ph-text)', maxHeight: '90vh', overflowY: 'auto' }}>
             <h2 style={{ fontSize: '18px', fontWeight: 800, margin: '0 0 16px 0', fontFamily: "'Outfit', sans-serif" }}>
               {targetTopping ? 'Edit Topping' : 'Add New Topping'}
             </h2>
@@ -494,17 +495,17 @@ export default function DatabaseToppings() {
                 <input
                   type="text" required value={formData.name} placeholder="e.g. Golden Boba Pearl"
                   onChange={e => setFormData({ ...formData, name: e.target.value })}
-                  style={{ width: '100%', padding: '10px', borderRadius: '10px', backgroundColor: 'var(--ph-bg)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none' }}
+                  style={{ width: '100%', padding: '10px', borderRadius: '10px', backgroundColor: 'var(--ph-bg)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none', fontSize: '14px' }}
                 />
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '12px' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, marginBottom: '6px' }}>Category</label>
                   <select
                     value={formData.category}
                     onChange={e => setFormData({ ...formData, category: e.target.value })}
-                    style={{ width: '100%', padding: '10px', borderRadius: '10px', backgroundColor: 'var(--ph-bg)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none' }}
+                    style={{ width: '100%', padding: '10px', borderRadius: '10px', backgroundColor: 'var(--ph-bg)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none', fontSize: '14px' }}
                   >
                     {['Boba', 'Foam', 'Pudding', 'Jelly', 'Crunch', 'Coffee'].map(c => (
                       <option key={c} value={c}>{c}</option>
@@ -516,18 +517,18 @@ export default function DatabaseToppings() {
                   <input
                     type="number" required value={formData.price}
                     onChange={e => setFormData({ ...formData, price: Number(e.target.value) })}
-                    style={{ width: '100%', padding: '10px', borderRadius: '10px', backgroundColor: 'var(--ph-bg)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none' }}
+                    style={{ width: '100%', padding: '10px', borderRadius: '10px', backgroundColor: 'var(--ph-bg)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none', fontSize: '14px' }}
                   />
                 </div>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '12px' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, marginBottom: '6px' }}>Cost Price / COGS (Rp)</label>
                   <input
                     type="number" value={formData.costPrice}
                     onChange={e => setFormData({ ...formData, costPrice: Number(e.target.value) })}
-                    style={{ width: '100%', padding: '10px', borderRadius: '10px', backgroundColor: 'var(--ph-bg)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none' }}
+                    style={{ width: '100%', padding: '10px', borderRadius: '10px', backgroundColor: 'var(--ph-bg)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none', fontSize: '14px' }}
                   />
                 </div>
                 <div>
@@ -535,7 +536,7 @@ export default function DatabaseToppings() {
                   <input
                     type="number" required value={formData.stock}
                     onChange={e => setFormData({ ...formData, stock: Number(e.target.value) })}
-                    style={{ width: '100%', padding: '10px', borderRadius: '10px', backgroundColor: 'var(--ph-bg)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none' }}
+                    style={{ width: '100%', padding: '10px', borderRadius: '10px', backgroundColor: 'var(--ph-bg)', border: `1px solid ${BORDER}`, color: 'var(--ph-text)', outline: 'none', fontSize: '14px' }}
                   />
                 </div>
               </div>

@@ -254,7 +254,7 @@ export default function SearchModal({ open, onClose }: Props) {
           display: "flex",
           alignItems: "flex-start",
           justifyContent: "center",
-          padding: "10vh 16px 20px 16px",
+          padding: "5vh 12px 20px 12px",
           animation: backdropAnim,
         }}
       >
@@ -265,7 +265,7 @@ export default function SearchModal({ open, onClose }: Props) {
             width: "100%",
             maxWidth: "680px",
             background: shellBg,
-            borderRadius: "24px",
+            borderRadius: "22px",
             border: `1.5px solid ${borderColor}`,
             boxShadow: dark
               ? "0 30px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(16, 185, 129, 0.15)"
@@ -281,8 +281,8 @@ export default function SearchModal({ open, onClose }: Props) {
           <div style={{
             display: "flex",
             alignItems: "center",
-            gap: "14px",
-            padding: "18px 22px",
+            gap: "12px",
+            padding: "14px 18px",
             borderBottom: `1px solid ${borderColor}`,
             background: inputBg,
           }}>

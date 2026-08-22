@@ -176,7 +176,7 @@ export default function ProfileModal({ open, onClose, onSignOut, anchorRef }: Pr
           WebkitBackdropFilter: transparency ? "blur(4px)" : "none",
           animation: overlayAnim,
           display: "flex", alignItems: "flex-start", justifyContent: "flex-end",
-          padding: "76px 20px 0 0",
+          padding: "68px 14px 0 0",
         }}
       >
         {/* Card */}
@@ -184,6 +184,7 @@ export default function ProfileModal({ open, onClose, onSignOut, anchorRef }: Pr
           onClick={e => e.stopPropagation()}
           style={{
             width: "310px",
+            maxWidth: "calc(100vw - 28px)",
             background: cardBg,
             backdropFilter: transparency ? "blur(48px) saturate(1.8)" : "none",
             WebkitBackdropFilter: transparency ? "blur(48px) saturate(1.8)" : "none",

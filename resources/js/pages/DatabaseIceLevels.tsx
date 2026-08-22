@@ -202,16 +202,16 @@ export default function DatabaseIceLevels() {
       )}
 
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: isMobile ? 'flex-start' : 'center', flexWrap: 'wrap', gap: '14px' }}>
         <div>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: 700, color: '#06b6d4', background: 'rgba(6,182,212,0.12)', padding: '3px 10px', borderRadius: '100px', marginBottom: '8px' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '11.5px', fontWeight: 700, color: '#06b6d4', background: 'rgba(6,182,212,0.12)', padding: '3px 10px', borderRadius: '100px', marginBottom: '6px' }}>
             <Snowflake size={13} />
             DATABASE / ICE LEVEL PRESETS
           </div>
-          <h1 style={{ fontSize: '26px', fontWeight: 800, margin: '0 0 6px 0', letterSpacing: '-0.5px', color: 'var(--ph-text)', fontFamily: "'Outfit', sans-serif" }}>
+          <h1 style={{ fontSize: isMobile ? '20px' : '26px', fontWeight: 800, margin: '0 0 4px 0', letterSpacing: '-0.5px', color: 'var(--ph-text)', fontFamily: "'Outfit', sans-serif" }}>
             Ice Levels & Dilution Presets
           </h1>
-          <p style={{ fontSize: '13.5px', color: 'var(--ph-text-muted)', margin: 0 }}>
+          <p style={{ fontSize: isMobile ? '12px' : '13.5px', color: 'var(--ph-text-muted)', margin: 0 }}>
             Configure ice ratio standards, sweetness dilution impact, and cup visualizer parameters.
           </p>
         </div>
@@ -219,11 +219,12 @@ export default function DatabaseIceLevels() {
         <button
           onClick={handleOpenCreate}
           style={{
-            display: 'flex', alignItems: 'center', gap: '8px',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
             padding: '10px 18px', borderRadius: '12px',
             background: 'linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%)',
             color: '#fff', border: 'none', fontWeight: 700, fontSize: '13px',
-            cursor: 'pointer', boxShadow: '0 6px 18px rgba(6, 182, 212, 0.35)'
+            cursor: 'pointer', boxShadow: '0 6px 18px rgba(6, 182, 212, 0.35)',
+            width: isMobile ? '100%' : 'auto'
           }}
         >
           <Plus size={16} />

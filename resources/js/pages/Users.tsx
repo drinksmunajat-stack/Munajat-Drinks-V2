@@ -279,16 +279,16 @@ export default function UsersPage() {
       )}
 
       {/* Header */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: isMobile ? "flex-start" : "center", flexDirection: isMobile ? "column" : "row", gap: "16px" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: isMobile ? "flex-start" : "center", flexDirection: isMobile ? "column" : "row", gap: "14px" }}>
         <div>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "12px", fontWeight: 700, color: "#10b981", background: "rgba(16,185,129,0.12)", padding: "3px 10px", borderRadius: "100px", marginBottom: "8px" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "11.5px", fontWeight: 700, color: "#10b981", background: "rgba(16,185,129,0.12)", padding: "3px 10px", borderRadius: "100px", marginBottom: "6px" }}>
             <Users size={13} />
             DATABASE / USERS & ACCESS PERMISSIONS
           </div>
-          <h1 style={{ margin: "0 0 6px 0", fontSize: isMobile ? "22px" : "28px", fontWeight: 800, letterSpacing: "-0.5px", color: "var(--ph-text)", fontFamily: "'Outfit', sans-serif" }}>
+          <h1 style={{ margin: "0 0 4px 0", fontSize: isMobile ? "20px" : "28px", fontWeight: 800, letterSpacing: "-0.5px", color: "var(--ph-text)", fontFamily: "'Outfit', sans-serif" }}>
             Users, Staff & Member Accounts
           </h1>
-          <p style={{ margin: 0, color: "var(--ph-text-muted)", fontSize: "13.5px" }}>
+          <p style={{ margin: 0, color: "var(--ph-text-muted)", fontSize: isMobile ? "12px" : "13.5px" }}>
             Centralized management of store personnel, Super Admins, Branch Managers, and customer accounts.
           </p>
         </div>
@@ -298,6 +298,7 @@ export default function UsersPage() {
           style={{
             display: "flex",
             alignItems: "center",
+            justifyContent: "center",
             gap: "8px",
             padding: "10px 18px",
             borderRadius: "12px",
@@ -308,6 +309,7 @@ export default function UsersPage() {
             fontSize: "13px",
             cursor: "pointer",
             boxShadow: "0 6px 18px rgba(16, 185, 129, 0.35)",
+            width: isMobile ? "100%" : "auto"
           }}
         >
           <Plus size={16} />
@@ -316,13 +318,13 @@ export default function UsersPage() {
       </div>
 
       {/* Role Stats Row */}
-      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr 1fr" : "repeat(5, 1fr)", gap: "14px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(5, 1fr)", gap: isMobile ? "10px" : "14px" }}>
         {ROLES_INFO.map((r, i) => (
           <div
             key={i}
             onClick={() => setSelectedRole(selectedRole === r.role ? "All" : r.role)}
             style={{
-              padding: "16px", borderRadius: "18px", backgroundColor: CARD,
+              padding: isMobile ? "12px" : "16px", borderRadius: "18px", backgroundColor: CARD,
               border: selectedRole === r.role ? `2px solid ${r.color}` : `1px solid ${BORDER}`,
               cursor: "pointer", display: "flex", flexDirection: "column", gap: "4px",
               transition: "all 0.2s",
@@ -330,19 +332,19 @@ export default function UsersPage() {
             }}
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <span style={{ fontSize: "11px", color: "var(--ph-text-muted)", fontWeight: 700, textTransform: "uppercase" }}>{r.role}</span>
-              <span style={{ fontSize: "10px", fontWeight: 800, padding: "2px 6px", borderRadius: "4px", background: `${r.color}18`, color: r.color }}>{r.badge}</span>
+              <span style={{ fontSize: "10.5px", color: "var(--ph-text-muted)", fontWeight: 700, textTransform: "uppercase" }}>{r.role}</span>
+              <span style={{ fontSize: "9.5px", fontWeight: 800, padding: "2px 5px", borderRadius: "4px", background: `${r.color}18`, color: r.color }}>{r.badge}</span>
             </div>
-            <div style={{ fontSize: "24px", fontWeight: 800, color: r.color, fontFamily: "'Outfit', sans-serif" }}>
+            <div style={{ fontSize: isMobile ? "18px" : "24px", fontWeight: 800, color: r.color, fontFamily: "'Outfit', sans-serif" }}>
               {users.filter((u) => u.role === r.role).length} Users
             </div>
-            <div style={{ fontSize: "11px", color: "var(--ph-text-dim)", lineHeight: 1.3 }}>{r.desc}</div>
+            {!isMobile && <div style={{ fontSize: "11px", color: "var(--ph-text-dim)", lineHeight: 1.3 }}>{r.desc}</div>}
           </div>
         ))}
       </div>
 
       {/* Filter & Search Bar */}
-      <div style={{ padding: "16px", borderRadius: "18px", backgroundColor: CARD, border: `1px solid ${BORDER}`, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "14px" }}>
+      <div style={{ padding: "14px 16px", borderRadius: "18px", backgroundColor: CARD, border: `1px solid ${BORDER}`, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px" }}>
         <div style={{ position: "relative", width: isMobile ? "100%" : "340px", display: "flex", alignItems: "center" }}>
           <Search size={16} style={{ position: "absolute", left: "14px", color: "var(--ph-text-muted)" }} />
           <input
@@ -354,7 +356,7 @@ export default function UsersPage() {
           />
         </div>
 
-        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", maxWidth: "100%" }}>
           {/* Branch Filter */}
           <select
             value={selectedBranch}
@@ -373,28 +375,30 @@ export default function UsersPage() {
           </select>
 
           {/* Role Filter Pills */}
-          {["All", "Super Admin", "Store Manager", "Cashier", "Barista", "Customer"].map((role) => (
-            <button
-              key={role}
-              onClick={() => setSelectedRole(role)}
-              style={{
-                padding: "6px 12px", borderRadius: "100px", border: "none",
-                fontSize: "12px", fontWeight: selectedRole === role ? 700 : 500,
-                cursor: "pointer",
-                background: selectedRole === role ? "linear-gradient(135deg, #10b981 0%, #06b6d4 100%)" : "rgba(255,255,255,0.05)",
-                color: selectedRole === role ? "#fff" : "var(--ph-text-muted)",
-              }}
-            >
-              {role === "All" ? "All Roles" : role}
-            </button>
-          ))}
+          <div style={{ display: "flex", gap: "6px", overflowX: "auto", maxWidth: isMobile ? "100%" : "none", paddingBottom: isMobile ? "2px" : "0" }}>
+            {["All", "Super Admin", "Store Manager", "Cashier", "Barista", "Customer"].map((role) => (
+              <button
+                key={role}
+                onClick={() => setSelectedRole(role)}
+                style={{
+                  padding: "6px 12px", borderRadius: "100px", border: "none",
+                  fontSize: "12px", fontWeight: selectedRole === role ? 700 : 500,
+                  cursor: "pointer", whiteSpace: "nowrap",
+                  background: selectedRole === role ? "linear-gradient(135deg, #10b981 0%, #06b6d4 100%)" : "rgba(255,255,255,0.05)",
+                  color: selectedRole === role ? "#fff" : "var(--ph-text-muted)",
+                }}
+              >
+                {role === "All" ? "All Roles" : role}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Users Data Table */}
       <div style={{ borderRadius: "18px", backgroundColor: CARD, border: `1px solid ${BORDER}`, overflow: "hidden" }}>
         <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "13px" }}>
+          <table style={{ width: "100%", minWidth: "680px", borderCollapse: "collapse", textAlign: "left", fontSize: "13px" }}>
             <thead>
               <tr style={{ borderBottom: `1px solid ${BORDER}`, backgroundColor: "rgba(255,255,255,0.02)", color: "var(--ph-text-muted)", fontWeight: 600, fontSize: "11px", textTransform: "uppercase" }}>
                 <th style={{ padding: "16px" }}>User Profile</th>
@@ -523,8 +527,8 @@ export default function UsersPage() {
 
       {/* Modal Add / Edit User */}
       {formModalOpen && (
-        <div style={{ position: "fixed", inset: 0, zIndex: 100, backgroundColor: "rgba(0,0,0,0.65)", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }}>
-          <div style={{ width: "100%", maxWidth: "480px", borderRadius: "24px", backgroundColor: CARD, border: `1px solid ${BORDER}`, padding: "28px", color: "var(--ph-text)" }}>
+        <div style={{ position: "fixed", inset: 0, zIndex: 100, backgroundColor: "rgba(0,0,0,0.65)", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", justifyContent: "center", padding: isMobile ? "12px" : "20px" }}>
+          <div style={{ width: "100%", maxWidth: "480px", borderRadius: "24px", backgroundColor: CARD, border: `1px solid ${BORDER}`, padding: isMobile ? "20px 16px" : "28px", color: "var(--ph-text)", maxHeight: "90vh", overflowY: "auto" }}>
             <h2 style={{ fontSize: "18px", fontWeight: 800, margin: "0 0 16px 0", fontFamily: "'Outfit', sans-serif" }}>
               {targetUser ? "Edit User Account" : "Add New User"}
             </h2>
@@ -534,7 +538,7 @@ export default function UsersPage() {
                 <input
                   type="text" required value={formData.name} placeholder="e.g. Alex Chen"
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  style={{ width: "100%", padding: "10px", borderRadius: "10px", backgroundColor: "var(--ph-bg)", border: `1px solid ${BORDER}`, color: "var(--ph-text)", outline: "none" }}
+                  style={{ width: "100%", padding: "10px", borderRadius: "10px", backgroundColor: "var(--ph-bg)", border: `1px solid ${BORDER}`, color: "var(--ph-text)", outline: "none", fontSize: "14px" }}
                 />
               </div>
 
@@ -543,17 +547,17 @@ export default function UsersPage() {
                 <input
                   type="email" required value={formData.email} placeholder="alex@munajatdrinks.com"
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  style={{ width: "100%", padding: "10px", borderRadius: "10px", backgroundColor: "var(--ph-bg)", border: `1px solid ${BORDER}`, color: "var(--ph-text)", outline: "none" }}
+                  style={{ width: "100%", padding: "10px", borderRadius: "10px", backgroundColor: "var(--ph-bg)", border: `1px solid ${BORDER}`, color: "var(--ph-text)", outline: "none", fontSize: "14px" }}
                 />
               </div>
 
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+              <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: "12px" }}>
                 <div>
                   <label style={{ display: "block", fontSize: "12px", fontWeight: 700, marginBottom: "6px" }}>Role Access</label>
                   <select
                     value={formData.role}
                     onChange={(e) => setFormData({ ...formData, role: e.target.value as any })}
-                    style={{ width: "100%", padding: "10px", borderRadius: "10px", backgroundColor: "var(--ph-bg)", border: `1px solid ${BORDER}`, color: "var(--ph-text)", outline: "none" }}
+                    style={{ width: "100%", padding: "10px", borderRadius: "10px", backgroundColor: "var(--ph-bg)", border: `1px solid ${BORDER}`, color: "var(--ph-text)", outline: "none", fontSize: "14px" }}
                   >
                     <option value="Super Admin">Super Admin</option>
                     <option value="Store Manager">Store Manager</option>
@@ -567,7 +571,7 @@ export default function UsersPage() {
                   <input
                     type="text" value={formData.branch}
                     onChange={(e) => setFormData({ ...formData, branch: e.target.value })}
-                    style={{ width: "100%", padding: "10px", borderRadius: "10px", backgroundColor: "var(--ph-bg)", border: `1px solid ${BORDER}`, color: "var(--ph-text)", outline: "none" }}
+                    style={{ width: "100%", padding: "10px", borderRadius: "10px", backgroundColor: "var(--ph-bg)", border: `1px solid ${BORDER}`, color: "var(--ph-text)", outline: "none", fontSize: "14px" }}
                   />
                 </div>
               </div>

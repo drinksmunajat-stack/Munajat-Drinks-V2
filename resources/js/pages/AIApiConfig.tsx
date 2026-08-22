@@ -189,7 +189,7 @@ Your tasks:
             </div>
 
             {/* Model & Temperature */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '14px' }}>
               <div>
                 <label style={{ fontSize: '12px', fontWeight: 700, color: 'var(--ph-text-muted)', display: 'block', marginBottom: '6px' }}>
                   Model Version
@@ -244,10 +244,10 @@ Your tasks:
             </div>
 
             {/* Actions */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: `1px solid ${BORDER}`, paddingTop: '16px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px', borderTop: `1px solid ${BORDER}`, paddingTop: '16px' }}>
               <button
                 type="button" onClick={handleTestConnection} disabled={isTesting}
-                style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '10px 16px', borderRadius: '12px', border: `1px solid ${BORDER}`, backgroundColor: 'transparent', color: 'var(--ph-text)', fontSize: '13px', fontWeight: 700, cursor: 'pointer' }}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', padding: '10px 16px', borderRadius: '12px', border: `1px solid ${BORDER}`, backgroundColor: 'transparent', color: 'var(--ph-text)', fontSize: '13px', fontWeight: 700, cursor: 'pointer', width: isMobile ? '100%' : 'auto' }}
               >
                 {isTesting ? <RefreshCw size={14} className="animate-spin" /> : <Zap size={14} color="#f59e0b" />}
                 <span>{isTesting ? 'Testing...' : 'Test Connection'}</span>
@@ -255,7 +255,7 @@ Your tasks:
 
               <button
                 type="submit" disabled={isSaving}
-                style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '11px 24px', borderRadius: '12px', border: 'none', background: 'linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%)', color: '#fff', fontSize: '13px', fontWeight: 800, cursor: 'pointer', boxShadow: '0 6px 18px rgba(6,182,212,0.35)' }}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '11px 24px', borderRadius: '12px', border: 'none', background: 'linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%)', color: '#fff', fontSize: '13px', fontWeight: 800, cursor: 'pointer', boxShadow: '0 6px 18px rgba(6,182,212,0.35)', width: isMobile ? '100%' : 'auto' }}
               >
                 {isSaving ? <Loader2 size={16} className="animate-spin" /> : <ShieldCheck size={16} />}
                 <span>Save AI Configuration</span>
