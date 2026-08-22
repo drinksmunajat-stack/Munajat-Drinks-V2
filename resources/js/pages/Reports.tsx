@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import {
   FileText, Download, Calendar, DollarSign, Coffee,
   TrendingUp, CheckCircle2, Filter, Plus, Clock,
-  Layers, ChevronRight, AlertCircle, Package, ArrowUpRight, Loader2, Store, RefreshCw
+  Layers, ChevronRight, AlertCircle, Package, ArrowUpRight, Loader2, Store, RefreshCw,
+  FileSpreadsheet
 } from "lucide-react";
 import { CARD, BORDER } from "../theme";
 import { useBreakpoint } from "../hooks/use-breakpoint";
@@ -117,7 +118,7 @@ export default function Reports() {
   const totalOmset = filteredOrders.reduce((sum, o) => sum + Number(o.total_amount || 0), 0);
   const totalCups = filteredOrders.reduce((sum, o) => {
     if (Array.isArray(o.items_data)) {
-      return sum + o.items_data.reduce((c: number, it: any) => c + (Number(it.qty) || 1), 0);
+      return sum + o.items_data.reduce((c: number, it: any) => c + (Number(it?.qty) || 1), 0);
     }
     return sum + 1;
   }, 0);
@@ -179,7 +180,7 @@ export default function Reports() {
     const stock = Number(p.stock) || 50;
     const soldEstimate = filteredOrders.reduce((sum, o) => {
       if (Array.isArray(o.items_data)) {
-        return sum + o.items_data.reduce((c: number, it: any) => it.name === p.name ? c + (Number(it.qty) || 1) : c, 0);
+        return sum + o.items_data.reduce((c: number, it: any) => (it && (it.name === p.name || it === p.name) ? c + (Number(it?.qty) || 1) : c), 0);
       }
       return sum;
     }, 0);
