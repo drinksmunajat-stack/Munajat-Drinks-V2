@@ -7,7 +7,7 @@ import {
   Package, Star, Zap, Clock, ShieldCheck, Maximize2, Sparkles,
   Layers, Snowflake, Flame, ArrowRight, ArrowLeft, Check, QrCode,
   Activity, Radio, PhoneCall, Volume1, Waves, UserCheck, User, Store, MapPin, Loader2,
-  Printer, MessageSquare, Send, Share2, ExternalLink, FileText, CheckCheck
+  Printer, MessageSquare, Send, Share2, ExternalLink, FileText, CheckCheck, CornerDownLeft
 } from "lucide-react";
 import { useBreakpoint } from "../hooks/use-breakpoint";
 import DuoMascot from "../components/DuoMascot";
@@ -67,14 +67,13 @@ export interface CustomOrderItem {
 }
 
 const SUGAR_OPTIONS = [
-  { no: 1, id: "Normal Sugar (100%)", label: "Normal Sugar", desc: "Standard Sweetness (100%)", emoji: "🍬" },
-  { no: 2, id: "Less Sugar (50%)", label: "Less Sugar", desc: "Medium Sweetness (50%)", emoji: "🍯" },
-  { no: 3, id: "Low Sugar (25%)", label: "Low Sugar", desc: "Slightly Sweet (25%)", emoji: "🌱" },
-  { no: 4, id: "No Sugar (0%)", label: "No Sugar", desc: "Unsweetened (0%)", emoji: "🍃" },
+  { no: 1, id: "Normal Sugar (100%)", label: "Normal Sugar", desc: "Manis Pas (100%)", emoji: "🍬" },
+  { no: 2, id: "Less Sugar (50%)", label: "Less Sugar", desc: "Sedang / Separuh (50%)", emoji: "🍯" },
+  { no: 3, id: "Low Sugar (25%)", label: "Low Sugar", desc: "Sedikit Manis (25%)", emoji: "🌱" },
+  { no: 4, id: "No Sugar (0%)", label: "No Sugar", desc: "Tanpa Gula (0%)", emoji: "🍃" },
 ];
 
 const fmt = (n: number) => "Rp " + Number(n || 0).toLocaleString("id-ID");
-const ts = () => new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
 
 // Authentic Voice Interaction Chime Generator using Web Audio API
 function playVoiceChime(type: "start" | "done" | "tap" | "mic-open" = "start") {
@@ -84,18 +83,17 @@ function playVoiceChime(type: "start" | "done" | "tap" | "mic-open" = "start") {
     const ctx = new AudioCtx();
 
     if (type === "mic-open") {
-      // Crisp pleasant double-beep signaling User's Turn to speak (F#5 740Hz -> A5 880Hz)
       const osc1 = ctx.createOscillator();
       const osc2 = ctx.createOscillator();
       const gain = ctx.createGain();
 
       osc1.type = "sine";
-      osc1.frequency.setValueAtTime(739.99, ctx.currentTime);
+      osc1.frequency.setValueAtTime(659.25, ctx.currentTime); // E5
       osc2.type = "sine";
-      osc2.frequency.setValueAtTime(880.00, ctx.currentTime + 0.07);
+      osc2.frequency.setValueAtTime(880.00, ctx.currentTime + 0.08); // A5
 
-      gain.gain.setValueAtTime(0.08, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.22);
+      gain.gain.setValueAtTime(0.07, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.24);
 
       osc1.connect(gain);
       osc2.connect(gain);
@@ -103,10 +101,9 @@ function playVoiceChime(type: "start" | "done" | "tap" | "mic-open" = "start") {
 
       osc1.start(ctx.currentTime);
       osc1.stop(ctx.currentTime + 0.08);
-      osc2.start(ctx.currentTime + 0.07);
-      osc2.stop(ctx.currentTime + 0.22);
+      osc2.start(ctx.currentTime + 0.08);
+      osc2.stop(ctx.currentTime + 0.24);
     } else if (type === "start") {
-      // Dual ascending chime (C5 523Hz -> E5 659Hz)
       const osc1 = ctx.createOscillator();
       const osc2 = ctx.createOscillator();
       const gain = ctx.createGain();
@@ -114,10 +111,10 @@ function playVoiceChime(type: "start" | "done" | "tap" | "mic-open" = "start") {
       osc1.type = "sine";
       osc1.frequency.setValueAtTime(523.25, ctx.currentTime);
       osc2.type = "sine";
-      osc2.frequency.setValueAtTime(659.25, ctx.currentTime + 0.08);
+      osc2.frequency.setValueAtTime(659.25, ctx.currentTime + 0.09);
 
       gain.gain.setValueAtTime(0.09, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.28);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
 
       osc1.connect(gain);
       osc2.connect(gain);
@@ -125,10 +122,9 @@ function playVoiceChime(type: "start" | "done" | "tap" | "mic-open" = "start") {
 
       osc1.start(ctx.currentTime);
       osc1.stop(ctx.currentTime + 0.12);
-      osc2.start(ctx.currentTime + 0.08);
-      osc2.stop(ctx.currentTime + 0.28);
+      osc2.start(ctx.currentTime + 0.09);
+      osc2.stop(ctx.currentTime + 0.3);
     } else if (type === "done") {
-      // Completion chime (E5 659Hz -> C5 523Hz)
       const osc1 = ctx.createOscillator();
       const osc2 = ctx.createOscillator();
       const gain = ctx.createGain();
@@ -150,7 +146,6 @@ function playVoiceChime(type: "start" | "done" | "tap" | "mic-open" = "start") {
       osc2.start(ctx.currentTime + 0.09);
       osc2.stop(ctx.currentTime + 0.32);
     } else {
-      // Crisp subtle tap feedback
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.type = "sine";
@@ -165,10 +160,12 @@ function playVoiceChime(type: "start" | "done" | "tap" | "mic-open" = "start") {
   } catch (e) { }
 }
 
-// Clean user input name
+// Clean user input name in Indonesian / English speech
 function extractNameFromSpeech(speech: string): string {
   let cleaned = speech.trim();
-  cleaned = cleaned.replace(/^(hello|hi|my name is|i am|this is|call me|name is|i'm|halo|hai|nama saya|nama aku|saya|aku|dengan|atas nama|panggil saya)\s+/gi, "");
+  cleaned = cleaned.replace(/^(halo|hai|nama saya|nama aku|saya|aku|dengan|atas nama|panggil saya|buat|pesan buat|atas nama kak|kak|hello|hi|my name is|i am|this is|call me|name is|i'm)\s+/gi, "");
+  cleaned = cleaned.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "").trim();
+  if (!cleaned) return "Kak Customer";
   return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
 }
 
@@ -176,7 +173,7 @@ function extractNameFromSpeech(speech: string): string {
 function parseSpokenNumber(text: string): number | null {
   const clean = text.toLowerCase().trim();
 
-  // 1. Explicit prefixes: "number 1", "nomor 2", "no 3", "option 4", "pilih 2", "angka 1", "#1"
+  // 1. Explicit prefixes
   const prefixMatch = clean.match(/(?:number|nomor|no|option|pilihan|pilih|item|angka|menu|cabang|toping|topping|es|gula|sugar|ice|#)\s*([0-9]+)/i);
   if (prefixMatch && prefixMatch[1]) {
     const n = parseInt(prefixMatch[1], 10);
@@ -190,20 +187,19 @@ function parseSpokenNumber(text: string): number | null {
     if (!isNaN(n) && n > 0 && n <= 30) return n;
   }
 
-  // 3. Word mapping for English & Indonesian
+  // 3. Word mapping for Indonesian & English
   const wordMap: Record<string, number> = {
-    "one": 1, "first": 1, "satu": 1, "kesatu": 1, "pertama": 1, "uno": 1, "won": 1, "wan": 1,
-    "two": 2, "second": 2, "dua": 2, "kedua": 2, "to": 2, "too": 2, "tu": 2,
-    "three": 3, "third": 3, "tiga": 3, "ketiga": 3, "tree": 3, "tri": 3,
-    "four": 4, "fourth": 4, "empat": 4, "keempat": 4, "for": 4, "fore": 4,
-    "five": 5, "fifth": 5, "lima": 5, "kelima": 5, "faiv": 5,
-    "six": 6, "sixth": 6, "enam": 6, "keenam": 6, "siks": 6,
-    "seven": 7, "seventh": 7, "tujuh": 7, "ketujuh": 7,
-    "eight": 8, "eighth": 8, "delapan": 8, "kedelapan": 8, "ate": 8, "eit": 8,
-    "nine": 9, "ninth": 9, "sembilan": 9, "kesembilan": 9, "nain": 9,
-    "ten": 10, "tenth": 10, "sepuluh": 10, "kesepuluh": 10,
-    "eleven": 11, "sebelas": 11,
-    "twelve": 12, "duabelas": 12,
+    "satu": 1, "kesatu": 1, "pertama": 1, "one": 1, "first": 1,
+    "dua": 2, "kedua": 2, "two": 2, "second": 2, "to": 2, "too": 2,
+    "tiga": 3, "ketiga": 3, "three": 3, "third": 3,
+    "empat": 4, "keempat": 4, "four": 4, "fourth": 4, "for": 4,
+    "lima": 5, "kelima": 5, "five": 5, "fifth": 5,
+    "enam": 6, "keenam": 6, "six": 6, "sixth": 6,
+    "tujuh": 7, "ketujuh": 7, "seven": 7, "seventh": 7,
+    "delapan": 8, "kedelapan": 8, "eight": 8, "eighth": 8,
+    "sembilan": 9, "kesembilan": 9, "nine": 9, "ninth": 9,
+    "sepuluh": 10, "kesepuluh": 10, "ten": 10, "tenth": 10,
+    "sebelas": 11, "duabelas": 12,
   };
 
   const words = clean.split(/[\s,.-]+/);
@@ -245,8 +241,12 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
   const [textInputSpeech, setTextInputSpeech] = useState<string>("");
 
   // Real-time Conversation Subtitles
-  const [aiSpokenText, setAiSpokenText] = useState<string>("Hello! I am your AI Voice Cashier for Munajat Drinks. Tap the microphone or mascot to start ordering your favorite drink.");
+  const [aiSpokenText, setAiSpokenText] = useState<string>(
+    "Halo kak! Selamat datang di Munajat Drinks ☕ Mau pesan minuman apa hari ini? Tekan tombol mikrofon atau maskot untuk mulai memesan santai bareng saya ya!"
+  );
   const [userSpokenText, setUserSpokenText] = useState<string>("");
+  const [isWaitingCustomer, setIsWaitingCustomer] = useState<boolean>(false);
+  const [waitingCountdown, setWaitingCountdown] = useState<number>(0);
 
   // Cart, Order Tracking & Receipt
   const [cartItems, setCartItems] = useState<CustomOrderItem[]>([]);
@@ -261,10 +261,12 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
   const isAiSpeakingRef = useRef<boolean>(false);
   const lastProcessedTextRef = useRef<string>("");
   const silenceTimerRef = useRef<any>(null);
+  const countdownIntervalRef = useRef<any>(null);
+  const speechAccumulatorRef = useRef<string>("");
 
   // Set Page Title
   useEffect(() => {
-    document.title = "AI Voice Cashier | Munajat Drinks";
+    document.title = "AI Voice Kasir Santai | Munajat Drinks";
   }, []);
 
   // Sync active status
@@ -290,7 +292,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
           name: p.name,
           price: Number(p.price || 0),
           sold: Number(p.stock) > 0 ? 25 + (idx * 5) : 0,
-          tag: p.badge || (idx === 0 ? "Best Seller" : idx === 1 ? "Favorite" : undefined),
+          tag: p.badge || (idx === 0 ? "Best Seller" : idx === 1 ? "Favorit" : undefined),
           cat: p.category || "Coffee",
         }));
         setMenuList(dynamicMenus);
@@ -303,7 +305,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
           id: c.id,
           name: c.name,
           city: c.city || "Indonesia",
-          address: c.address || "Official Munajat Drinks Outlet",
+          address: c.address || "Outlet Resmi Munajat Drinks",
           phone: (c.phone && c.phone.trim().length >= 8) ? c.phone.trim() : "+62 811 868 3080",
           emoji: idx === 0 ? "🏪" : idx === 1 ? "🏬" : idx === 2 ? "🏢" : "🌇"
         }));
@@ -316,17 +318,17 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
           no: idx + 1,
           id: `${i.name} (${i.percentage}%)`,
           label: i.name,
-          desc: i.description || `${i.percentage}% Ice Ratio`,
+          desc: i.description || `${i.percentage}% Porsi Es`,
           percentage: Number(i.percentage),
           emoji: Number(i.percentage) === 0 ? "🥤" : Number(i.percentage) <= 30 ? "❄️" : Number(i.percentage) <= 70 ? "🧊" : "🧊🧊"
         }));
         setIceList(dynamicIces);
       } else {
         const defaultIces: IceOption[] = [
-          { no: 1, id: "Normal Ice (70%)", label: "Normal Ice", desc: "Standard (70%)", percentage: 70, emoji: "🧊" },
-          { no: 2, id: "Less Ice (30%)", label: "Less Ice", desc: "Light Ice (30%)", percentage: 30, emoji: "❄️" },
-          { no: 3, id: "No Ice (0%)", label: "No Ice", desc: "Unchilled (0%)", percentage: 0, emoji: "🥤" },
-          { no: 4, id: "Extra Ice (100%)", label: "Extra Ice", desc: "Max Chill (100%)", percentage: 100, emoji: "🧊🧊" },
+          { no: 1, id: "Normal Ice (70%)", label: "Normal Ice", desc: "Es Pas Segar (70%)", percentage: 70, emoji: "🧊" },
+          { no: 2, id: "Less Ice (30%)", label: "Less Ice", desc: "Sedikit Es (30%)", percentage: 30, emoji: "❄️" },
+          { no: 3, id: "No Ice (0%)", label: "No Ice", desc: "Tanpa Es (0%)", percentage: 0, emoji: "🥤" },
+          { no: 4, id: "Extra Ice (100%)", label: "Extra Ice", desc: "Maksimal Dingin (100%)", percentage: 100, emoji: "🧊🧊" },
         ];
         setIceList(defaultIces);
       }
@@ -342,8 +344,8 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
         }));
         dynamicTops.push({
           no: dynamicTops.length + 1,
-          id: "No Topping",
-          label: "No Topping",
+          id: "Tanpa Topping",
+          label: "Tanpa Topping",
           price: 0,
           emoji: "🚫"
         });
@@ -354,7 +356,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
           { no: 2, id: "Cheese Cream Foam", label: "Cheese Foam", price: 7000, emoji: "🧀" },
           { no: 3, id: "Egg Pudding Lembut", label: "Egg Pudding", price: 6000, emoji: "🍮" },
           { no: 4, id: "Grass Jelly (Cincau)", label: "Grass Jelly", price: 4000, emoji: "⬛" },
-          { no: 5, id: "No Topping", label: "No Topping", price: 0, emoji: "🚫" },
+          { no: 5, id: "Tanpa Topping", label: "Tanpa Topping", price: 0, emoji: "🚫" },
         ];
         setToppingList(defaultTops);
       }
@@ -369,6 +371,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
   const activateUserListeningTurn = useCallback(() => {
     isAiSpeakingRef.current = false;
     setCallState("user-speaking");
+    setIsWaitingCustomer(true);
     playVoiceChime("mic-open");
 
     setTimeout(() => {
@@ -380,12 +383,12 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
           try {
             recognitionRef.current.start();
           } catch (e) { }
-        }, 100);
+        }, 120);
       }
     }, 150);
   }, [muted]);
 
-  // Text-to-Speech Output Function (Natural voice call interaction)
+  // Natural Indonesian Text-to-Speech Output Function
   const speakAiVoice = useCallback((textToSpeak: string) => {
     if (speakerOff) {
       activateUserListeningTurn();
@@ -396,32 +399,43 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
       try {
         window.speechSynthesis.cancel();
 
-        const cleanText = textToSpeak.replace(/[^\w\s.,?!Rp$]/gi, " ").replace(/\s+/g, " ").trim();
+        // Strip formatting & emojis for clean TTS pronunciation
+        const cleanText = textToSpeak
+          .replace(/[\u{1F600}-\u{1F6FF}|[\u{1F300}-\u{1F5FF}|[\u{1F680}-\u{1F6FF}|[\u{2600}-\u{26FF}|[\u{2700}-\u{27BF}]/gu, "")
+          .replace(/[^\w\s.,?!Rp%0-9]/gi, " ")
+          .replace(/\s+/g, " ")
+          .trim();
+
         const utterance = new SpeechSynthesisUtterance(cleanText);
-        utterance.lang = "en-US";
-        utterance.rate = 1.0;
-        utterance.pitch = 1.0;
+        utterance.lang = "id-ID";
+        utterance.rate = 0.96; // Pleasant, calm, easy to follow
+        utterance.pitch = 1.05; // Friendly warm tone
         utterance.volume = 1.0;
 
         const voices = window.speechSynthesis.getVoices();
-        const engVoice = voices.find(v => (v.lang === "en-US" || v.lang === "en_US") && (v.name.includes("Google") || v.name.includes("Natural") || v.name.includes("Samantha") || v.name.includes("Zira") || v.name.includes("Jenny")))
-          || voices.find(v => v.lang.startsWith("en") || v.lang.startsWith("EN"))
+        // Look for Indonesian voice first
+        const indonesianVoice = voices.find(v =>
+          (v.lang === "id-ID" || v.lang === "id_ID" || v.lang.startsWith("id")) &&
+          (v.name.includes("Indonesian") || v.name.includes("Indonesia") || v.name.includes("Gadis") || v.name.includes("Ardi") || v.name.includes("Google") || v.name.includes("Natural"))
+        ) || voices.find(v => v.lang.startsWith("id") || v.lang.startsWith("ID"))
+          || voices.find(v => v.lang.startsWith("en-US") || v.lang.startsWith("en"))
           || voices[0];
 
-        if (engVoice) {
-          utterance.voice = engVoice;
+        if (indonesianVoice) {
+          utterance.voice = indonesianVoice;
         }
 
         utterance.onstart = () => {
           isAiSpeakingRef.current = true;
           setCallState("ai-speaking");
+          setIsWaitingCustomer(false);
           if (recognitionRef.current) {
             try { recognitionRef.current.abort(); } catch (e) { }
           }
         };
 
         utterance.onend = () => {
-          // Switch turn immediately to User with cue and mic activation
+          // Switch turn immediately to User with friendly cue and mic activation
           activateUserListeningTurn();
         };
 
@@ -473,7 +487,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
     }
   };
 
-  // Helper to ask the next logical missing parameter (Rule 1 & 2: Short 1-2 sentences, voice-first)
+  // Helper to ask the next logical missing parameter (Obrolan Santai & Natural Kasir Barista)
   const askNextMissingParameter = useCallback((
     branchIdVal?: number,
     branchNameVal?: string,
@@ -486,7 +500,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
     // 1. Missing Branch?
     if (!branchIdVal && !branchNameVal) {
       setCurrentStep("branch");
-      const msg = "Hello! Welcome to Munajat Drinks. Say the branch number 1 to 4, or mention your branch and name.";
+      const msg = "Halo kak! Selamat datang di Munajat Drinks ☕ Mau pesan di cabang mana nih? Boleh sebutkan nama atau nomor cabangnya ya kak.";
       setAiSpokenText(msg);
       speakAiVoice(msg);
       return;
@@ -495,7 +509,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
     // 2. Missing Name?
     if (!nameVal) {
       setCurrentStep("name");
-      const msg = `Great, at ${branchNameVal || 'our store'}. What name may I have for your order?`;
+      const msg = `Siap kak, untuk cabang ${branchNameVal || 'Munajat Drinks'}. Boleh tau dengan kak siapa nih pesanannya?`;
       setAiSpokenText(msg);
       speakAiVoice(msg);
       return;
@@ -505,7 +519,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
     if (!menuVal) {
       setCurrentStep("menu");
       const count = menuList.length > 0 ? menuList.length : 8;
-      const msg = `Hi ${nameVal}! Which drink would you like? Say drink number 1 to ${count}, or mention the drink name.`;
+      const msg = `Halo Kak ${nameVal}! Mau pesan minuman apa hari ini? Boleh sebutkan nama minumannya atau nomor 1 sampai ${count} ya kak.`;
       setAiSpokenText(msg);
       speakAiVoice(msg);
       return;
@@ -514,7 +528,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
     // 4. Missing Ice?
     if (!iceVal) {
       setCurrentStep("ice");
-      const msg = `Sure, 1 ${menuVal.name}. What ice level? Say 1 for Normal Ice, 2 for Less Ice, 3 for No Ice, or 4 for Extra Ice.`;
+      const msg = `Oke siap Kak ${nameVal}, 1 ${menuVal.name} ya. Untuk es batunya mau normal, sedikit es (less ice), atau tanpa es kak?`;
       setAiSpokenText(msg);
       speakAiVoice(msg);
       return;
@@ -523,7 +537,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
     // 5. Missing Sugar?
     if (!sugarVal) {
       setCurrentStep("sugar");
-      const msg = `Got it ${nameVal}. What sweetness level? Say 1 for Normal Sugar 100%, 2 for Less Sugar 50%, 3 for Low Sugar 25%, or 4 for No Sugar.`;
+      const msg = `Tingkat manisnya mau gimana kak? Mau normal manis 100%, less sugar 50%, atau tanpa gula?`;
       setAiSpokenText(msg);
       speakAiVoice(msg);
       return;
@@ -532,13 +546,13 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
     // 6. Missing Topping?
     if (!toppingVal) {
       setCurrentStep("topping");
-      const msg = `Great ${nameVal}. What topping? Say 1 for Boba, 2 for Cheese Foam, 3 for Egg Pudding, 4 for Grass Jelly, or 5 for No Topping.`;
+      const msg = `Mau ditambah topping favorit juga gak kak? Ada Boba kenyal, Cheese Foam gurih, Egg Pudding, atau Cincau? Kalau tanpa topping juga boleh ya kak.`;
       setAiSpokenText(msg);
       speakAiVoice(msg);
       return;
     }
 
-    // Rule 5: Konfirmasi Akhir (All 6 parameters filled for current beverage)
+    // Konfirmasi Akhir Pesanan
     const toppingObj = toppingList.find(t => t.id === toppingVal) || { price: 0, label: toppingVal };
     const totalItem = menuVal.price + toppingObj.price;
     const finalItem: CustomOrderItem = {
@@ -561,10 +575,10 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
 
     let finalMsg = "";
     if (countDrinks === 1) {
-      finalMsg = `Great ${nameVal}, 1 ${menuVal.name} with ${iceVal}, ${sugarVal}, and ${toppingVal} at ${branchNameVal}, total ${fmt(totalCart)}. Say 1 to confirm payment via WhatsApp, or 2 to add another drink.`;
+      finalMsg = `Siap Kak ${nameVal}! Pesanannya 1 ${menuVal.name} dengan ${iceVal}, ${sugarVal}, dan topping ${toppingVal} di cabang ${branchNameVal}, totalnya ${fmt(totalCart)}. Mau langsung bayar via WhatsApp atau mau nambah minuman lain kak?`;
     } else {
       const summaryList = updatedCart.map(i => i.menu.name).join(", ");
-      finalMsg = `Awesome ${nameVal}! You have ${countDrinks} drinks in your order: ${summaryList}, grand total ${fmt(totalCart)}. Say 1 to confirm payment via WhatsApp, or 2 to add another drink.`;
+      finalMsg = `Mantap Kak ${nameVal}! Total ada ${countDrinks} minuman: ${summaryList}, total keseluruhannya ${fmt(totalCart)}. Mau langsung checkout via WhatsApp atau mau nambah lagi kak?`;
     }
 
     setAiSpokenText(finalMsg);
@@ -581,44 +595,44 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
     setCurrentStep("menu");
     const count = menuList.length > 0 ? menuList.length : 8;
     const nextNum = cartItems.length + 1;
-    const msg = `Sure ${customerName || ''}! Let's customize drink #${nextNum}. Say drink number 1 to ${count} or mention the beverage name.`;
+    const msg = `Siap Kak ${customerName || ''}! Mau tambah minuman apa lagi untuk cup ke-${nextNum}? Boleh sebutkan nama minumannya atau pilih nomor 1 sampai ${count} ya.`;
     setAiSpokenText(msg);
     speakAiVoice(msg);
   };
 
-  // UI Sync Triggers: when user clicks on screen, accept state and ask next question
+  // UI Sync Triggers
   const handleSelectBranch = (cabang: CabangOption) => {
     setSelectedCabangId(cabang.id);
     setSelectedCabangName(cabang.name);
     const validPhone = (cabang.phone && cabang.phone.trim().length >= 8) ? cabang.phone.trim() : "+62 811 868 3080";
     setSelectedCabangPhone(validPhone);
     if (cabang.address) setSelectedCabangAddress(cabang.address);
-    setUserSpokenText(`Branch: [${cabang.no}] ${cabang.name}`);
+    setUserSpokenText(`Cabang: [${cabang.no}] ${cabang.name}`);
     askNextMissingParameter(cabang.id, cabang.name, customerName, selectedMenu, selectedIce, selectedSugar, selectedTopping);
   };
 
   const handleSetCustomerName = (nameInput: string) => {
     const valid = extractNameFromSpeech(nameInput);
     setCustomerName(valid);
-    setUserSpokenText(`Name: ${valid}`);
+    setUserSpokenText(`Nama: ${valid}`);
     askNextMissingParameter(selectedCabangId, selectedCabangName, valid, selectedMenu, selectedIce, selectedSugar, selectedTopping);
   };
 
   const handleSelectMenu = (item: MenuItem) => {
     setSelectedMenu(item);
-    setUserSpokenText(`Drink: [${item.no}] ${item.name}`);
+    setUserSpokenText(`Minuman: [${item.no}] ${item.name}`);
     askNextMissingParameter(selectedCabangId, selectedCabangName, customerName, item, selectedIce, selectedSugar, selectedTopping);
   };
 
   const handleSelectIce = (iceObj: IceOption) => {
     setSelectedIce(iceObj.id);
-    setUserSpokenText(`Ice: [${iceObj.no}] ${iceObj.label}`);
+    setUserSpokenText(`Es: [${iceObj.no}] ${iceObj.label}`);
     askNextMissingParameter(selectedCabangId, selectedCabangName, customerName, selectedMenu, iceObj.id, selectedSugar, selectedTopping);
   };
 
   const handleSelectSugar = (sugarObj: typeof SUGAR_OPTIONS[0]) => {
     setSelectedSugar(sugarObj.id);
-    setUserSpokenText(`Sugar: [${sugarObj.no}] ${sugarObj.label}`);
+    setUserSpokenText(`Gula: [${sugarObj.no}] ${sugarObj.label}`);
     askNextMissingParameter(selectedCabangId, selectedCabangName, customerName, selectedMenu, selectedIce, sugarObj.id, selectedTopping);
   };
 
@@ -628,20 +642,32 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
     askNextMissingParameter(selectedCabangId, selectedCabangName, customerName, selectedMenu, selectedIce, selectedSugar, toppingObj.id);
   };
 
-  // Rule 3: Multi-Parameter Voice Extraction (English + Number-First support)
+  // Multi-Parameter Indonesian Natural Language Parser
   const processMultiParameterSpeech = useCallback((speech: string) => {
     const text = speech.toLowerCase().trim();
     if (!text || isAiSpeakingRef.current) return;
 
     const spokenNum = parseSpokenNumber(text);
 
-    // Fast-track: Payment confirmation (Rule 5)
+    // Fast-track: Payment confirmation
     if (currentStep === "confirm" || currentStep === "completed") {
-      if (spokenNum === 1 || text.includes("yes") || text.includes("pay") || text.includes("checkout") || text.includes("ok") || text.includes("sure") || text.includes("whatsapp") || text.includes("wa") || text.includes("transfer") || text.includes("bayar") || text.includes("iya") || text.includes("ya") || text.includes("pesan") || text.includes("proceed")) {
+      if (
+        spokenNum === 1 ||
+        text.includes("bayar") || text.includes("checkout") || text.includes("wa") ||
+        text.includes("whatsapp") || text.includes("transfer") || text.includes("ya") ||
+        text.includes("iya") || text.includes("oke") || text.includes("siap") ||
+        text.includes("langsung") || text.includes("sudah") || text.includes("pesan") ||
+        text.includes("yes") || text.includes("pay")
+      ) {
         handleProcessCheckout(true);
         return;
       }
-      if (spokenNum === 2 || text.includes("add") || text.includes("another") || text.includes("more") || text.includes("tambah") || text.includes("lagi")) {
+      if (
+        spokenNum === 2 ||
+        text.includes("tambah") || text.includes("lagi") || text.includes("nambah") ||
+        text.includes("minuman lain") || text.includes("add") || text.includes("another") ||
+        text.includes("satu lagi") || text.includes("pesan lagi")
+      ) {
         handleAddAnotherDrink();
         return;
       }
@@ -652,7 +678,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
     }
 
     // Fast-track: Add more drinks in any stage
-    if (text.includes("add drink") || text.includes("another drink") || text.includes("tambah minuman")) {
+    if (text.includes("tambah minuman") || text.includes("tambah lagi") || text.includes("nambah minuman") || text.includes("add drink")) {
       handleAddAnotherDrink();
       return;
     }
@@ -665,7 +691,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
     let nextSugar = selectedSugar;
     let nextTopping = selectedTopping;
 
-    // 1. Extract Branch (by Number or Name)
+    // 1. Extract Branch (by Number or Keyword)
     if (currentStep === "branch" && spokenNum !== null && spokenNum >= 1 && spokenNum <= cabangList.length) {
       const c = cabangList[spokenNum - 1];
       nextBranchId = c.id;
@@ -681,7 +707,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
     }
 
     // 2. Extract Name
-    const nameMatch = text.match(/(?:my name is|i am|this is|call me|name is|i'm|nama saya|nama aku|saya|aku|dengan|atas nama)\s+([a-zA-Z]+)/i);
+    const nameMatch = text.match(/(?:nama saya|nama aku|saya|aku|dengan|atas nama|panggil saya|buat|kak|my name is|i am|name is|i'm)\s+([a-zA-Z]+)/i);
     if (nameMatch && nameMatch[1]) {
       nextName = extractNameFromSpeech(nameMatch[1]);
     } else if (currentStep === "name" && !nextName && spokenNum === null) {
@@ -694,7 +720,20 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
     } else {
       for (const m of menuList) {
         const mName = m.name.toLowerCase();
-        if (text.includes(mName) || (mName.includes("kopi susu") && text.includes("kopi susu")) || (mName.includes("matcha") && text.includes("matcha")) || (mName.includes("brown sugar") && text.includes("brown sugar")) || (mName.includes("teh tarik") && text.includes("teh tarik")) || (mName.includes("chocolate") && text.includes("chocolate")) || (mName.includes("latte") && text.includes("latte")) || (mName.includes("americano") && text.includes("americano")) || (mName.includes("mocha") && text.includes("mocha"))) {
+        if (
+          text.includes(mName) ||
+          (mName.includes("kopi susu") && (text.includes("kopi susu") || text.includes("kopsu") || text.includes("aren"))) ||
+          (mName.includes("matcha") && text.includes("matcha")) ||
+          (mName.includes("brown sugar") && (text.includes("brown sugar") || text.includes("gula aren"))) ||
+          (mName.includes("teh tarik") && text.includes("teh tarik")) ||
+          (mName.includes("chocolate") && (text.includes("chocolate") || text.includes("cokelat") || text.includes("coklat"))) ||
+          (mName.includes("latte") && text.includes("latte")) ||
+          (mName.includes("americano") && text.includes("americano")) ||
+          (mName.includes("mocha") && (text.includes("mocha") || text.includes("moka"))) ||
+          (mName.includes("taro") && text.includes("taro")) ||
+          (mName.includes("red velvet") && text.includes("red velvet")) ||
+          (mName.includes("avocado") && (text.includes("avocado") || text.includes("alpukat")))
+        ) {
           nextMenu = m;
           break;
         }
@@ -704,26 +743,26 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
     // 4. Extract Ice Level (by Number or Keyword)
     if (currentStep === "ice" && spokenNum !== null && spokenNum >= 1 && spokenNum <= iceList.length) {
       nextIce = iceList[spokenNum - 1].id;
-    } else if (text.includes("no ice") || text.includes("without ice") || text.includes("unchilled") || text.includes("tanpa es") || text.includes("zero ice")) {
+    } else if (text.includes("tanpa es") || text.includes("no ice") || text.includes("nggak pake es") || text.includes("tidak pakai es") || text.includes("0%")) {
       nextIce = "No Ice (0%)";
-    } else if (text.includes("less ice") || text.includes("light ice") || text.includes("30%")) {
+    } else if (text.includes("dikit") || text.includes("sedikit es") || text.includes("less ice") || text.includes("es sedikit") || text.includes("30%")) {
       nextIce = "Less Ice (30%)";
-    } else if (text.includes("extra ice") || text.includes("lot of ice") || text.includes("100%")) {
+    } else if (text.includes("banyak es") || text.includes("extra ice") || text.includes("ekstra es") || text.includes("100%")) {
       nextIce = "Extra Ice (100%)";
-    } else if (text.includes("normal ice") || text.includes("standard ice") || text.includes("70%")) {
+    } else if (text.includes("normal") || text.includes("es normal") || text.includes("biasa") || text.includes("standard") || text.includes("70%")) {
       nextIce = "Normal Ice (70%)";
     }
 
     // 5. Extract Sugar Level (by Number or Keyword)
     if (currentStep === "sugar" && spokenNum !== null && spokenNum >= 1 && spokenNum <= SUGAR_OPTIONS.length) {
       nextSugar = SUGAR_OPTIONS[spokenNum - 1].id;
-    } else if (text.includes("no sugar") || text.includes("without sugar") || text.includes("unsweetened") || text.includes("0%")) {
+    } else if (text.includes("tanpa gula") || text.includes("no sugar") || text.includes("nggak manis") || text.includes("tidak pakai gula") || text.includes("0%")) {
       nextSugar = "No Sugar (0%)";
-    } else if (text.includes("low sugar") || text.includes("little sugar") || text.includes("25%")) {
+    } else if (text.includes("sedikit manis") || text.includes("low sugar") || text.includes("gula dikit") || text.includes("25%")) {
       nextSugar = "Low Sugar (25%)";
-    } else if (text.includes("less sugar") || text.includes("half sugar") || text.includes("50%")) {
+    } else if (text.includes("less sugar") || text.includes("separuh") || text.includes("setengah") || text.includes("sedang") || text.includes("50%")) {
       nextSugar = "Less Sugar (50%)";
-    } else if (text.includes("normal sugar") || text.includes("standard sugar") || text.includes("100%")) {
+    } else if (text.includes("gula normal") || text.includes("normal sugar") || text.includes("manis normal") || text.includes("manis biasa") || text.includes("100%")) {
       nextSugar = "Normal Sugar (100%)";
     }
 
@@ -732,14 +771,14 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
       nextTopping = toppingList[spokenNum - 1].id;
     } else if (text.includes("boba") || text.includes("pearl")) {
       nextTopping = "Golden Boba Pearl";
-    } else if (text.includes("cheese") || text.includes("foam")) {
+    } else if (text.includes("cheese") || text.includes("foam") || text.includes("keju")) {
       nextTopping = "Cheese Cream Foam";
-    } else if (text.includes("pudding") || text.includes("egg")) {
+    } else if (text.includes("pudding") || text.includes("puding") || text.includes("egg")) {
       nextTopping = "Egg Pudding Lembut";
-    } else if (text.includes("jelly") || text.includes("grass jelly") || text.includes("cincau")) {
+    } else if (text.includes("jelly") || text.includes("cincau") || text.includes("grass")) {
       nextTopping = "Grass Jelly (Cincau)";
-    } else if (text.includes("no topping") || text.includes("without topping") || text.includes("tanpa topping") || text.includes("plain") || text.includes("none")) {
-      nextTopping = "No Topping";
+    } else if (text.includes("tanpa topping") || text.includes("tanpa toping") || text.includes("no topping") || text.includes("nggak pakai topping") || text.includes("polos") || text.includes("biasa aja")) {
+      nextTopping = "Tanpa Topping";
     }
 
     // Update States
@@ -755,25 +794,41 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
     askNextMissingParameter(nextBranchId, nextBranchName, nextName, nextMenu, nextIce, nextSugar, nextTopping);
   }, [currentStep, selectedCabangId, selectedCabangName, customerName, selectedMenu, selectedIce, selectedSugar, selectedTopping, cabangList, menuList, iceList, toppingList, askNextMissingParameter]);
 
-  // Web Speech Recognition Initialization with Robust Lifecycle & Reconnection
+  // Handle immediate submission if customer clicks "Selesai Bicara" button
+  const handleImmediateSubmit = () => {
+    if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+    if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
+    setIsWaitingCustomer(false);
+    setWaitingCountdown(0);
+
+    const speech = speechAccumulatorRef.current || userSpokenText;
+    if (speech && speech.trim()) {
+      lastProcessedTextRef.current = speech.trim();
+      processMultiParameterSpeech(speech.trim());
+    }
+  };
+
+  // Web Speech Recognition Initialization with Generous Pause Handling (Waits for customer to finish speaking)
   useEffect(() => {
     if (typeof window !== "undefined" && ("webkitSpeechRecognition" in window || "SpeechRecognition" in window)) {
       const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
       const rec = new SpeechRecognition();
       rec.continuous = true;
       rec.interimResults = true;
-      rec.lang = "en-US";
+      rec.lang = "id-ID"; // Primary Indonesian Recognition
       rec.maxAlternatives = 1;
 
       rec.onspeechstart = () => {
         if (!isAiSpeakingRef.current && isCallActiveRef.current) {
           setCallState("user-speaking");
+          setIsWaitingCustomer(true);
         }
       };
 
       rec.onsoundstart = () => {
         if (!isAiSpeakingRef.current && isCallActiveRef.current) {
           setCallState("user-speaking");
+          setIsWaitingCustomer(true);
         }
       };
 
@@ -792,27 +847,49 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
           }
         }
 
-        const fullSpoken = (finalTranscript || interimTranscript).trim();
+        const currentSpoken = (finalTranscript || interimTranscript).trim();
 
-        if (fullSpoken) {
-          setUserSpokenText(fullSpoken);
+        if (currentSpoken) {
+          speechAccumulatorRef.current = currentSpoken;
+          setUserSpokenText(currentSpoken);
           setCallState("user-speaking");
+          setIsWaitingCustomer(true);
 
+          // Clear any existing silence timer
           if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+          if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
+
+          // Generous Silence Timeout: 2.0 Seconds (2000ms)
+          // Gives customer ample time to breathe, think, or pause naturally without being interrupted
+          const totalWaitMs = 2000;
+          const startTime = Date.now();
+          setWaitingCountdown(2.0);
+
+          countdownIntervalRef.current = setInterval(() => {
+            const elapsed = Date.now() - startTime;
+            const remaining = Math.max(0, (totalWaitMs - elapsed) / 1000);
+            setWaitingCountdown(Number(remaining.toFixed(1)));
+            if (remaining <= 0) {
+              clearInterval(countdownIntervalRef.current);
+            }
+          }, 100);
 
           silenceTimerRef.current = setTimeout(() => {
-            if (isCallActiveRef.current && !isAiSpeakingRef.current && fullSpoken !== lastProcessedTextRef.current) {
-              lastProcessedTextRef.current = fullSpoken;
-              processMultiParameterSpeech(fullSpoken);
+            setIsWaitingCustomer(false);
+            setWaitingCountdown(0);
+            if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
+
+            if (isCallActiveRef.current && !isAiSpeakingRef.current && currentSpoken !== lastProcessedTextRef.current) {
+              lastProcessedTextRef.current = currentSpoken;
+              processMultiParameterSpeech(currentSpoken);
             }
-          }, 650);
+          }, totalWaitMs);
         }
       };
 
       rec.onerror = (event: any) => {
         console.warn("Speech recognition event:", event.error);
         if (event.error === "no-speech" || event.error === "network") {
-          // Restart gracefully
           if (isCallActiveRef.current && !muted && !isAiSpeakingRef.current) {
             setTimeout(() => {
               try { rec.start(); } catch (e) { }
@@ -822,7 +899,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
       };
 
       rec.onend = () => {
-        // Auto-reconnect if call is still active and not currently AI speaking
+        // Auto-reconnect if call is active and AI is not speaking
         if (isCallActiveRef.current && !muted && !isAiSpeakingRef.current) {
           setTimeout(() => {
             try {
@@ -855,6 +932,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
     setSelectedTopping("");
     setUserSpokenText("");
     setCustomerName("");
+    speechAccumulatorRef.current = "";
     lastProcessedTextRef.current = "";
 
     await setupAudioMeter();
@@ -868,7 +946,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
 
     setTimeout(() => {
       setCallState("active");
-      const askMsg = "Hello! Welcome to Munajat Drinks. Which branch would you like to order from, and what is your name?";
+      const askMsg = "Halo kak! Selamat datang di Munajat Drinks ☕ Mau pesan di cabang mana nih dan dengan kak siapa?";
       setAiSpokenText(askMsg);
       speakAiVoice(askMsg);
     }, 500);
@@ -877,6 +955,10 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
   // End Call
   const endCall = () => {
     playVoiceChime("done");
+    if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+    if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
+    setIsWaitingCustomer(false);
+
     window.speechSynthesis?.cancel();
     if (recognitionRef.current) {
       try { recognitionRef.current.stop(); } catch (e) { }
@@ -888,7 +970,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
       audioContextRef.current.close().catch(() => { });
     }
     setCallState("ended");
-    const endMsg = `Session ended. Thank you so much ${customerName || ''} for ordering at Munajat Drinks! Have a wonderful day!`;
+    const endMsg = `Sesi panggilan selesai. Terima kasih banyak Kak ${customerName || ''} sudah berkunjung ke Munajat Drinks! Semoga harinya menyenangkan ya kak!`;
     setAiSpokenText(endMsg);
     speakAiVoice(endMsg);
   };
@@ -896,6 +978,8 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
   // Reset Session
   const resetCall = () => {
     playVoiceChime("tap");
+    if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+    if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
     window.speechSynthesis?.cancel();
     setCallState("idle");
     setCurrentStep("welcome");
@@ -906,7 +990,10 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
     setCartItems([]);
     setCustomerName("");
     setUserSpokenText("");
-    setAiSpokenText("Hello! I am your AI Voice Cashier for Munajat Drinks. Tap the microphone or mascot to start ordering your favorite drink.");
+    speechAccumulatorRef.current = "";
+    setIsWaitingCustomer(false);
+    setWaitingCountdown(0);
+    setAiSpokenText("Halo kak! Selamat datang di Munajat Drinks ☕ Mau pesan minuman apa hari ini? Tekan tombol mikrofon atau maskot untuk mulai memesan santai bareng saya ya!");
   };
 
   // Generate WhatsApp Order Confirmation Message Link
@@ -918,27 +1005,27 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
 
     const itemsText = itemsList.map((c, idx) =>
       `${idx + 1}. *${c.menu.name}* (x${c.qty})\n` +
-      `   • Ice: ${c.iceLevel}\n` +
-      `   • Sugar: ${c.sugarLevel}\n` +
+      `   • Porsi Es: ${c.iceLevel}\n` +
+      `   • Gula/Manis: ${c.sugarLevel}\n` +
       `   • Topping: ${c.topping}\n` +
       `   • Subtotal: ${fmt(c.totalItemPrice * c.qty)}`
     ).join("\n\n");
 
     const message =
-      `*NEW ORDER - MUNAJAT DRINKS ☕*\n` +
+      `*PESANAN BARU - MUNAJAT DRINKS ☕*\n` +
       `━━━━━━━━━━━━━━━━━━━━\n` +
-      `*Order No.:* #${orderCode}\n` +
-      `*Customer:* ${customerName.trim() || 'Voice Cashier Customer'}\n` +
-      `*Branch:* ${selectedCabangName || 'Munajat Drinks Outlet'}\n` +
-      `*Date/Time:* ${new Date().toLocaleString('en-US')}\n` +
+      `*Nomor Order:* #${orderCode}\n` +
+      `*Nama Customer:* ${customerName.trim() || 'Pelanggan AI Voice Kasir'}\n` +
+      `*Cabang Outlet:* ${selectedCabangName || 'Outlet Munajat Drinks'}\n` +
+      `*Waktu Pesan:* ${new Date().toLocaleString('id-ID')}\n` +
       `━━━━━━━━━━━━━━━━━━━━\n\n` +
-      `*BEVERAGE DETAILS (${itemsList.length} Items):*\n${itemsText}\n\n` +
+      `*DETAIL PESANAN (${itemsList.length} Minuman):*\n${itemsText}\n\n` +
       `━━━━━━━━━━━━━━━━━━━━\n` +
-      `*TOTAL AMOUNT:* *${fmt(totalAmount)}*\n` +
-      `*Payment Method:* Transfer via WhatsApp\n` +
-      `*Status:* Awaiting Payment Proof\n` +
+      `*TOTAL PEMBAYARAN:* *${fmt(totalAmount)}*\n` +
+      `*Metode:* Transfer WhatsApp\n` +
+      `*Status:* Menunggu Konfirmasi & Bukti Transfer\n` +
       `━━━━━━━━━━━━━━━━━━━━\n\n` +
-      `Hello Munajat Drinks Admin, I would like to confirm my payment transfer for the order above. Please share your bank account / QRIS transfer details. Thank you! 🙏`;
+      `Halo Admin Munajat Drinks, saya ingin konfirmasi pesanan di atas. Mohon infokan nomor rekening / QRIS transfer ya. Terima kasih banyak! 🙏`;
 
     return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
   };
@@ -953,7 +1040,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
     if (cartItems.length === 0) return;
 
     const total = cartItems.reduce((sum, item) => sum + item.totalItemPrice * item.qty, 0);
-    const dateStr = new Date().toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" });
+    const dateStr = new Date().toLocaleString("id-ID", { dateStyle: "medium", timeStyle: "short" });
     setOrderTimestamp(dateStr);
 
     // Generate unique order code
@@ -974,7 +1061,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
       const res = await orderCodesApi.create({
         order_code: generatedCode,
         cabang_id: selectedCabangId,
-        customer_name: customerName.trim() || "Voice Cashier Customer",
+        customer_name: customerName.trim() || "Pelanggan AI Kasir",
         total_amount: total,
         payment_method: "Transfer WhatsApp",
         payment_status: "paid",
@@ -995,7 +1082,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
       window.open(waUrl, "_blank");
     }
 
-    const finishMsg = `Order for ${customerName || 'Customer'} totaling ${fmt(total)} has been successfully saved. WhatsApp transfer payment and receipt are ready. Thank you!`;
+    const finishMsg = `Pesanan Kak ${customerName || 'Customer'} sebesar ${fmt(total)} sudah berhasil tersimpan ya! Struk dan link WhatsApp sudah siap. Terima kasih banyak kak!`;
     setAiSpokenText(finishMsg);
     speakAiVoice(finishMsg);
     setCurrentStep("completed");
@@ -1067,7 +1154,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
                   color: "#059669",
                   border: "1px solid rgba(16, 185, 129, 0.25)"
                 }}>
-                  🎙️ AI Voice Cashier
+                  🎙️ AI Kasir Santai
                 </span>
                 {customerName && (
                   <span style={{
@@ -1097,7 +1184,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
                 )}
               </div>
               <span style={{ fontSize: isMobile ? "11.5px" : "12.5px", fontWeight: 500, color: "#64748b" }}>
-                Two-way interactive voice ordering system
+                Pesan minuman santai lewat obrolan suara dua arah
               </span>
             </div>
           </div>
@@ -1119,7 +1206,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
                 transition: "all 0.2s ease"
               }}>
                 <ShieldCheck size={15} />
-                <span>Admin Portal</span>
+                <span>Portal Admin</span>
               </div>
             </Link>
           </div>
@@ -1155,7 +1242,6 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
 
           {/* Top Status Header */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}>
-            {/* Status Chip */}
             <div style={{
               display: "flex",
               alignItems: "center",
@@ -1175,7 +1261,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
                 boxShadow: (callState === "active" || callState === "ai-speaking" || callState === "user-speaking") ? "0 0 10px #10b981" : "none",
               }} />
               <span style={{ fontSize: "12.5px", fontWeight: 800, color: callState === "ai-speaking" ? "#0284c7" : (callState === "active" || callState === "user-speaking") ? "#047857" : "#64748b" }}>
-                {callState === "idle" ? "AI Cashier Ready" : callState === "connecting" ? "Connecting…" : callState === "ai-speaking" ? "🔊 AI Cashier Speaking..." : "🎙️ YOUR TURN TO SPEAK — MIC ACTIVE"}
+                {callState === "idle" ? "Kasir AI Siap Melayani" : callState === "connecting" ? "Menghubungkan…" : callState === "ai-speaking" ? "🔊 Kasir AI Sedang Bicara..." : "🎙️ GILIRAN ANDA BICARA (MIC AKTIF)"}
               </span>
             </div>
           </div>
@@ -1194,11 +1280,11 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
           {/* Name & Waveform */}
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "4px", width: "100%" }}>
             <div style={{ fontWeight: 800, fontSize: "17px", color: "#0f172a", fontFamily: "'Outfit', sans-serif", display: "flex", alignItems: "center", gap: "6px" }}>
-              AI Cashier Munajat Drinks
+              AI Kasir Munajat Drinks
               <Sparkles size={16} color="#10b981" />
             </div>
             <div style={{ fontSize: "11.5px", color: "#059669", fontWeight: 700 }}>
-              Munajat Drinks Voice Engine
+              Munajat Voice Barista Engine
             </div>
 
             {/* Audio Waveform Metering */}
@@ -1239,24 +1325,53 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
               fontWeight: 800
             }}>
               <Volume2 size={14} />
-              <span>AI is speaking... Please listen</span>
+              <span>Kasir AI sedang bicara... Silakan dengarkan</span>
             </div>
-          ) : micVolume > 8 ? (
+          ) : isWaitingCustomer ? (
             <div style={{
               display: "flex",
+              flexDirection: "column",
               alignItems: "center",
-              gap: "8px",
-              padding: "7px 16px",
-              borderRadius: "100px",
-              backgroundColor: "#10b981",
-              border: "1.5px solid #059669",
-              color: "#ffffff",
-              fontSize: "11.5px",
-              fontWeight: 800,
-              boxShadow: "0 0 20px rgba(16, 185, 129, 0.6)"
+              gap: "6px",
+              width: "100%"
             }}>
-              <Mic size={14} color="#ffffff" />
-              <span>🎙️ YOU ARE SPEAKING ({micVolume}%)</span>
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                padding: "7px 16px",
+                borderRadius: "100px",
+                backgroundColor: "#10b981",
+                border: "1.5px solid #059669",
+                color: "#ffffff",
+                fontSize: "11.5px",
+                fontWeight: 800,
+                boxShadow: "0 0 20px rgba(16, 185, 129, 0.5)"
+              }}>
+                <Mic size={14} color="#ffffff" />
+                <span>Mendengarkan... {waitingCountdown > 0 ? `(Menunggu jeda ${waitingCountdown}s)` : 'Bicara santai'}</span>
+              </div>
+              {userSpokenText && (
+                <button
+                  onClick={handleImmediateSubmit}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    padding: "4px 12px",
+                    borderRadius: "100px",
+                    backgroundColor: "#f0fdf4",
+                    border: "1px solid #10b981",
+                    color: "#047857",
+                    fontSize: "11px",
+                    fontWeight: 700,
+                    cursor: "pointer"
+                  }}
+                >
+                  <Check size={13} />
+                  <span>Selesai Bicara (Kirim Langsung)</span>
+                </button>
+              )}
             </div>
           ) : (callState === "active" || callState === "user-speaking") ? (
             <div style={{
@@ -1273,7 +1388,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
               boxShadow: "0 0 16px rgba(16, 185, 129, 0.3)"
             }}>
               <Mic size={14} color="#059669" />
-              <span>🎙️ YOUR TURN TO SPEAK — MIC IS LIVE</span>
+              <span>🎙️ Silakan bicara santai, mic aktif</span>
             </div>
           ) : null}
 
@@ -1282,7 +1397,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
             {(callState === "active" || callState === "ai-speaking" || callState === "user-speaking") && (
               <button
                 onClick={() => { playVoiceChime("tap"); setMuted(!muted); }}
-                title={muted ? "Unmute Microphone" : "Mute Microphone"}
+                title={muted ? "Nyalakan Mikrofon" : "Bisukan Mikrofon"}
                 style={{
                   width: "44px",
                   height: "44px",
@@ -1364,7 +1479,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
             {(callState === "active" || callState === "ai-speaking" || callState === "user-speaking") && (
               <button
                 onClick={() => { playVoiceChime("tap"); setSpeakerOff(!speakerOff); }}
-                title={speakerOff ? "Turn Speaker On" : "Mute Speaker"}
+                title={speakerOff ? "Nyalakan Suara Kasir" : "Matikan Suara Kasir"}
                 style={{
                   width: "44px",
                   height: "44px",
@@ -1385,7 +1500,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
           </div>
 
           <div style={{ textAlign: "center", fontSize: "12px", color: "#64748b", fontWeight: 600 }}>
-            {callState === "idle" ? "Tap mic button or mascot to start ordering" : micVolume > 8 ? "🎙️ Microphone is actively receiving your voice" : (callState === "active" || callState === "user-speaking") ? "🎙️ Your microphone is active — speak clearly" : "🔊 AI Cashier is talking"}
+            {callState === "idle" ? "Tekan tombol mic atau maskot untuk mulai memesan" : micVolume > 8 ? "🎙️ Suara Anda terdeteksi dengan jelas" : (callState === "active" || callState === "user-speaking") ? "🎙️ Mic aktif — bicara santai, AI akan menunggu Anda selesai" : "🔊 Kasir AI sedang berbicara"}
           </div>
 
         </div>
@@ -1413,7 +1528,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
               </div>
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: "11px", fontWeight: 800, color: "#047857", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-                  AI Cashier Munajat Drinks
+                  Kasir AI Munajat Drinks
                 </div>
                 <div style={{ fontSize: "14.5px", fontWeight: 700, color: "#0f172a", lineHeight: 1.5, marginTop: "2px" }}>
                   {aiSpokenText}
@@ -1440,18 +1555,47 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
                   <User size={16} />
                 </div>
                 <div style={{ flex: 1 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                    <div style={{ fontSize: "11px", fontWeight: 800, color: "#059669", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-                      Customer (You)
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px", justifyContent: "space-between" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                      <div style={{ fontSize: "11px", fontWeight: 800, color: "#059669", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                        Customer (Anda)
+                      </div>
+                      {micVolume > 8 && (
+                        <span style={{ fontSize: "10px", padding: "1px 6px", borderRadius: "100px", backgroundColor: "#dcfce7", color: "#15803d", fontWeight: 800 }}>
+                          ● Sedang bicara ({micVolume}%)
+                        </span>
+                      )}
+                      {isWaitingCustomer && waitingCountdown > 0 && (
+                        <span style={{ fontSize: "10px", padding: "1px 6px", borderRadius: "100px", backgroundColor: "#fef3c7", color: "#b45309", fontWeight: 800 }}>
+                          ⏳ Menunggu selesai ({waitingCountdown}s)
+                        </span>
+                      )}
                     </div>
-                    {micVolume > 8 && (
-                      <span style={{ fontSize: "10px", padding: "1px 6px", borderRadius: "100px", backgroundColor: "#dcfce7", color: "#15803d", fontWeight: 800 }}>
-                        ● Speaking now ({micVolume}%)
-                      </span>
+
+                    {userSpokenText && (
+                      <button
+                        onClick={handleImmediateSubmit}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "4px",
+                          padding: "2px 8px",
+                          borderRadius: "6px",
+                          backgroundColor: "#10b981",
+                          border: "none",
+                          color: "#ffffff",
+                          fontSize: "10.5px",
+                          fontWeight: 800,
+                          cursor: "pointer"
+                        }}
+                      >
+                        <Send size={11} />
+                        <span>Kirim Langsung</span>
+                      </button>
                     )}
                   </div>
                   <div style={{ fontSize: "13.5px", fontWeight: userSpokenText ? 700 : 500, color: userSpokenText ? "#0f172a" : "#64748b", marginTop: "2px", fontStyle: userSpokenText ? "normal" : "italic" }}>
-                    {userSpokenText ? `"${userSpokenText}"` : "🎙️ Speak to answer, or click one of the quick chips / type below..."}
+                    {userSpokenText ? `"${userSpokenText}"` : "🎙️ Silakan bicara santai, atau klik chip opsi cepat / ketik di bawah..."}
                   </div>
                 </div>
               </div>
@@ -1460,21 +1604,22 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
             {/* Quick Voice Suggestion Chips */}
             <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", borderTop: "1px dashed #e2e8f0", paddingTop: "10px", marginTop: "2px" }}>
               <span style={{ fontSize: "11px", fontWeight: 700, color: "#64748b", display: "flex", alignItems: "center", gap: "4px" }}>
-                💡 Voice commands:
+                💡 Contoh ucapan:
               </span>
               {[
                 "1",
                 "2",
-                "3",
-                "4",
-                "My name is David",
-                "Pay via WhatsApp"
+                "Kopi Susu Aren",
+                "Es sedikit, gula 50%",
+                "Pake topping boba",
+                "Langsung bayar WA"
               ].map((hint, idx) => (
                 <button
                   key={idx}
                   onClick={() => {
                     playVoiceChime("tap");
                     setUserSpokenText(hint);
+                    speechAccumulatorRef.current = hint;
                     processMultiParameterSpeech(hint);
                   }}
                   style={{
@@ -1497,10 +1642,62 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
                     e.currentTarget.style.transform = "scale(1)";
                   }}
                 >
-                  Say "{hint}"
+                  Ucapkan "{hint}"
                 </button>
               ))}
             </div>
+
+            {/* Optional Text Input Fallback */}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (textInputSpeech.trim()) {
+                  playVoiceChime("tap");
+                  const text = textInputSpeech.trim();
+                  setUserSpokenText(text);
+                  speechAccumulatorRef.current = text;
+                  setTextInputSpeech("");
+                  processMultiParameterSpeech(text);
+                }
+              }}
+              style={{ display: "flex", gap: "8px", marginTop: "4px" }}
+            >
+              <input
+                type="text"
+                placeholder="Atau ketik pesan Anda di sini (misal: 'Pesan Kopi Susu Aren 1 es dikit')..."
+                value={textInputSpeech}
+                onChange={(e) => setTextInputSpeech(e.target.value)}
+                style={{
+                  flex: 1,
+                  padding: "8px 14px",
+                  borderRadius: "12px",
+                  border: "1.5px solid #cbd5e1",
+                  fontSize: "13px",
+                  outline: "none",
+                  color: "#0f172a"
+                }}
+              />
+              <button
+                type="submit"
+                disabled={!textInputSpeech.trim()}
+                style={{
+                  padding: "8px 16px",
+                  borderRadius: "12px",
+                  border: "none",
+                  backgroundColor: textInputSpeech.trim() ? "#10b981" : "#e2e8f0",
+                  color: textInputSpeech.trim() ? "#ffffff" : "#94a3b8",
+                  fontWeight: 700,
+                  fontSize: "13px",
+                  cursor: textInputSpeech.trim() ? "pointer" : "default",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px"
+                }}
+              >
+                <Send size={14} />
+                <span>Kirim</span>
+              </button>
+            </form>
           </div>
 
           {/* ── 1. WELCOME SCREEN ── */}
@@ -1532,10 +1729,10 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
 
               <div>
                 <h2 style={{ fontSize: isMobile ? "22px" : "26px", fontWeight: 800, margin: "0 0 8px 0", color: "#0f172a", fontFamily: "'Outfit', sans-serif" }}>
-                  Munajat Drinks AI Voice Cashier
+                  AI Voice Kasir Santai Munajat Drinks
                 </h2>
                 <p style={{ fontSize: "14px", color: "#64748b", margin: 0, maxWidth: "540px", lineHeight: 1.6 }}>
-                  Order hands-free by voice! You can simply <strong>say the option numbers (e.g. "1", "2", "3")</strong> at any step to customize and confirm your drink instantly.
+                  Pesan minuman favoritmu secara santai dengan suara! Cukup <strong>sebutkan nama menu atau nomor pilihan (contoh: "1", "2", "Kopi Susu")</strong>, AI kasir kami siap mendengarkan dan menunggu sampai kamu selesai bicara.
                 </p>
               </div>
 
@@ -1557,7 +1754,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
                 }}
               >
                 <Mic size={18} />
-                <span>Start Voice Call Ordering</span>
+                <span>Mulai Panggilan Pesan Santai</span>
               </button>
             </div>
           )}
@@ -1568,9 +1765,9 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "8px", fontWeight: 800, fontSize: "15px", color: "#0f172a" }}>
                   <Store size={18} color="#10b981" />
-                  <span>Step 1: Choose Store Branch</span>
+                  <span>Langkah 1: Pilih Cabang Outlet</span>
                 </div>
-                <span style={{ fontSize: "12px", color: "#10b981", fontWeight: 700 }}>🎙️ Say number 1 to {cabangList.length}</span>
+                <span style={{ fontSize: "12px", color: "#10b981", fontWeight: 700 }}>🎙️ Sebutkan nomor 1 sampai {cabangList.length} atau nama kota</span>
               </div>
 
               <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(2, 1fr)", gap: "12px" }}>
@@ -1611,8 +1808,8 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
                 <UserCheck size={28} />
               </div>
               <div>
-                <h3 style={{ margin: "0 0 6px 0", fontSize: "18px", fontWeight: 800 }}>What is your name?</h3>
-                <p style={{ margin: 0, fontSize: "13.5px", color: "#059669", fontWeight: 600 }}>🎙️ Speak your name directly into the microphone (e.g. "David", "Sarah", "Alex")</p>
+                <h3 style={{ margin: "0 0 6px 0", fontSize: "18px", fontWeight: 800 }}>Dengan Kak Siapa Nih?</h3>
+                <p style={{ margin: 0, fontSize: "13.5px", color: "#059669", fontWeight: 600 }}>🎙️ Sebutkan nama panggilanmu langsung ke mikrofon (contoh: "Budi", "Sarah", "Dimas")</p>
               </div>
             </div>
           )}
@@ -1623,9 +1820,9 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "8px", fontWeight: 800, fontSize: "15px", color: "#0f172a" }}>
                   <Coffee size={18} color="#10b981" />
-                  <span>Step 3: Select Drink Menu</span>
+                  <span>Langkah 3: Pilih Minuman Favorit</span>
                 </div>
-                <span style={{ fontSize: "12px", color: "#10b981", fontWeight: 700 }}>🎙️ Say number 1 to {menuList.length}</span>
+                <span style={{ fontSize: "12px", color: "#10b981", fontWeight: 700 }}>🎙️ Sebutkan nomor 1 sampai {menuList.length} atau nama minumannya</span>
               </div>
 
               <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)", gap: "12px" }}>
@@ -1669,9 +1866,9 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "8px", fontWeight: 800, fontSize: "15px", color: "#0f172a" }}>
                   <Snowflake size={18} color="#06b6d4" />
-                  <span>Step 4: Ice Ratio Level</span>
+                  <span>Langkah 4: Porsi Es Batu</span>
                 </div>
-                <span style={{ fontSize: "12px", color: "#0284c7", fontWeight: 700 }}>🎙️ Say number 1 to {iceList.length}</span>
+                <span style={{ fontSize: "12px", color: "#0284c7", fontWeight: 700 }}>🎙️ Sebutkan nomor 1 sampai {iceList.length} (Normal / Less Ice / Tanpa Es)</span>
               </div>
 
               <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(2, 1fr)", gap: "12px" }}>
@@ -1711,9 +1908,9 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "8px", fontWeight: 800, fontSize: "15px", color: "#0f172a" }}>
                   <Flame size={18} color="#f59e0b" />
-                  <span>Step 5: Sugar Sweetness</span>
+                  <span>Langkah 5: Tingkat Kemanisan (Gula)</span>
                 </div>
-                <span style={{ fontSize: "12px", color: "#d97706", fontWeight: 700 }}>🎙️ Say number 1 to {SUGAR_OPTIONS.length}</span>
+                <span style={{ fontSize: "12px", color: "#d97706", fontWeight: 700 }}>🎙️ Sebutkan nomor 1 sampai {SUGAR_OPTIONS.length} (Normal / Less Sugar / No Sugar)</span>
               </div>
 
               <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(2, 1fr)", gap: "12px" }}>
@@ -1753,9 +1950,9 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "8px", fontWeight: 800, fontSize: "15px", color: "#0f172a" }}>
                   <Layers size={18} color="#8b5cf6" />
-                  <span>Step 6: Add-on Toppings</span>
+                  <span>Langkah 6: Tambahan Topping</span>
                 </div>
-                <span style={{ fontSize: "12px", color: "#7c3aed", fontWeight: 700 }}>🎙️ Say number 1 to {toppingList.length}</span>
+                <span style={{ fontSize: "12px", color: "#7c3aed", fontWeight: 700 }}>🎙️ Sebutkan nomor 1 sampai {toppingList.length} (Boba / Foam / Tanpa Topping)</span>
               </div>
 
               <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)", gap: "12px" }}>
@@ -1783,7 +1980,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
                         <span style={{ fontSize: "22px" }}>{t.emoji}</span>
                       </div>
                       <span style={{ fontWeight: 800, color: t.price > 0 ? "#8b5cf6" : "#64748b", fontSize: "12px" }}>
-                        {t.price > 0 ? `+${fmt(t.price)}` : "Free"}
+                        {t.price > 0 ? `+${fmt(t.price)}` : "Gratis"}
                       </span>
                     </div>
                     <div style={{ fontWeight: 800, fontSize: "14px", color: "#0f172a" }}>{t.label}</div>
@@ -1799,10 +1996,10 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "8px", fontWeight: 800, fontSize: "16px", color: "#0f172a" }}>
                   <ShoppingCart size={20} color="#10b981" />
-                  <span>Order Summary & Settlement</span>
+                  <span>Ringkasan & Konfirmasi Pembayaran</span>
                 </div>
                 <span style={{ fontSize: "12px", color: "#10b981", fontWeight: 700 }}>
-                  {currentStep === "completed" ? "✓ Paid" : "🎙️ Say [1] to Pay or [2] to Add More"}
+                  {currentStep === "completed" ? "✓ Pesanan Selesai" : "🎙️ Ucapkan [1] Bayar WhatsApp atau [2] Tambah Minuman"}
                 </span>
               </div>
 
@@ -1825,7 +2022,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
               ))}
 
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid #e2e8f0", paddingTop: "14px" }}>
-                <div style={{ fontSize: "14px", fontWeight: 700, color: "#64748b" }}>Total Amount:</div>
+                <div style={{ fontSize: "14px", fontWeight: 700, color: "#64748b" }}>Total Pembayaran:</div>
                 <div style={{ fontSize: "20px", fontWeight: 900, color: "#10b981" }}>{fmt(totalCartAmount)}</div>
               </div>
 
@@ -1852,7 +2049,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
                   >
                     <span style={{ backgroundColor: "#ffffff", color: "#128C7E", padding: "2px 8px", borderRadius: "6px", fontSize: "13px", fontWeight: 900 }}>1</span>
                     <Send size={18} />
-                    <span>Pay & Confirm via WhatsApp</span>
+                    <span>Bayar & Konfirmasi via WhatsApp</span>
                   </button>
 
                   <button
@@ -1874,7 +2071,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
                     }}
                   >
                     <span style={{ backgroundColor: "#e2e8f0", color: "#0f172a", padding: "2px 8px", borderRadius: "6px", fontSize: "13px", fontWeight: 900 }}>2</span>
-                    <span>+ Add Another Drink</span>
+                    <span>+ Tambah Minuman Lain</span>
                   </button>
                 </div>
               )}
@@ -1944,10 +2141,10 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
               <Receipt size={28} />
             </div>
             <h3 className="no-print" style={{ margin: "0 0 4px 0", fontSize: "18px", fontWeight: 800, color: "#0f172a", fontFamily: "'Outfit', sans-serif" }}>
-              Official Receipt & WhatsApp Payment
+              Struk Resmi & Pembayaran WhatsApp
             </h3>
             <p className="no-print" style={{ margin: "0 0 16px 0", fontSize: "12.5px", color: "#64748b" }}>
-              Your order has been recorded. Please proceed with payment transfer and print your receipt below.
+              Pesananmu sudah tercatat! Silakan lanjutkan transfer pembayaran dan cetak struk di bawah ini.
             </p>
 
             {/* ── AUTHENTIC THERMAL PRINTABLE RECEIPT ── */}
@@ -1968,28 +2165,28 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
               {/* Receipt Header */}
               <div style={{ textAlign: "center", borderBottom: "1px dashed #cbd5e1", paddingBottom: "12px", marginBottom: "12px" }}>
                 <div style={{ fontSize: "18px", fontWeight: 900, letterSpacing: "0.5px", color: "#0f172a" }}>MUNAJAT DRINKS</div>
-                <div style={{ fontSize: "11.5px", fontWeight: 600, color: "#475569" }}>{selectedCabangName || 'Main Store - Grand Indonesia'}</div>
+                <div style={{ fontSize: "11.5px", fontWeight: 600, color: "#475569" }}>{selectedCabangName || 'Outlet Utama Munajat Drinks'}</div>
                 {selectedCabangAddress && <div style={{ fontSize: "11px", color: "#64748b" }}>{selectedCabangAddress}</div>}
-                <div style={{ fontSize: "11px", color: "#059669", fontWeight: 600 }}>WA/Phone: {(selectedCabangPhone && selectedCabangPhone.trim().length >= 8) ? selectedCabangPhone : '+62 811 868 3080'}</div>
+                <div style={{ fontSize: "11px", color: "#059669", fontWeight: 600 }}>WA/Telp: {(selectedCabangPhone && selectedCabangPhone.trim().length >= 8) ? selectedCabangPhone : '+62 811 868 3080'}</div>
               </div>
 
               {/* Order Metadata */}
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "4px", fontSize: "12px" }}>
-                <span style={{ color: "#64748b" }}>Order No.:</span>
+                <span style={{ color: "#64748b" }}>No. Order:</span>
                 <strong>#{createdOrderCode || `MNJ-${Date.now().toString().slice(-6)}`}</strong>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "4px", fontSize: "12px" }}>
-                <span style={{ color: "#64748b" }}>Date/Time:</span>
-                <span>{orderTimestamp || new Date().toLocaleString("en-US")}</span>
+                <span style={{ color: "#64748b" }}>Waktu:</span>
+                <span>{orderTimestamp || new Date().toLocaleString("id-ID")}</span>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px", fontSize: "12px" }}>
-                <span style={{ color: "#64748b" }}>Customer:</span>
+                <span style={{ color: "#64748b" }}>Pelanggan:</span>
                 <strong>{customerName || "Customer"}</strong>
               </div>
 
               {/* Itemized List */}
               <div style={{ borderTop: "1px dashed #cbd5e1", borderBottom: "1px dashed #cbd5e1", padding: "10px 0", margin: "10px 0" }}>
-                <div style={{ fontSize: "11px", fontWeight: 700, textTransform: "uppercase", color: "#64748b", marginBottom: "6px" }}>Beverage Details:</div>
+                <div style={{ fontSize: "11px", fontWeight: 700, textTransform: "uppercase", color: "#64748b", marginBottom: "6px" }}>Detail Minuman:</div>
                 {cartItems.map((item, idx) => (
                   <div key={idx} style={{ marginBottom: "8px" }}>
                     <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 700, fontSize: "13px" }}>
@@ -1998,7 +2195,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
                     </div>
                     <div style={{ fontSize: "11px", color: "#64748b", paddingLeft: "14px" }}>
                       {item.iceLevel} · {item.sugarLevel}
-                      {item.topping && item.topping !== "No Topping" && item.topping !== "Without Topping" && ` · ${item.topping}`}
+                      {item.topping && item.topping !== "Tanpa Topping" && item.topping !== "No Topping" && ` · ${item.topping}`}
                     </div>
                   </div>
                 ))}
@@ -2006,23 +2203,23 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
 
               {/* Total & Payment Method */}
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px", fontSize: "14px" }}>
-                <strong>TOTAL AMOUNT:</strong>
+                <strong>TOTAL PEMBAYARAN:</strong>
                 <strong style={{ fontSize: "17px", color: "#059669" }}>{fmt(totalCartAmount)}</strong>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", color: "#475569" }}>
-                <span>Payment Method:</span>
+                <span>Metode Pembayaran:</span>
                 <strong style={{ color: "#128C7E" }}>Transfer WhatsApp</strong>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", color: "#475569", marginTop: "2px" }}>
                 <span>Status:</span>
-                <span style={{ color: "#059669", fontWeight: 700 }}>✓ Awaiting Payment Proof</span>
+                <span style={{ color: "#059669", fontWeight: 700 }}>✓ Menunggu Bukti Transfer</span>
               </div>
 
               {/* Receipt Footer */}
               <div style={{ textAlign: "center", borderTop: "1px dashed #cbd5e1", paddingTop: "12px", marginTop: "12px", fontSize: "11px", color: "#64748b" }}>
-                <div>Thank you for ordering at Munajat Drinks!</div>
-                <div style={{ fontWeight: 600, color: "#128C7E", marginTop: "2px" }}>Please send your payment transfer proof to outlet WhatsApp.</div>
-                <div style={{ marginTop: "4px" }}>Keep this receipt as your official proof of order.</div>
+                <div>Terima kasih banyak sudah memesan di Munajat Drinks!</div>
+                <div style={{ fontWeight: 600, color: "#128C7E", marginTop: "2px" }}>Silakan kirim bukti transfer ke WhatsApp cabang.</div>
+                <div style={{ marginTop: "4px" }}>Simpan struk ini sebagai bukti pemesanan resmimu.</div>
               </div>
             </div>
 
@@ -2052,7 +2249,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
                 }}
               >
                 <Send size={16} />
-                <span>Send Proof / Chat WhatsApp</span>
+                <span>Kirim Bukti / Chat WhatsApp Outlet</span>
               </a>
 
               <div style={{ display: "flex", gap: "10px" }}>
@@ -2075,7 +2272,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
                   }}
                 >
                   <Printer size={15} />
-                  <span>Print Receipt</span>
+                  <span>Cetak Struk</span>
                 </button>
 
                 <button
@@ -2092,7 +2289,7 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
                     cursor: "pointer"
                   }}
                 >
-                  Close Receipt
+                  Tutup Struk
                 </button>
               </div>
             </div>
@@ -2103,4 +2300,3 @@ export default function VoiceKasirPage({ standalone = true }: { standalone?: boo
     </div>
   );
 }
-
